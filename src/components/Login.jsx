@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Button, Checkbox, Form, Segment, Header,
 } from 'semantic-ui-react';
@@ -21,6 +22,7 @@ const Login = () => (
       <Form.Field>
         <Checkbox label="I agree to the Terms and Conditions" />
       </Form.Field>
+
       <Button type="submit">Submit</Button>
     </Form>
   </Segment>

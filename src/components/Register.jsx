@@ -1,5 +1,6 @@
 
 import React from 'react';
+
 import {
   Button, Checkbox, Form, Segment, Header,
 } from 'semantic-ui-react';
