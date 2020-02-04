@@ -1,11 +1,14 @@
 import React from 'react';
 import {
-  Button, Checkbox, Form, Segment,
+  Button, Checkbox, Form, Segment, Header,
 } from 'semantic-ui-react';
 
 
 const Login = () => (
-  <Segment>
+  <Segment stacked>
+    <Header textAlign="center">
+            Login to Border
+    </Header>
     <Form>
       <Form.Field>
         <label>First Name</label>

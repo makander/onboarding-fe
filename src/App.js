@@ -3,6 +3,7 @@ import Start from './components/Start';
 import 'semantic-ui-css/semantic.min.css';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
+import Register from './components/Register';
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Navbar />
       <Start />
       <Login />
+      <Register />
     </div>
   );
 }
