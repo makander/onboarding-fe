@@ -1,37 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Menu } from 'semantic-ui-react';
+import { Link } from '@reach/router';
 
-const Navbar = () => {
-  const [activeItem, setActiveItem] = useState({});
+const Navbar = () => (
+  <Menu>
+    <Menu.Item>
+      <Link to="/">Border</Link>
+    </Menu.Item>
 
-  const handleItemClick = (e, { name }) => setActiveItem({ activeItem: name });
+    <Menu.Item>
+      <Link to="/register">Register</Link>
+    </Menu.Item>
 
 
-  return (
-    <Menu>
-      <Menu.Item
-        name="Home"
-        active={activeItem === 'home'}
-        content="Home"
-        onClick={handleItemClick}
-      />
-
-      <Menu.Item
-        name="Login"
-        active={activeItem === 'Login'}
-        content="Login"
-        onClick={handleItemClick}
-      />
-
-      <Menu.Item
-        name="Logout"
-        active={activeItem === 'Logout'}
-        content="Logout"
-        onClick={handleItemClick}
-      />
-    </Menu>
-  );
-};
+    <Menu.Item>
+      <Link to="/login">Login</Link>
+    </Menu.Item>
+  </Menu>
+);
 
 
 export default Navbar;
