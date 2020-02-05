@@ -14,7 +14,8 @@
     }
   ],
   "profile": {
-    "email": "testtest@apa",
-    "password": "123123"
+    "firstName": "Sven",
+    "lastName": "Göranssson",
+    "email": "svenny@test.se"
   }
 }

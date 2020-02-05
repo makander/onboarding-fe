@@ -13,8 +13,8 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/profile', { email, password })
-      .then((res) => {
+    axios.get('http://localhost:3001/profile', { email, password })
+      .then(() => {
         navigate('/home');
       })
       .catch((err) => console.log(err));

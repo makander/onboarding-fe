@@ -1,36 +1,53 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+
 
 import {
-  Button, Checkbox, Form, Segment, Header,
+  Button, Form, Segment, Header,
 } from 'semantic-ui-react';
 
 
-const Register = () => (
-  <Segment stacked>
-    <Header textAlign="center">
-Signup to Border
-    </Header>
-    <Form>
-      <Form.Field>
-        <label>First Name</label>
-        <input placeholder="First Name" />
-      </Form.Field>
-      <Form.Field>
-        <label>Last Name</label>
-        <input placeholder="Last Name" />
-      </Form.Field>
-      <Form.Field>
-        <label>Email:</label>
-        <input placeholder="Email" />
-      </Form.Field>
-      <Form.Field>
-        <Checkbox label="I agree to the Terms and Conditions" />
-      </Form.Field>
-      <Button type="submit">Submit</Button>
-    </Form>
-  </Segment>
-);
+const Register = () => {
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  const handleRegistration = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:3001/profile', {
+      firstName,
+      lastName,
+      email,
+    }).then((res) => console.log(res));
+  };
+
+
+  return (
+    <Segment stacked>
+      <Header textAlign="center">
+        Signup to Border
+      </Header>
+      <Form onSubmit={handleRegistration}>
+        <Form.Field>
+          <label htmlFor="First Name">First name</label>
+          <input placeholder="Enter firstname" required onChange={(e) => setFirstName(e.target.value)} />
+        </Form.Field>
+        <Form.Field>
+          <label htmlFor="Last Name">Last Name</label>
+          <input placeholder="Enter firstname" required onChange={(e) => setLastName(e.target.value)} />
+        </Form.Field>
+        <Form.Field>
+          <label htmlFor="Email">Email</label>
+          <input placeholder="Enter Email" required onChange={(e) => setEmail(e.target.value)} />
+        </Form.Field>
+
+        <Button type="submit">Submit</Button>
+      </Form>
+    </Segment>
+  );
+};
 
 
 export default Register;

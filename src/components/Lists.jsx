@@ -1,5 +1,5 @@
 import React from 'react';
 
-const Lists = () => <div>Lists</div>;
+const Lists = () => <div>Navbar</div>;
 
 export default Lists;
