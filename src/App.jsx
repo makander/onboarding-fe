@@ -7,7 +7,7 @@ import Start from './components/Start';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
-
+import Home from './components/Home';
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
           <Start path="/" />
           <Login path="/login" />
           <Register path="/register" />
+          <Home path="/home" />
         </Router>
       </ContentWrap>
 
