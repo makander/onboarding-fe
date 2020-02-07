@@ -1,18 +1,16 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 
 import React, { useState } from 'react';
 import axios from 'axios';
-
-
 import {
   Button, Form, Segment, Header,
 } from 'semantic-ui-react';
 
 
-const Register = () => {
+const Register = ({ navigate }) => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+
 
   const handleRegistration = (e) => {
     e.preventDefault();
@@ -20,7 +18,9 @@ const Register = () => {
       firstName,
       lastName,
       email,
-    }).then((res) => console.log(res));
+    }).then(() => {
+      navigate('/');
+    });
   };
 
 

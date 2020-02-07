@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
+import ProtectedRoute from './routes/ProtectedRoute';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
             <Start path="/" />
             <Login path="/login" />
             <Register path="/register" />
-            <Home path="/home" />
+            <ProtectedRoute component={Home} path="home" />
           </Router>
         </ContentWrap>
       </AuthContextProvider>
