@@ -6,7 +6,7 @@ import {
 } from 'semantic-ui-react';
 import AuthReducer from '../reducers/AuthReducer';
 import { AuthContext } from '../context/AuthContex';
-
+import UserService from '../services/UserService';
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('');
@@ -15,7 +15,11 @@ const Login = ({ history }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/profile', { email, password })
+    UserService.userLogin({ email, password }).then((res) => console.log(res));
+    console.log(UserService.userLogin);
+  };
+
+  /*     axios.post('http://localhost:3001/profile', { email, password })
       .then((res) => {
         console.log(res.data);
         dispatch({
@@ -24,10 +28,7 @@ const Login = ({ history }) => {
         });
         navigate('/home');
       })
-      .catch((err) => console.log(err));
-  };
-
-
+      .catch((err) => console.log(err)); */
   return (
     <Segment stacked>
       <Header textAlign="center">

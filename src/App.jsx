@@ -11,6 +11,7 @@ import Register from './components/Register';
 import Home from './components/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
 
+
 function App() {
   return (
     <div>
