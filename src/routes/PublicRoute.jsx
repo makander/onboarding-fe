@@ -1,12 +1,10 @@
-import React from 'react';
+/* import React from 'react';
 import { Router } from '@reach/router';
-
 
 import Start from '../components/Start';
 import Navbar from '../components/Navbar';
 import Login from '../components/Login';
 import Register from '../components/Register';
-import Home from '../components/Home';
 
 
 const PublicRoutes = () => (
@@ -19,3 +17,4 @@ const PublicRoutes = () => (
 );
 
 export default PublicRoutes;
+ */

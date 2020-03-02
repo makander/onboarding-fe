@@ -15,11 +15,20 @@ const Login = ({ history }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    UserService.userLogin({ email, password }).then((res) => console.log(res));
-    console.log(UserService.userLogin);
-  };
+    // UserService.userLogin({ email, password }).then((res) => console.log(res));
+    // console.log(UserService.userLogin);
 
-  /*     axios.post('http://localhost:3001/profile', { email, password })
+    UserService.loginUser({ email, password }).then((res) => {
+      dispatch({
+        type: 'LOGIN',
+        payload: res.data.returnedUser,
+      });
+      console.log(res);
+      navigate('/home');
+    })
+      .catch((err) => console.log(err));
+
+    /*     axios.post('http://localhost:5000/api/user/login', { email, password })
       .then((res) => {
         console.log(res.data);
         dispatch({
@@ -29,6 +38,7 @@ const Login = ({ history }) => {
         navigate('/home');
       })
       .catch((err) => console.log(err)); */
+  };
   return (
     <Segment stacked>
       <Header textAlign="center">

@@ -5,9 +5,6 @@ import { AuthContext } from '../context/AuthContex';
 const ProtectedRoute = ({ component: Component, ...props }) => {
   const { authStatus } = useContext(AuthContext);
 
-  console.log(authStatus.userIsAuthenticated);
-  console.log(props);
-  console.log(Component);
   return authStatus.userIsAuthenticated ? <Component {...props} /> : <Redirect noThrow to="/" />;
 };
 

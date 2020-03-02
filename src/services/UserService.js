@@ -4,14 +4,12 @@ axios.defaults.headers = {
   'Content-Type': 'application/json',
 };
 
+const loginUser = async (data) => await axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/login`, data);
 
-console.log(process.env.REACT_APP_BASE_URL);
+// const logoutUser;
 
-const userLogin = async (data) => {
-  const request = axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/login`, { data });
-  return request.then((res) => res.data);
-};
+// const registerUser;
 
 export default {
-  userLogin,
+  loginUser,
 };

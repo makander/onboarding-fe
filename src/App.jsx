@@ -10,6 +10,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
+import List from './components/List';
+import Lists from './components/Lists';
 
 
 function App() {
@@ -24,6 +26,10 @@ function App() {
             <Login path="/login" />
             <Register path="/register" />
             <ProtectedRoute component={Home} path="home" />
+            <ProtectedRoute component={Lists} path="lists" />
+            <ProtectedRoute component={List} path="list" />
+
+
           </Router>
         </ContentWrap>
       </AuthContextProvider>
