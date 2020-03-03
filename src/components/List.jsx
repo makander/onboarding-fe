@@ -1,5 +1,5 @@
 import React from 'react';
 
-const List = () => <div>This is A list</div>;
+const List = () => <div>LIST</div>;
 
 export default List;

@@ -25,9 +25,9 @@ function App() {
             <Start path="/" />
             <Login path="/login" />
             <Register path="/register" />
-            <ProtectedRoute component={Home} path="home" />
-            <ProtectedRoute component={Lists} path="lists" />
-            <ProtectedRoute component={List} path="list" />
+            <ProtectedRoute component={Home} path="/home" />
+            <ProtectedRoute component={Lists} path="/lists" />
+            <ProtectedRoute component={List} path="/lists/:id" />
 
 
           </Router>

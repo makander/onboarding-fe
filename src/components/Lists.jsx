@@ -8,12 +8,11 @@ import ListService from '../services/ListService';
 import CreateList from './CreateList';
 import DisplayCard from './DisplayCard';
 
-const Lists = (props) => {
+const Lists = ({ history }) => {
   const { authStatus: { user: { id } } } = useContext(AuthContext);
   const [lists, setLists] = useState([]);
 
 
-  console.log(props);
   // const  user.  = useContext(AuthContext);
   useEffect(() => {
     ListService.fetchLists(id).then((res) => setLists(res.data));
@@ -23,7 +22,7 @@ const Lists = (props) => {
   return (
     <div>
       {lists.map((list) => (
-        <DisplayCard name={list.name} description={list.description} id={list.id} type="list" />
+        <DisplayCard history={history} name={list.name} description={list.description} id={list.id} type="list" />
       ))}
       <p>Welcome to lists</p>
       {console.log(lists)}
