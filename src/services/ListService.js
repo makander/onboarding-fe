@@ -3,7 +3,8 @@ import axios from 'axios';
 
 const fetchLists = async (id) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/${id}/list`);
 
-const fetchAList = async (id) => axios.get();
+const fetchAList = async (userId, listId) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/${userId}/list/${listId}`);
+
 
 const deleteList = async (id) => axios.delete();
 
