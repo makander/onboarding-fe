@@ -1,22 +1,29 @@
 import React, { useState, useContext } from 'react';
-import { navigate } from '@reach/router';
 import {
-  Button, Form, Segment, Header, Card,
+  Button, Form, Segment, Header, TextArea,
 } from 'semantic-ui-react';
 import { AuthContext } from '../context/AuthContex';
 
 import ListService from '../services/ListService';
 // import DepartmentService from './.../services/DepartmentService';
 
-const CreateList = () => {
+const CreateList = ({ setNewList }) => {
   const { authStatus: { user: { id } } } = useContext(AuthContext);
 
   const [department, setDepartment] = useState([]);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState('');
+  const [description, setDescription] = useState('');
 
 
   const handleNewList = () => {
-    ListService.createList(id).then((res) => console.log(res));
+    const data = {
+      name: list,
+      description,
+    };
+
+    ListService.createList(id, data).then((res) => setNewList(res));
+    setList('');
+    setDescription('');
   };
 
   return (
@@ -27,6 +34,9 @@ const CreateList = () => {
       <Form onSubmit={handleNewList}>
         <Form.Field>
           <input name="list" placeholder="Enter list name" required onChange={(e) => setList(e.target.value)} />
+        </Form.Field>
+        <Form.Field>
+          <TextArea placeholder="description" required onChange={(e) => setDescription(e.target.value)} />
         </Form.Field>
         <Button type="submit">Create</Button>
       </Form>

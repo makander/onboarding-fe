@@ -9,7 +9,10 @@ const deleteList = async (id) => axios.delete();
 
 const updateList = async (data) => axios.put();
 
-const createList = async (id) => axios.post((`${process.env.REACT_APP_BASE_URL}/api/user/${id}/list`));
+const createList = async (id, data) => {
+  console.log(id, data);
+  return axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/${id}/list`, data);
+};
 
 
 export default {
