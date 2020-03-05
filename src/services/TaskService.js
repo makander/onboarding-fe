@@ -13,13 +13,11 @@ const updateTask = async (userId, listId, taskId, data) => axios.put(
   data,
 );
 
-const createTask = async (userId, listId, data) => {
-  console.log(userId, data);
-  return axios.post(
-    `${process.env.REACT_APP_BASE_URL}/api/user/${userId}/list/${listId}/`,
-    data,
-  );
-};
+const createTask = async (data) => axios.post(
+  `${process.env.REACT_APP_BASE_URL}/api/task/`,
+  data,
+);
+
 
 export default {
   getTasks,

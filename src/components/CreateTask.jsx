@@ -8,26 +8,28 @@ import ListService from '../services/ListService';
 // import DepartmentService from './.../services/DepartmentService';
 import TaskService from '../services/TaskService';
 
-const CreateTask = ({ setNewTask }) => {
-  const { authStatus: { user: { id } } } = useContext(AuthContext);
-
+const CreateTask = ({ setTask, ListId }) => {
   const [list, setList] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [department, setDepartment] = useState('');
-  const [user, setUser] = useState('');
+  // const [user, setUser] = useState('');
 
 
   const handleNewTask = () => {
-    const data = {
+    const newTask = {
       name: title,
       description,
       department,
+      ListId,
     };
 
-    TaskService.CreateTask(id, data).then((res) => setNewTask(res));
-    setList('');
-    setDescription('');
+    TaskService.createTask(newTask).then((res) => {
+      setTask(res.data);
+      setTitle('');
+      setDescription('');
+      console.log(res);
+    });
   };
 
   return (

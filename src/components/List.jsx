@@ -3,7 +3,6 @@ import React, { useEffect, useContext, useState } from 'react';
 import {
   Dropdown, Button, Form, Segment, Header, Select, Item, Label,
 } from 'semantic-ui-react';
-import { AuthContext } from '../context/AuthContex';
 import ListService from '../services/ListService';
 import DepartmentService from '../services/DepartmentService';
 import CreateList from './CreateList';
@@ -11,22 +10,19 @@ import DisplayCard from './DisplayCard';
 import CreateTask from './CreateTask';
 import TaskService from '../services/TaskService';
 
-const Lists = (props) => {
-  const { authStatus: { user: { id } } } = useContext(AuthContext);
+const Lists = ({ id }) => {
   const [list, setList] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [department, setDepartment] = useState('');
   const [user, setUser] = useState('');
   const [status, setStatus] = useState(null);
-  const listId = props.id;
-  // const [newList, setNewList] = useState([]);
-  console.log(props.id);
-  console.log(id);
-  // const  user.  = useContext(AuthContext);
+  const [task, setTask] = useState('');
+  // const [task, setTask] = useState([]);
+
   useEffect(() => {
-    ListService.fetchAList(listId, id).then((res) => setList(res.data.Tasks));
-  }, []);
+    ListService.fetchAList(id).then((res) => setList(res.data.Tasks));
+  }, [task]);
 
   const handleTask = () => {
     console.log('lulz');
@@ -36,8 +32,8 @@ const Lists = (props) => {
     console.log('click');
     console.log(!status);
     console.log(status);
-    console.log(id);
-    TaskService.updateTask(props);
+    // console.log(id);
+    // TaskService.updateTask(props);
   };
   const RenderList = () => list.map((item) => (
     <Item>
@@ -49,7 +45,7 @@ const Lists = (props) => {
         </Item.Meta> */}
         <Item.Description>{item.description}</Item.Description>
         <Item.Extra>
-          <Form onSubmit={handleTask}>
+          {/*     <Form onSubmit={handleTask}>
             <Form.Checkbox
               inline
               label="completed"
@@ -58,7 +54,7 @@ const Lists = (props) => {
               onChange={() => handleStatus(item.status, item.id)}
             />
 
-          </Form>
+          </Form> */}
         </Item.Extra>
       </Item.Content>
     </Item>
@@ -70,7 +66,7 @@ const Lists = (props) => {
         <RenderList />
       </Item.Group>
       <h2>Lists view</h2>
-      <CreateTask />
+      <CreateTask setTask={setTask} ListId={id} />
       {console.log(list)}
     </div>
   );
