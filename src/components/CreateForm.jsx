@@ -5,20 +5,21 @@ import {
 import { AuthContext } from '../context/AuthContex';
 
 import ListService from '../services/ListService';
-// import DepartmentService from './.../services/DepartmentService';
+import DepartmentService from './.../services/DepartmentService';
+import TaskService from '../services/Taskservice';
 
-const CreateList = ({ setNewList }) => {
+const CreateForm = ({ service }) => {
   const { authStatus: { user: { id } } } = useContext(AuthContext);
 
-  const [department, setDepartment] = useState([]);
-  const [list, setList] = useState('');
-  const [description, setDescription] = useState('');
+  const [select, setSelect] = useState([]);
+  const [type, setType] = useState('');
+  const [text, setText] = useState('');
 
 
-  const handleNewList = () => {
+  const handleSubmit = () => {
     const data = {
-      name: list,
-      description,
+      name: type,
+      text,
     };
 
     ListService.createList(id, data).then((res) => setNewList(res));
@@ -35,11 +36,11 @@ const CreateList = ({ setNewList }) => {
         <Form.Field inline>
           <label>Title</label>
 
-          <input name="list" placeholder="Enter list name" required onChange={(e) => setList(e.target.value)} />
+          <input name="list" placeholder="Enter list name" required onChange={(e) => setType(e.target.value)} />
         </Form.Field>
         <Form.Field inline>
-          <label>Desciption</label>
-          <TextArea placeholder="description" required onChange={(e) => setDescription(e.target.value)} />
+          <label>Description</label>
+          <TextArea placeholder="description" required onChange={(e) => setText(e.target.value)} />
         </Form.Field>
         <Button type="submit">Create</Button>
       </Form>

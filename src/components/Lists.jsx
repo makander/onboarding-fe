@@ -6,14 +6,14 @@ import CreateList from './CreateList';
 import DisplayCard from './DisplayCard';
 
 const Lists = ({ history }) => {
-  const { authStatus: { user: { id } } } = useContext(AuthContext);
+  // const { authStatus: { user: { id } } } = useContext(AuthContext);
   const [lists, setLists] = useState([]);
   const [newList, setNewList] = useState([]);
 
 
   // const  user.  = useContext(AuthContext);
   useEffect(() => {
-    ListService.fetchLists(id).then((res) => setLists(res.data));
+    ListService.fetchLists().then((res) => setLists(res.data));
   }, [newList]);
 
 

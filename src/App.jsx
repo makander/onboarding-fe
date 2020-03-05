@@ -2,6 +2,7 @@ import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { Router } from '@reach/router';
 
+import axios from 'axios';
 import AuthContextProvider from './context/AuthContex';
 import ContentWrap from './components/ContentWrap';
 import Start from './components/Start';
@@ -13,6 +14,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import List from './components/List';
 import Lists from './components/Lists';
 
+axios.defaults.withCredentials = true;
 
 function App() {
   return (
