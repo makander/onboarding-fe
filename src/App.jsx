@@ -13,6 +13,7 @@ import Home from './components/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
 import List from './components/List';
 import Lists from './components/Lists';
+import Department from './components/Department';
 
 axios.defaults.withCredentials = true;
 
@@ -23,7 +24,8 @@ function App() {
         <Navbar />
         <ContentWrap start={Start}>
           <Router>
-            <Navbar path="/Navbar" />
+
+            <Department component={Department} path="/departments" />
             <Start path="/" />
             <Login path="/login" />
             <Register path="/register" />

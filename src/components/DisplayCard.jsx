@@ -6,7 +6,7 @@ import { Card } from 'semantic-ui-react';
 const DisplayCard = ({
   history, description, name, id, type,
 }) => (
-  <Card>
+  <Card key={id}>
     <Card.Content header={name} />
     <Card.Content description={description} />
     <Card.Content extra>

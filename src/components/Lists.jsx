@@ -21,7 +21,7 @@ const Lists = ({ history }) => {
     <div>
       <h2>Lists view</h2>
       {lists.map((list) => (
-        <DisplayCard history={history} name={list.name} description={list.description} id={list.id} type="list" />
+        <DisplayCard key={list.id} history={history} name={list.name} description={list.description} id={list.id} type="list" />
       ))}
       {console.log(lists)}
       <CreateList setNewList={setNewList} />

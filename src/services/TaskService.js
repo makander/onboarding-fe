@@ -8,8 +8,8 @@ const getAtask = async (userId, listId) => axios.get(
 
 const deleteTask = async (id) => axios.delete();
 
-const updateTask = async (userId, listId, taskId, data) => axios.put(
-  `${process.env.REACT_APP_BASE_URL}/api/user/${userId}/list/${listId}/${taskId}`,
+const updateTask = async (taskId, data) => axios.put(
+  `${process.env.REACT_APP_BASE_URL}/api/task/${taskId}`,
   data,
 );
 

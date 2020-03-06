@@ -8,6 +8,9 @@ const Home = () => (
     <br />
     <Link to="/list">list</Link>
     <Link to="/" />
+    <br />
+    <Link to="/departments">Deparments</Link>
+
   </div>
 );
 

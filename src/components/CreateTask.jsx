@@ -5,8 +5,8 @@ import {
 import { AuthContext } from '../context/AuthContex';
 
 import ListService from '../services/ListService';
-// import DepartmentService from './.../services/DepartmentService';
 import TaskService from '../services/TaskService';
+import DepartmentService from '../services/DepartmentService';
 
 const CreateTask = ({ setTask, ListId }) => {
   const [list, setList] = useState([]);
@@ -22,6 +22,7 @@ const CreateTask = ({ setTask, ListId }) => {
       description,
       department,
       ListId,
+      status: false,
     };
 
     TaskService.createTask(newTask).then((res) => {
