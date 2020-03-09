@@ -1,26 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown } from 'semantic-ui-react';
 
-const addressDefinitions = faker.definitions.address;
-const stateOptions = _.map(addressDefinitions.state, (state, index) => ({
-  key: addressDefinitions.state_abbr[index],
-  text: state,
-  value: addressDefinitions.state_abbr[index],
-}));
 
 const FormMultiSearchSelect = ({
-  options,
-}) => (
-
-
+  options, placeholder, onChange, value,
+}) => {
   <Dropdown
-    placeholder="State"
+    placeholder={placeholder}
     fluid
     multiple
     search
     selection
-    options={stateOptions}
-  />
-);
+    options={options}
+    onChange={onChange}
+    value={value}
+  />;
+};
 
 export default FormMultiSearchSelect;

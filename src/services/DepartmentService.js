@@ -1,20 +1,20 @@
 import axios from 'axios';
 
 
-const fetchDepartments = async () => axios.get(`${process.env.REACT_APP_BASE_URL}/api/departments/list`);
+const list = async () => axios.get(`${process.env.REACT_APP_BASE_URL}/api/department/list`).then((res) => res.data);
 
-const fetchDepartment = async (id) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/departments/${id}`);
+const get = async (id) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/department/${id}`);
 
-const deleteDepartment = async (id) => axios.delete();
+const destroy = async (id) => axios.delete();
 
-const updateDepartment = async (data) => axios.put();
+const update = async (data) => axios.put();
 
-const createDepartment = async (data) => axios.post(`${process.env.REACT_APP_BASE_URL}/api/departments/list`, data);
+const create = async (data) => axios.post(`${process.env.REACT_APP_BASE_URL}/api/department`, data);
 
 export default {
-  fetchDepartments,
-  fetchDepartment,
-  deleteDepartment,
-  updateDepartment,
-  createDepartment,
+  list,
+  get,
+  destroy,
+  update,
+  create,
 };
