@@ -1,23 +1,18 @@
 import axios from 'axios';
 
-const getTasks = async (id) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/${id}/list`);
+const getTasks = async () =>
+  axios.get(`${process.env.REACT_APP_BASE_URL}/api/list`);
 
-const getAtask = async (userId, listId) => axios.get(
-  `${process.env.REACT_APP_BASE_URL}/api/user/${userId}/list/${listId}/`,
-);
+const getAtask = async (userId, listId) =>
+  axios.get(`${process.env.REACT_APP_BASE_URL}/api/list/${listId}`);
 
 const deleteTask = async (id) => axios.delete();
 
-const updateTask = async (taskId, data) => axios.put(
-  `${process.env.REACT_APP_BASE_URL}/api/task/${taskId}`,
-  data,
-);
+const updateTask = async (taskId, data) =>
+  axios.put(`${process.env.REACT_APP_BASE_URL}/api/task/${taskId}`, data);
 
-const createTask = async (data) => axios.post(
-  `${process.env.REACT_APP_BASE_URL}/api/task/`,
-  data,
-);
-
+const createTask = async (data) =>
+  axios.post(`${process.env.REACT_APP_BASE_URL}/api/task/`, data);
 
 export default {
   getTasks,

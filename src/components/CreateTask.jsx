@@ -1,12 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import {
   Button, Form, Segment, Header, TextArea, Select,
 } from 'semantic-ui-react';
-import { AuthContext } from '../context/AuthContex';
 
-import ListService from '../services/ListService';
 import TaskService from '../services/TaskService';
-import DepartmentService from '../services/DepartmentService';
 
 const CreateTask = ({ setTask, ListId }) => {
   const [list, setList] = useState([]);
@@ -34,6 +31,7 @@ const CreateTask = ({ setTask, ListId }) => {
   };
 
   return (
+
     <Segment stacked>
       <Header textAlign="center">
         Create new task:

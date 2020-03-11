@@ -1,9 +1,8 @@
 import React, { useEffect, useContext, useState } from 'react';
-
-import { AuthContext } from '../context/AuthContex';
+import { Table } from 'semantic-ui-react';
+import { Link } from '@reach/router';
 import ListService from '../services/ListService';
 import CreateList from './CreateList';
-import DisplayCard from './DisplayCard';
 
 const Lists = ({ history }) => {
   // const { authStatus: { user: { id } } } = useContext(AuthContext);
@@ -13,19 +12,32 @@ const Lists = ({ history }) => {
 
   // const  user.  = useContext(AuthContext);
   useEffect(() => {
-    ListService.fetchLists().then((res) => setLists(res.data));
+    ListService.list().then((res) => setLists(res.data));
   }, [newList]);
 
 
   return (
-    <div>
-      <h2>Lists view</h2>
-      {lists.map((list) => (
-        <DisplayCard key={list.id} history={history} name={list.name} description={list.description} id={list.id} type="list" />
-      ))}
-      {console.log(lists)}
-      <CreateList setNewList={setNewList} />
-    </div>
+    <Table basic="very">
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Tasks</Table.HeaderCell>
+          <Table.HeaderCell></Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {lists.map((list) => (
+          <Table.Row key={list.id}>
+            <Table.Cell>
+              <Link to={`${list.id}`}>{list.name}</Link>
+            </Table.Cell>
+            <Table.Cell>Tasks</Table.Cell>
+          </Table.Row>
+        ))}
+        {console.log(lists)}
+        <CreateList setNewList={setNewList} />
+      </Table.Body>
+    </Table>
   );
 };
 

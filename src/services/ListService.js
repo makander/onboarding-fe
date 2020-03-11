@@ -1,27 +1,22 @@
 import axios from 'axios';
 
-const fetchLists = async () => axios.get(`${process.env.REACT_APP_BASE_URL}/api/list`);
+const list = async () => axios.get(`${process.env.REACT_APP_BASE_URL}/api/list`);
 
-const fetchAList = async (listId) => axios.get(
-  `${process.env.REACT_APP_BASE_URL}/api/list/${listId}`,
-);
+const get = async (id) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/list/${id}`);
 
-const deleteList = async (id) => axios.delete();
+const destroy = async (id) => axios.delete();
 
-const updateList = async (data) => axios.put();
+const update = async (data) => axios.put();
 
-const createList = async (id, data) => {
+const create = async (id, data) => {
   console.log(id, data);
-  return axios.post(
-    `${process.env.REACT_APP_BASE_URL}/api/user/${id}/list`,
-    data,
-  );
+  return axios.post(`${process.env.REACT_APP_BASE_URL}/api/list`, data);
 };
 
 export default {
-  deleteList,
-  fetchAList,
-  fetchLists,
-  updateList,
-  createList,
+  list,
+  get,
+  destroy,
+  update,
+  create,
 };

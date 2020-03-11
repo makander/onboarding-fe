@@ -1,14 +1,8 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
-  Dropdown,
-  Button,
   Form,
-  Segment,
-  Header,
-  Select,
-  Item,
-  Label,
+  Item, Table,
 } from 'semantic-ui-react';
 import ListService from '../services/ListService';
 import DepartmentService from '../services/DepartmentService';
@@ -17,20 +11,18 @@ import TaskService from '../services/TaskService';
 
 const Lists = ({ id }) => {
   const [list, setList] = useState([]);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+
   const [departments, setDepartments] = useState('');
-  const [user, setUser] = useState('');
-  const [status, setStatus] = useState(null);
+
   const [task, setTask] = useState([]);
 
   useEffect(() => {
-    ListService.fetchAList(id).then((res) => setList(res.data.Tasks));
-    DepartmentService.fetchDepartments().then(((res) => {
+    ListService.get(id).then((res) => setList(res.data.Tasks));
+    /*     DepartmentService.get(id).then(((res) => {
       console.log(res);
       setDepartments(res);
-    }));
-  }, [task]);
+    })); */
+  }, []);
 
 
   const handleStatus = (taskStatus, taskId) => {
@@ -44,7 +36,7 @@ const Lists = ({ id }) => {
     });
   };
 
-
+  /*
   const RenderList = () => list.map((item) => (item.status ? null : (
     <Item key={item.id}>
       <Item.Content>
@@ -63,16 +55,51 @@ const Lists = ({ id }) => {
         </Item.Extra>
       </Item.Content>
     </Item>
-  )));
+  ))); */
 
   return (
-    <div>
-      <Item.Group divided>
-        <RenderList />
-      </Item.Group>
+    <>
+      {' '}
+      {list ? (
+        <Table basic="very">
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Notes</Table.HeaderCell>
+              <Table.HeaderCell>Status</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {list.map((item) => (
+              <Table.Row key={item.id}>
+                <Table.Cell>
+                  {item.name}
+                </Table.Cell>
+                <Table.Cell>
+                  {item.description}
+                </Table.Cell>
+                <Table.Cell>
+                  {' '}
+                  <Form>
+                    <Form.Checkbox
+                      inline
+                      label="completed"
+                      checked={item.status}
+                      required
+                      onChange={() => handleStatus(item.status, item.id)}
+                    />
+                  </Form>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      ) : null}
+
+
       <h2>Lists view</h2>
       <CreateTask setTask={setTask} ListId={id} departments={departments} />
-    </div>
+    </>
   );
 };
 

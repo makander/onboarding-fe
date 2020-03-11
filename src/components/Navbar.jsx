@@ -8,7 +8,7 @@ const Navbar = () => {
   const { authStatus: { user: { id } } } = useContext(AuthContext);
 
   return (
-    <Menu>
+    <>
       {id ? (
         <Menu>
           {' '}
@@ -21,6 +21,10 @@ const Navbar = () => {
           </Menu.Item>
 
           <Menu.Item>
+            <Link to="/task">Tasks</Link>
+          </Menu.Item>
+
+          <Menu.Item float right>
             <Link to="/logout">Logout</Link>
 
           </Menu.Item>
@@ -43,7 +47,7 @@ const Navbar = () => {
             </Menu.Item>
           </Menu>
         )}
-    </Menu>
+    </>
   );
 };
 

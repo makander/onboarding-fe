@@ -13,7 +13,9 @@ import Home from './components/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
 import List from './components/List';
 import Lists from './components/Lists';
+import Departments from './components/Departments';
 import Department from './components/Department';
+
 
 axios.defaults.withCredentials = true;
 
@@ -25,10 +27,12 @@ function App() {
         <ContentWrap start={Start}>
           <Router>
 
-            <Department component={Department} path="/departments" />
+            <Departments component={Departments} path="/departments" />
+            <Department component={Department} path="/departments/:departmentsId" />
             <Start path="/" />
             <Login path="/login" />
             <Register path="/register" />
+
             <ProtectedRoute component={Home} path="/home" />
             <ProtectedRoute component={Lists} path="/lists" />
             <ProtectedRoute component={List} path="/lists/:id" />
