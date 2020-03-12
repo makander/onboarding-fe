@@ -4,7 +4,7 @@ const list = async () => axios
   .get(`${process.env.REACT_APP_BASE_URL}/api/department/list`)
   .then((res) => res.data);
 
-const get = async (id) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/department/${id}`);
+const get = async (id) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/department/${id}`).then((res) => res.data);
 
 const destroy = async (id) => axios.delete();
 
