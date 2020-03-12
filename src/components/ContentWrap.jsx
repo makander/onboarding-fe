@@ -5,7 +5,7 @@ import {
 
 const ContentWrap = ({ children }) => (
   <Grid columns={1} textAlign="center" centered>
-    <Grid.Column width={6} textAlign="center">
+    <Grid.Column width={12} textAlign="center">
       {children}
     </Grid.Column>
   </Grid>
