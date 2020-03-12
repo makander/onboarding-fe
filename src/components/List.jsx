@@ -20,7 +20,6 @@ const Lists = ({ id }) => {
   useEffect(() => {
     ListService.get(id).then((res) => setList(res.data.Tasks));
     DepartmentService.get(id).then(((res) => {
-      console.log(res);
       setDepartments(res);
     }));
   }, [task]);
@@ -32,7 +31,6 @@ const Lists = ({ id }) => {
     };
 
     TaskService.updateTask(taskId, taskData).then((res) => {
-      console.log(res);
       setTask([]);
     });
   };
