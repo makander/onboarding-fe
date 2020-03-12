@@ -8,8 +8,8 @@ const destroy = async (id) => axios.delete();
 
 const update = async (data) => axios.put();
 
-const create = async (id, data) => {
-  console.log(id, data);
+const create = async (data) => {
+  console.log(data);
   return axios.post(`${process.env.REACT_APP_BASE_URL}/api/list`, data);
 };
 

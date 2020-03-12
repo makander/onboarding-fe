@@ -20,7 +20,8 @@ const Department = () => {
   useEffect(() => {
     UserService.listUsers().then((res) => setUsers(res));
     DepartmentService.list().then((res) => {
-      console.log(res); setDepartments(res);
+      console.log(res);
+      setDepartments(res);
     });
   }, []);
 
@@ -32,7 +33,9 @@ const Department = () => {
     };
     console.log(department);
 
-    DepartmentService.create(department).then((res) => { setDepartments(departments.concat([res.data])); });
+    DepartmentService.create(department).then((res) => {
+      setDepartments(departments.concat([res.data]));
+    });
     setSelect([]);
     setName('');
     setDescription();
@@ -54,58 +57,40 @@ const Department = () => {
   const handleClick = (id) => {
     console.log(id);
     DepartmentService.destroy(id);
-    const filter = departments.filter((department) => (department.id !== id));
+    const filter = departments.filter((department) => department.id !== id);
     setDepartments(filter);
   };
 
   return (
     <div>
-
-      {departments.length !== null
-        ? (
-          <Table>
-            <Table.Header>
-
-              <Table.Row>
-                <Table.HeaderCell>Departments</Table.HeaderCell>
-                <Table.HeaderCell>Members</Table.HeaderCell>
-                <Table.HeaderCell></Table.HeaderCell>
-                <Table.HeaderCell></Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-
-              {
-            departments.map((item) => (
+      {departments.length !== null ? (
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Departments</Table.HeaderCell>
+              <Table.HeaderCell>Members</Table.HeaderCell>
+              <Table.HeaderCell></Table.HeaderCell>
+              <Table.HeaderCell></Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {departments.map((item) => (
               <Table.Row>
                 <Table.Cell>
-
                   <Link to={`${item.id}`}>{item.name}</Link>
-
+                </Table.Cell>
+                <Table.Cell>{item.Users.length}</Table.Cell>
+                <Table.Cell>
+                  <Button onClick={() => handleClick(item.id)}>x</Button>
                 </Table.Cell>
                 <Table.Cell>
-                  {item.Users.length}
-
-                </Table.Cell>
-                <Table.Cell>
-
-                  <Button onClick={(() => handleClick(item.id))}>x</Button>
-
-
-                </Table.Cell>
-                <Table.Cell>
-
-                  <Button onClick={(() => handleClick(item.id))}>Edit</Button>
-
-
+                  <Button onClick={() => handleClick(item.id)}>Edit</Button>
                 </Table.Cell>
               </Table.Row>
-            ))
-}
-
-            </Table.Body>
-          </Table>
-        ) : null}
+            ))}
+          </Table.Body>
+        </Table>
+      ) : null}
       {users.length > 0 ? (
         <Segment>
           <Form.Group>

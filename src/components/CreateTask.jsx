@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
 import {
-  Button, Form, Segment, Header, TextArea, Select,
+  Form, Segment,
 } from 'semantic-ui-react';
-
+import FormInput from './forms/FormInput';
+import FormButton from './forms/FormButton';
+import TextArea from './forms/FormTextArea';
+import FormDropDown from './forms/FormDropDown';
 import TaskService from '../services/TaskService';
 
 const CreateTask = ({ setTask, ListId }) => {
-  const [list, setList] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [department, setDepartment] = useState('');
+  const [select, setSelect] = useState([]);
+
   // const [user, setUser] = useState('');
+
+  const handleSelect = (e, { value }) => {
+    console.log(typeof value);
+    console.log(value);
+    // value.map((item) => console.log(item));
+    // setSelect(value);
+    setSelect({ value });
+  };
 
 
   const handleNewTask = () => {
     const newTask = {
       name: title,
       description,
-      department,
+      department: select,
       ListId,
       status: false,
     };
@@ -31,28 +43,34 @@ const CreateTask = ({ setTask, ListId }) => {
   };
 
   return (
+    <Segment>
+      <Form.Group>
+        <Form onSubmit={handleNewTask}>
+          <FormInput
+            placeholder="Title"
+            label="Title"
+            type="text"
+            inputValue={title}
+            setInputValue={setTitle}
+          />
 
-    <Segment stacked>
-      <Header textAlign="center">
-        Create new task:
-      </Header>
-      <Form onSubmit={handleNewTask}>
-        <Form.Field inline>
-          <label>Title</label>
-          <input name="title" placeholder="enter title" required onChange={(e) => setTitle(e.target.value)} />
-        </Form.Field>
-        <Form.Field inline>
-          <label>Description</label>
-          <TextArea placeholder="description" required onChange={(e) => setDescription(e.target.value)} />
-        </Form.Field>
-        <Form.Field inline>
-          <label>Department</label>
+          <TextArea
+            placeholder="Description"
+            label="Description"
+            inputValue={description}
+            setInputValue={setDescription}
+            name="textarea"
+          />
 
-          <Select placeholder="Select department or user" options={department} />
-        </Form.Field>
+          <FormDropDown
+            placeholder="Select users"
+            options={department}
+            onChange={handleSelect}
+          />
 
-        <Button type="submit">Submit</Button>
-      </Form>
+          <FormButton title="Save" type="submit" />
+        </Form>
+      </Form.Group>
     </Segment>
   );
 };

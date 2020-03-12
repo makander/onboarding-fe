@@ -1,64 +1,74 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import {
-  Button, Form, Segment, Header, TextArea,
+  Form, Segment,
 } from 'semantic-ui-react';
-import { AuthContext } from '../context/AuthContex';
-
+import FormInput from './forms/FormInput';
+import FormButton from './forms/FormButton';
+import TextArea from './forms/FormTextArea';
+import FormDropDown from './forms/FormDropDown';
 import ListService from '../services/ListService';
-// import DepartmentService from './.../services/DepartmentService';
 
-const CreateList = ({ setNewList }) => {
-  const {
-    authStatus: {
-      user: { id },
-    },
-  } = useContext(AuthContext);
-
-  const [department, setDepartment] = useState([]);
-  const [list, setList] = useState('');
+const CreateList = ({ setNewList, options }) => {
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [select, setSelect] = useState();
+
+  const handleSelect = (e, { value }) => {
+    setSelect(value);
+  };
 
   const handleNewList = () => {
     const data = {
-      name: list,
+      name: title,
       description,
+      departments: select,
     };
 
-    ListService.createList(id, data)
+    ListService.create(data)
       .then((res) => setNewList(res))
-      .then(() => {
-        setList('');
-        setDescription('');
-      });
+      .then(() => {});
+    setTitle('');
+    setDescription('');
+    setSelect([]);
   };
 
   return (
-    <Segment stacked>
-      <Header textAlign="center">Create new list</Header>
-      <Form onSubmit={handleNewList}>
-        <Form.Field inline>
-          <label>Title</label>
+    <>
+      <h2>Create new List</h2>
 
-          <input
-            name="list"
-            placeholder="Enter list name"
-            required
-            value={list}
-            onChange={(e) => setList(e.target.value)}
-          />
-        </Form.Field>
-        <Form.Field inline>
-          <label>Desciption</label>
-          <TextArea
-            placeholder="description"
-            required
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </Form.Field>
-        <Button type="submit">Create</Button>
-      </Form>
-    </Segment>
+      <Segment>
+        <Form.Group>
+          <Form onSubmit={handleNewList}>
+            <FormInput
+              placeholder="Title"
+              label="Title"
+              type="text"
+              inputValue={title}
+              setInputValue={setTitle}
+            />
+
+            <TextArea
+              placeholder="Description"
+              label="Description"
+              inputValue={description}
+              setInputValue={setDescription}
+              name="textarea"
+            />
+
+            <FormDropDown
+              placeholder="Select departments"
+              options={options}
+              onChange={handleSelect}
+              // value={select}
+              inputValue={select}
+              // defaultValue={select}
+            />
+
+            <FormButton title="Save" type="submit" />
+          </Form>
+        </Form.Group>
+      </Segment>
+    </>
   );
 };
 

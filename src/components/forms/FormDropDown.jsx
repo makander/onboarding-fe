@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropdown, Form } from 'semantic-ui-react';
 
 const FormDropDown = ({
-  placeholder, options, value, onChange,
+  placeholder, options, inputValue, onChange,
 }) => (
   <Form.Field>
 
@@ -10,11 +10,13 @@ const FormDropDown = ({
       placeholder={placeholder}
       fluid
       multiple
-      search
+      // search
       selection
+      value={inputValue}
       options={options}
       onChange={onChange}
-      defaultValue={value}
+      // defaultValue={[]}
+      clearable
     />
   </Form.Field>
 );

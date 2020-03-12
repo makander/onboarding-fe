@@ -18,11 +18,11 @@ const Lists = ({ id }) => {
 
   useEffect(() => {
     ListService.get(id).then((res) => setList(res.data.Tasks));
-    /*     DepartmentService.get(id).then(((res) => {
+    DepartmentService.get(id).then(((res) => {
       console.log(res);
       setDepartments(res);
-    })); */
-  }, []);
+    }));
+  }, [task]);
 
 
   const handleStatus = (taskStatus, taskId) => {
@@ -70,28 +70,30 @@ const Lists = ({ id }) => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {list.map((item) => (
-              <Table.Row key={item.id}>
-                <Table.Cell>
-                  {item.name}
-                </Table.Cell>
-                <Table.Cell>
-                  {item.description}
-                </Table.Cell>
-                <Table.Cell>
-                  {' '}
-                  <Form>
-                    <Form.Checkbox
-                      inline
-                      label="completed"
-                      checked={item.status}
-                      required
-                      onChange={() => handleStatus(item.status, item.id)}
-                    />
-                  </Form>
-                </Table.Cell>
-              </Table.Row>
-            ))}
+            {list.map((item) => (!item.status
+              ? (
+                <Table.Row key={item.id}>
+                  <Table.Cell>
+                    {item.name}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {item.description}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {' '}
+                    <Form>
+                      <Form.Checkbox
+                        inline
+                        label="completed"
+                        checked={item.status}
+
+                        onChange={() => handleStatus(item.status, item.id)}
+                      />
+                    </Form>
+                  </Table.Cell>
+                </Table.Row>
+              )
+              : null))}
           </Table.Body>
         </Table>
       ) : null}
