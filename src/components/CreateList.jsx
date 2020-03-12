@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Form, Segment,
-} from 'semantic-ui-react';
+import { Form, Segment } from 'semantic-ui-react';
 import FormInput from './forms/FormInput';
 import FormButton from './forms/FormButton';
 import TextArea from './forms/FormTextArea';
@@ -34,8 +32,6 @@ const CreateList = ({ setNewList, options }) => {
 
   return (
     <>
-      <h2>Create new List</h2>
-
       <Segment>
         <Form.Group>
           <Form onSubmit={handleNewList}>
