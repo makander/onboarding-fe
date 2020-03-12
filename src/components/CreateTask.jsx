@@ -17,11 +17,7 @@ const CreateTask = ({ setTask, ListId }) => {
   // const [user, setUser] = useState('');
 
   const handleSelect = (e, { value }) => {
-    console.log(typeof value);
-    console.log(value);
-    // value.map((item) => console.log(item));
-    // setSelect(value);
-    setSelect({ value });
+    setSelect(value);
   };
 
 
@@ -38,40 +34,41 @@ const CreateTask = ({ setTask, ListId }) => {
       setTask(res.data);
       setTitle('');
       setDescription('');
-      console.log(res);
     });
   };
 
   return (
-    <Segment>
-      <Form.Group>
-        <Form onSubmit={handleNewTask}>
-          <FormInput
-            placeholder="Title"
-            label="Title"
-            type="text"
-            inputValue={title}
-            setInputValue={setTitle}
-          />
+    <>
+      <Segment>
+        <Form.Group>
+          <Form onSubmit={handleNewTask}>
+            <FormInput
+              placeholder="Title"
+              label="Title"
+              type="text"
+              inputValue={title}
+              setInputValue={setTitle}
+            />
 
-          <TextArea
-            placeholder="Description"
-            label="Description"
-            inputValue={description}
-            setInputValue={setDescription}
-            name="textarea"
-          />
+            <TextArea
+              placeholder="Description"
+              label="Description"
+              inputValue={description}
+              setInputValue={setDescription}
+              name="textarea"
+            />
 
-          <FormDropDown
-            placeholder="Select users"
-            options={department}
-            onChange={handleSelect}
-          />
+            <FormDropDown
+              placeholder="Select users"
+              options={department}
+              onChange={handleSelect}
+            />
 
-          <FormButton title="Save" type="submit" />
-        </Form>
-      </Form.Group>
-    </Segment>
+            <FormButton title="Save" type="submit" />
+          </Form>
+        </Form.Group>
+      </Segment>
+    </>
   );
 };
 

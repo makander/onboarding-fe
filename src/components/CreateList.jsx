@@ -43,21 +43,12 @@ const CreateList = ({ setNewList, options }) => {
               setInputValue={setTitle}
             />
 
-            <TextArea
-              placeholder="Description"
-              label="Description"
-              inputValue={description}
-              setInputValue={setDescription}
-              name="textarea"
-            />
-
             <FormDropDown
               placeholder="Select departments"
               options={options}
               onChange={handleSelect}
               // value={select}
               inputValue={select}
-              // defaultValue={select}
             />
 
             <FormButton title="Save" type="submit" />

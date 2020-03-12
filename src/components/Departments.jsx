@@ -47,15 +47,10 @@ const Department = () => {
   }));
 
   const handleSelect = (e, { value }) => {
-    console.log(typeof value);
-    console.log(value);
-    // value.map((item) => console.log(item));
-    // setSelect(value);
     setSelect({ value });
   };
 
   const handleClick = (id) => {
-    console.log(id);
     DepartmentService.destroy(id);
     const filter = departments.filter((department) => department.id !== id);
     setDepartments(filter);
