@@ -33,42 +33,38 @@ const CreateList = ({ setNewList, options }) => {
   };
 
   return (
-    <>
-      <h2>Create new List</h2>
+    <Segment>
+      <Form.Group>
+        <Form onSubmit={handleNewList}>
+          <FormInput
+            placeholder="Title"
+            label="Title"
+            type="text"
+            inputValue={title}
+            setInputValue={setTitle}
+          />
 
-      <Segment>
-        <Form.Group>
-          <Form onSubmit={handleNewList}>
-            <FormInput
-              placeholder="Title"
-              label="Title"
-              type="text"
-              inputValue={title}
-              setInputValue={setTitle}
-            />
+          <TextArea
+            placeholder="Description"
+            label="Description"
+            inputValue={description}
+            setInputValue={setDescription}
+            name="textarea"
+          />
 
-            <TextArea
-              placeholder="Description"
-              label="Description"
-              inputValue={description}
-              setInputValue={setDescription}
-              name="textarea"
-            />
-
-            <FormDropDown
-              placeholder="Select departments"
-              options={options}
-              onChange={handleSelect}
+          <FormDropDown
+            placeholder="Select departments"
+            options={options}
+            onChange={handleSelect}
               // value={select}
-              inputValue={select}
-              // defaultValue={select}
-            />
+            inputValue={select}
+          />
 
-            <FormButton title="Save" type="submit" />
-          </Form>
-        </Form.Group>
-      </Segment>
-    </>
+          <FormButton title="Save" type="submit" />
+        </Form>
+      </Form.Group>
+    </Segment>
+
   );
 };
 
