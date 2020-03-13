@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Segment, Form, Header } from 'semantic-ui-react';
+import {
+  Segment, Form, Header, Button, Grid, Label,
+} from 'semantic-ui-react';
+import { navigate } from '@reach/router';
 import DepartmentService from '../services/DepartmentService';
+import UserService from '../services/UserService';
 import FormInput from './forms/FormInput';
-import FormButton from './forms/FormButton';
 import TextArea from './forms/FormTextArea';
 import FormDropDown from './forms/FormDropDown';
 
@@ -16,11 +19,11 @@ const Department = ({ departmentsId }) => {
   useEffect(() => {
     DepartmentService.get(departmentsId).then((res) => {
       setDep(res);
-      setUsers(res.Users.map(({ id, firstName, lastName }) => ({
-        value: id,
-        text: `${firstName} ${lastName}`,
-      })));
     });
+    UserService.list().then((res) => setUsers(res.map(({ id, firstName, lastName }) => ({
+      value: id,
+      text: `${firstName} ${lastName}`,
+    }))));
   }, []);
 
 
@@ -32,23 +35,22 @@ const Department = ({ departmentsId }) => {
     };
     console.log(updatedDepartment);
 
-    DepartmentService.update(updatedDepartment).then((res) => {
-      setDep(dep.concat([res.data]));
+    DepartmentService.update(departmentsId, updatedDepartment).then((res) => {
+      setDep(res);
     });
+    setDescription('');
     setSelect([]);
     setName('');
-    setDescription();
   };
 
 
   const handleSelect = (e, { value }) => {
-    setSelect({ value });
+    setSelect(value);
   };
 
-  const handleClick = (id) => {
-    DepartmentService.destroy(id);
-    const filter = dep.filter((item) => item.id !== id);
-    setDep(filter);
+  const handleDelete = (e) => {
+    e.preventDefault();
+    DepartmentService.destroy(departmentsId).then(() => navigate('/departments'));
   };
 
   return (
@@ -59,39 +61,50 @@ const Department = ({ departmentsId }) => {
         {' '}
         {dep.name}
       </Header>
-      {dep.length !== null ? (
+      {dep.length !== null && users.length !== null ? (
 
 
         <Segment>
 
           {console.log(dep.Users)}
-          <Form.Group>
-            <Form onSubmit={onSubmit}>
-              <FormInput
-                placeholder="Department name"
-                label="Name"
-                type="text"
-                inputValue={name}
-                setInputValue={setName}
-              />
+          {console.log(users)}
+          <Form onSubmit={onSubmit}>
 
-              <TextArea
-                placeholder="Description"
-                label="Description"
-                value={description}
-                setInputValue={setDescription}
-                name="textarea"
-              />
+            <FormInput
+              placeholder="Department name"
+              label="Name"
+              type="text"
+              inputValue={name}
+              setInputValue={setName}
+            />
 
-              <FormDropDown
-                placeholder="Select users"
-                options={users}
-                onChange={handleSelect}
-              />
+            <TextArea
+              placeholder="Description"
+              label="Description"
+              inputValue={description}
+              setInputValue={setDescription}
+              name="textarea"
+            />
 
-              <FormButton title="Save" type="submit" />
-            </Form>
-          </Form.Group>
+            <FormDropDown
+              placeholder="Select users"
+              options={users}
+              onChange={handleSelect}
+              inputValue={select}
+              required
+              defaulltValue={select}
+            />
+
+            <br />
+            <Grid centered>
+              {' '}
+              <Form.Group>
+                <Button floated="left" type="submit">Save</Button>
+                <Button floated="right" onClick={((e) => handleDelete(e))}>Delete</Button>
+              </Form.Group>
+            </Grid>
+
+          </Form>
         </Segment>
       ) : null}
       {' '}

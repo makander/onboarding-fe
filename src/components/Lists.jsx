@@ -14,6 +14,8 @@ const Lists = ({ history }) => {
     value: id,
     text: `${name}`,
   }));
+
+  console.log(options);
   useEffect(() => {
     ListService.list().then((res) => setLists(res.data));
     DepartmentService.list().then((res) => setDepartment(res));

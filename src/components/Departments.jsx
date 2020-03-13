@@ -18,7 +18,7 @@ const Department = () => {
   const [select, setSelect] = useState([]);
 
   useEffect(() => {
-    UserService.listUsers().then((res) => setUsers(res));
+    UserService.list().then((res) => setUsers(res));
     DepartmentService.list().then((res) => {
       console.log(res);
       setDepartments(res);
@@ -47,7 +47,7 @@ const Department = () => {
   }));
 
   const handleSelect = (e, { value }) => {
-    setSelect({ value });
+    setSelect(value);
   };
 
   const handleClick = (id) => {
