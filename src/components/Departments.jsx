@@ -20,12 +20,13 @@ const Department = () => {
   useEffect(() => {
     UserService.list().then((res) => setUsers(res));
     DepartmentService.list().then((res) => {
-      console.log(res);
       setDepartments(res);
     });
   }, []);
 
   const onSubmit = () => {
+    console.log(departments);
+
     const department = {
       name,
       description,
@@ -34,6 +35,7 @@ const Department = () => {
     console.log(department);
 
     DepartmentService.create(department).then((res) => {
+      console.log(res.data);
       setDepartments(departments.concat([res.data]));
     });
     setSelect([]);
@@ -70,11 +72,11 @@ const Department = () => {
           </Table.Header>
           <Table.Body>
             {departments.map((item) => (
-              <Table.Row>
+              <Table.Row key={item.id}>
                 <Table.Cell>
                   <Link to={`${item.id}`}>{item.name}</Link>
                 </Table.Cell>
-                <Table.Cell>{item.Users.length}</Table.Cell>
+                <Table.Cell>{item.Users !== undefined ? item.Users.length : null}</Table.Cell>
                 <Table.Cell>
                   <Button onClick={() => handleClick(item.id)}>x</Button>
                 </Table.Cell>
@@ -106,12 +108,14 @@ const Department = () => {
                 name="textarea"
               />
 
+
               <FormDropDown
-                placeholder="Select users"
+                placeholder="Select departments"
                 options={options}
                 onChange={handleSelect}
+              // value={select}
+                inputValue={select}
               />
-
               <FormButton title="Save" type="submit" />
             </Form>
           </Form.Group>

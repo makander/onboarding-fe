@@ -10,6 +10,9 @@ const destroy = async (id) => axios.delete(`${process.env.REACT_APP_BASE_URL}/ap
 
 const update = async (id, data) => axios.put(`${process.env.REACT_APP_BASE_URL}/api/department/${id}`, data).then((res) => res.data);
 
+const removeUser = async (id, data) => axios.delete(`${process.env.REACT_APP_BASE_URL}/api/department/${id}/user`, { data }).then((res) => res.data);
+
+
 const create = async (data) => axios
   .post(`${process.env.REACT_APP_BASE_URL}/api/department`, data);
 
@@ -19,4 +22,5 @@ export default {
   destroy,
   update,
   create,
+  removeUser,
 };
