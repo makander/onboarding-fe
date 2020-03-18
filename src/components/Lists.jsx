@@ -15,35 +15,47 @@ const Lists = ({ history }) => {
     text: `${name}`,
   }));
 
-  console.log(options);
   useEffect(() => {
-    ListService.list().then((res) => setLists(res.data));
+    ListService.list().then((res) => {
+      console.log(res);
+      console.log(res[0].Lists);
+      setLists(res[0].Lists);
+    });
     DepartmentService.list().then((res) => setDepartment(res));
   }, [newList]);
 
 
   return (
     <>
-      <Header>Lists</Header>
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Tasks</Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {lists.map((list) => (
-            <Table.Row key={list.id}>
-              <Table.Cell>
-                <Link to={`${list.id}`}>{list.name}</Link>
-              </Table.Cell>
-              <Table.Cell>Tasks</Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+      {lists !== undefined ? (
+        <>
+          {console.log(lists)}
+          <Header>Lists</Header>
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Name</Table.HeaderCell>
+                <Table.HeaderCell>Status</Table.HeaderCell>
+                <Table.HeaderCell></Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {lists.map((list) => (
+                <Table.Row key={list.id}>
+                  {list.Lists}
+                  <Table.Cell>
+                    <Link to={`${list.id}`}>
+                      {list.name}
+
+                    </Link>
+                  </Table.Cell>
+                  <Table.Cell>{list.status}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </>
+      ) : null}
       <Header>Create new list</Header>
       <CreateList setNewList={setNewList} options={options} />
     </>

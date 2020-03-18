@@ -35,7 +35,7 @@ function App() {
 
             <ProtectedRoute component={Home} path="/home" />
             <ProtectedRoute component={Lists} path="/lists" />
-            <ProtectedRoute component={List} path="/lists/:id" />
+            <ProtectedRoute component={List} path="/lists/:listsId" />
 
 
           </Router>

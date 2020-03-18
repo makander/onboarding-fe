@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const list = async () => axios.get(`${process.env.REACT_APP_BASE_URL}/api/list`);
+const list = async () => axios.get(`${process.env.REACT_APP_BASE_URL}/api/list`).then((res) => res.data);
 
 const get = async (id) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/list/${id}`);
 
@@ -10,7 +10,7 @@ const update = async (data) => axios.put();
 
 const create = async (data) => {
   console.log(data);
-  return axios.post(`${process.env.REACT_APP_BASE_URL}/api/list`, data);
+  axios.post(`${process.env.REACT_APP_BASE_URL}/api/list`, data).then((res) => res.data);
 };
 
 export default {

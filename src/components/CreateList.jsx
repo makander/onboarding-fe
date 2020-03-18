@@ -20,6 +20,7 @@ const CreateList = ({ setNewList, options }) => {
       name: title,
       description,
       departments: select,
+      status: false,
     };
 
     ListService.create(data)

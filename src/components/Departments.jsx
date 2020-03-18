@@ -18,7 +18,8 @@ const Department = () => {
   const [select, setSelect] = useState([]);
 
   useEffect(() => {
-    UserService.list().then((res) => setUsers(res));
+    // UserService.findAll().then((res) => setUsers(res));
+    UserService.findAll().then((res) => setUsers(res));
     DepartmentService.list().then((res) => {
       setDepartments(res);
     });
@@ -78,7 +79,7 @@ const Department = () => {
                 </Table.Cell>
                 <Table.Cell>{item.Users !== undefined ? item.Users.length : null}</Table.Cell>
                 <Table.Cell>
-                  <Button onClick={() => handleClick(item.id)}>x</Button>
+                  <Button onClick={() => handleClick(item.id)}>Delete</Button>
                 </Table.Cell>
                 <Table.Cell>
                   <Button onClick={() => handleClick(item.id)}>Edit</Button>
@@ -93,24 +94,24 @@ const Department = () => {
           <Form.Group>
             <Form onSubmit={onSubmit}>
               <FormInput
-                placeholder="Department name"
+                placeholder="Change department name"
                 label="Name"
                 type="text"
                 inputValue={name}
                 setInputValue={setName}
               />
 
-              <TextArea
+              {/*        <TextArea
                 placeholder="Description"
                 label="Description"
                 value={description}
                 setInputValue={setDescription}
                 name="textarea"
               />
-
+ */}
 
               <FormDropDown
-                placeholder="Select departments"
+                placeholder="Add user to department"
                 options={options}
                 onChange={handleSelect}
               // value={select}

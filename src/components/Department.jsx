@@ -21,7 +21,7 @@ const Department = ({ departmentsId }) => {
     DepartmentService.get(departmentsId).then((res) => {
       setDepartments(res);
     });
-    UserService.list().then((data) => setUsers(data));
+    UserService.findAll().then((data) => setUsers(data));
   }, []);
 
   useEffect(() => {

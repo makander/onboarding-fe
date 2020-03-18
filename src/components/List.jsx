@@ -9,7 +9,7 @@ import DepartmentService from '../services/DepartmentService';
 import CreateTask from './CreateTask';
 import TaskService from '../services/TaskService';
 
-const Lists = ({ id }) => {
+const Lists = ({ listsId }) => {
   const [list, setList] = useState([]);
 
   const [departments, setDepartments] = useState('');
@@ -17,8 +17,8 @@ const Lists = ({ id }) => {
   const [task, setTask] = useState([]);
 
   useEffect(() => {
-    ListService.get(id).then((res) => setList(res.data.Tasks));
-    DepartmentService.get(id).then(((res) => {
+    ListService.get(listsId).then((res) => { console.log(res.data.Tasks); setList(res.data); });
+    DepartmentService.get(listsId).then(((res) => {
       setDepartments(res);
     }));
   }, [task]);
@@ -30,18 +30,25 @@ const Lists = ({ id }) => {
     };
 
     TaskService.updateTask(taskId, taskData).then((res) => {
-      setTask([]);
+      setTask([res]);
     });
   };
 
 
   return (
     <>
-      {' '}
-      {list ? (
-        <>
-          <Header>Task for list: </Header>
 
+      {' '}
+      {list !== undefined ? (
+        <>
+          {console.log(list)}
+          <Header>
+            Tasks for list:
+            {' '}
+
+            {list.name}
+          </Header>
+          debugger:
           <Table>
             <Table.Header>
               <Table.Row>
@@ -51,7 +58,7 @@ const Lists = ({ id }) => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {list.map((item) => (!item.status
+              {list.Tasks !== undefined && list.Tasks.length !== 0 ? list.Tasks.map((item) => (!item.status
                 ? (
                   <Table.Row key={item.id}>
                     <Table.Cell>
@@ -74,7 +81,7 @@ const Lists = ({ id }) => {
                     </Table.Cell>
                   </Table.Row>
                 )
-                : null))}
+                : null)) : null}
             </Table.Body>
           </Table>
         </>
@@ -82,7 +89,7 @@ const Lists = ({ id }) => {
 
 
       <Header>Create new task</Header>
-      <CreateTask setTask={setTask} ListId={id} departments={departments} />
+      <CreateTask setTask={setTask} listsId={listsId} departments={departments} />
     </>
   );
 };

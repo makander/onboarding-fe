@@ -8,7 +8,7 @@ import TextArea from './forms/FormTextArea';
 import FormDropDown from './forms/FormDropDown';
 import TaskService from '../services/TaskService';
 
-const CreateTask = ({ setTask, ListId }) => {
+const CreateTask = ({ setTask, listsId }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [department, setDepartment] = useState('');
@@ -25,8 +25,8 @@ const CreateTask = ({ setTask, ListId }) => {
     const newTask = {
       name: title,
       description,
-      department: select,
-      ListId,
+      user: select,
+      ListId: listsId,
       status: false,
     };
 
@@ -39,6 +39,7 @@ const CreateTask = ({ setTask, ListId }) => {
 
   return (
     <>
+      {console.log('this is listsId', listsId)}
       <Segment>
         <Form.Group>
           <Form onSubmit={handleNewTask}>

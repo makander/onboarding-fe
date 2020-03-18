@@ -18,7 +18,7 @@ const Login = () => {
     UserService.loginUser({ email, password }).then((res) => {
       dispatch({
         type: 'LOGIN',
-        payload: res.data.returnedUser,
+        payload: res.data.user,
       });
       console.log(res);
       navigate('/home');

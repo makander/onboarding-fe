@@ -14,9 +14,9 @@ const edit = async (id) => axios.put(id);
 
 const destroy = async (id) => axios.delete(id);
 
-const list = async () => axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/list`).then((res) => res.data);
+const findAll = async () => axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/list`).then((res) => res.data);
 
-const get = async (id) => axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/${id}`);
+const findOne = async () => axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/`).then((res) => res.data);
 
 export default {
   loginUser,
@@ -24,6 +24,6 @@ export default {
   registerUser,
   edit,
   destroy,
-  list,
-  get,
+  findAll,
+  findOne,
 };
