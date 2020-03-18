@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@reach/router';
 import {
-  Form, List, Button, Segment, Table,
+  Form, Button, Segment, Table,
 } from 'semantic-ui-react';
 import DepartmentService from '../services/DepartmentService';
 import FormInput from './forms/FormInput';
 import FormButton from './forms/FormButton';
-import TextArea from './forms/FormTextArea';
 import FormDropDown from './forms/FormDropDown';
 import UserService from '../services/UserService';
 

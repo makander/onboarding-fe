@@ -1,6 +1,6 @@
-import React, { setState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from '@reach/router';
-import { Container, List, Segment } from 'semantic-ui-react';
+import { List, Segment } from 'semantic-ui-react';
 import UserService from '../services/UserService';
 
 const Home = () => {

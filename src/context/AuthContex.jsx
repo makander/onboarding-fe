@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import authReducer from '../reducers/AuthReducer';
 
-export const AuthContext = React.createContext();
+export const AuthContext = createContext();
 
 
 const AuthContextProvider = ({ children }) => {

@@ -5,27 +5,19 @@ import {
 import FormInput from './forms/FormInput';
 import FormButton from './forms/FormButton';
 import TextArea from './forms/FormTextArea';
-import FormDropDown from './forms/FormDropDown';
 import TaskService from '../services/TaskService';
 
 const CreateTask = ({ setTask, listsId }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [department, setDepartment] = useState('');
-  const [select, setSelect] = useState([]);
 
   // const [user, setUser] = useState('');
-
-  const handleSelect = (e, { value }) => {
-    setSelect(value);
-  };
 
 
   const handleNewTask = () => {
     const newTask = {
       name: title,
       description,
-      user: select,
       ListId: listsId,
       status: false,
     };
@@ -39,7 +31,7 @@ const CreateTask = ({ setTask, listsId }) => {
 
   return (
     <>
-      {console.log('this is listsId', listsId)}
+
       <Segment>
         <Form.Group>
           <Form onSubmit={handleNewTask}>
@@ -57,12 +49,6 @@ const CreateTask = ({ setTask, listsId }) => {
               inputValue={description}
               setInputValue={setDescription}
               name="textarea"
-            />
-
-            <FormDropDown
-              placeholder="Select users"
-              options={department}
-              onChange={handleSelect}
             />
 
             <FormButton title="Save" type="submit" />

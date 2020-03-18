@@ -2,27 +2,47 @@ import React, { useEffect, useState } from 'react';
 
 import {
   Form,
-  Header, Table,
+  Header, Table, Button,
 } from 'semantic-ui-react';
 import ListService from '../services/ListService';
 import DepartmentService from '../services/DepartmentService';
 import CreateTask from './CreateTask';
 import TaskService from '../services/TaskService';
+import FormSimpleDropDown from './forms/FormSimpleDropDown';
 
 const Lists = ({ listsId }) => {
   const [list, setList] = useState([]);
-
-  const [departments, setDepartments] = useState('');
+  const [options, setOptions] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [dropdownVal, setDropdownVal] = useState('');
+  const [select, setSelect] = useState();
 
   const [task, setTask] = useState([]);
 
   useEffect(() => {
-    ListService.get(listsId).then((res) => { console.log(res.data.Tasks); setList(res.data); });
+    ListService.get(listsId).then((res) => {
+      setList(res.data);
+    });
     DepartmentService.get(listsId).then(((res) => {
       setDepartments(res);
     }));
-  }, [task]);
+    DepartmentService.getForList(listsId).then((res) => {
+      const format = res.flatMap((user) => user.Users.map(({ id, firstName, lastName }) => ({
+        value: id,
+        text: `${firstName} ${lastName}`,
+      })));
 
+
+      const opts = format.filter((v, i, a) => a.findIndex((t) => (t.value === v.value)) === i);
+      setOptions(opts);
+    });
+  }, [task, listsId]);
+
+
+  const handleSelect = (e, { value }) => {
+    e.preventDefault();
+    setSelect(value);
+  };
 
   const handleStatus = (taskStatus, taskId) => {
     const taskData = {
@@ -34,6 +54,15 @@ const Lists = ({ listsId }) => {
     });
   };
 
+  const handleClick = (taskId) => {
+    const taskData = {
+      userId: select,
+    };
+    TaskService.updateTask(taskId, taskData).then((res) => {
+      setTask([res]);
+    });
+    setDropdownVal('');
+  };
 
   return (
     <>
@@ -55,12 +84,15 @@ const Lists = ({ listsId }) => {
                 <Table.HeaderCell>Name</Table.HeaderCell>
                 <Table.HeaderCell>Notes</Table.HeaderCell>
                 <Table.HeaderCell>Status</Table.HeaderCell>
+                <Table.HeaderCell>Assigned User</Table.HeaderCell>
+                <Table.HeaderCell>Assign User</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {list.Tasks !== undefined && list.Tasks.length !== 0 ? list.Tasks.map((item) => (!item.status
                 ? (
                   <Table.Row key={item.id}>
+                    {console.log(item)}
                     <Table.Cell>
                       {item.name}
                     </Table.Cell>
@@ -76,9 +108,37 @@ const Lists = ({ listsId }) => {
                           checked={item.status}
 
                           onChange={() => handleStatus(item.status, item.id)}
+
                         />
                       </Form>
                     </Table.Cell>
+                    <Table.Cell>
+                      <Form>
+
+                        <FormSimpleDropDown
+                          placeholder="Select users"
+                          options={options}
+                          onChange={handleSelect}
+                          inputValue={select}
+                        />
+                      </Form>
+
+                      <Button onClick={() => handleClick(item.id)}>Save</Button>
+                    </Table.Cell>
+
+                    <Table.Cell>
+                      {item.User !== undefined && item.User !== null
+
+                        ? (
+                          <p>
+                            {item.User.firstName}
+                            {' '}
+                            {item.User.lastName}
+                          </p>
+                        )
+                        : ''}
+                    </Table.Cell>
+
                   </Table.Row>
                 )
                 : null)) : null}

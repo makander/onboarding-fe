@@ -20,7 +20,7 @@ const Login = () => {
         type: 'LOGIN',
         payload: res.data.user,
       });
-      console.log(res);
+
       navigate('/home');
     })
       .catch((err) => console.log(err));
