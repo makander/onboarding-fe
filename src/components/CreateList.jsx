@@ -50,6 +50,7 @@ const CreateList = ({ setNewList, options }) => {
               onChange={handleSelect}
               // value={select}
               inputValue={select}
+              defaultValue=""
             />
 
             <FormButton title="Save" type="submit" />

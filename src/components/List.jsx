@@ -9,12 +9,12 @@ import DepartmentService from '../services/DepartmentService';
 import CreateTask from './CreateTask';
 import TaskService from '../services/TaskService';
 import FormSimpleDropDown from './forms/FormSimpleDropDown';
+import TaskDropDown from './TaskDropDown';
 
 const Lists = ({ listsId }) => {
   const [list, setList] = useState([]);
   const [options, setOptions] = useState([]);
   const [departments, setDepartments] = useState([]);
-  const [dropdownVal, setDropdownVal] = useState('');
   const [select, setSelect] = useState();
 
   const [task, setTask] = useState([]);
@@ -36,7 +36,7 @@ const Lists = ({ listsId }) => {
       const opts = format.filter((v, i, a) => a.findIndex((t) => (t.value === v.value)) === i);
       setOptions(opts);
     });
-  }, [task, listsId]);
+  }, [task]);
 
 
   const handleSelect = (e, { value }) => {
@@ -54,15 +54,7 @@ const Lists = ({ listsId }) => {
     });
   };
 
-  const handleClick = (taskId) => {
-    const taskData = {
-      userId: select,
-    };
-    TaskService.updateTask(taskId, taskData).then((res) => {
-      setTask([res]);
-    });
-    setDropdownVal('');
-  };
+
 
   return (
     <>
@@ -70,7 +62,7 @@ const Lists = ({ listsId }) => {
       {' '}
       {list !== undefined ? (
         <>
-          {console.log(list)}
+
           <Header>
             Tasks for list:
             {' '}
@@ -92,7 +84,6 @@ const Lists = ({ listsId }) => {
               {list.Tasks !== undefined && list.Tasks.length !== 0 ? list.Tasks.map((item) => (!item.status
                 ? (
                   <Table.Row key={item.id}>
-                    {console.log(item)}
                     <Table.Cell>
                       {item.name}
                     </Table.Cell>
@@ -113,18 +104,11 @@ const Lists = ({ listsId }) => {
                       </Form>
                     </Table.Cell>
                     <Table.Cell>
-                      <Form>
+                      <TaskDropDown options={options} TaskServiceUpdateTask={TaskService.updateTask} id={item.id} setTask={setTask} />
 
-                        <FormSimpleDropDown
-                          placeholder="Select users"
-                          options={options}
-                          onChange={handleSelect}
-                          inputValue={select}
-                        />
-                      </Form>
 
-                      <Button onClick={() => handleClick(item.id)}>Save</Button>
                     </Table.Cell>
+                    
 
                     <Table.Cell>
                       {item.User !== undefined && item.User !== null

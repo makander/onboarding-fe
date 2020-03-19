@@ -24,10 +24,12 @@ const Navbar = () => {
             <Link to="/task">Tasks</Link>
           </Menu.Item>
 
-          <Menu.Item float right>
-            <Link to="/logout">Logout</Link>
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Link to="/logout">Logout</Link>
 
-          </Menu.Item>
+            </Menu.Item>
+          </Menu.Menu>
         </Menu>
       )
 
