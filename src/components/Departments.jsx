@@ -19,7 +19,7 @@ const Department = () => {
   useEffect(() => {
     // UserService.findAll().then((res) => setUsers(res));
     UserService.findAll().then((res) => setUsers(res));
-    DepartmentService.list().then((res) => {
+    DepartmentService.all().then((res) => {
       setDepartments(res);
     });
   }, []);

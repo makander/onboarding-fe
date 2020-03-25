@@ -22,7 +22,7 @@ const Department = ({ departmentsId }) => {
       setDepartments(res);
     });
     UserService.findAll().then((data) => setUsers(data));
-  });
+  }, []);
 
   useEffect(() => {
     const opts = users.filter((entry1) => departments.Users && !departments.Users.some((entry2) => entry1.id === entry2.id));

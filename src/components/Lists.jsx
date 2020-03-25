@@ -1,64 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Header } from 'semantic-ui-react';
+import { Table, Header, List } from 'semantic-ui-react';
 import { Link } from '@reach/router';
 import ListService from '../services/ListService';
 import CreateList from './CreateList';
+import CreateEmployee from './CreateEmployee';
+
 import DepartmentService from '../services/DepartmentService';
 
 const Lists = ({ history }) => {
   const [lists, setLists] = useState([]);
   const [newList, setNewList] = useState([]);
   const [department, setDepartment] = useState([]);
+  const [templateList, setTemplateList] = useState([]);
+  const [templates, setTemplates] = useState([]);
 
   const options = department.map(({ id, name }) => ({
     value: id,
     text: `${name}`,
   }));
 
+  const templateOptions = templateList.map(({ id, name }) => ({
+    value: id,
+    text: `${name}`,
+  }));
+
   useEffect(() => {
     ListService.list().then((res) => {
-      console.log(res);
-      console.log(res[0].Lists);
-      setLists(res[0].Lists);
+      const template = res.filter((item) => (item.templateList));
+      setTemplateList(template);
+      console.log(template);
     });
-    DepartmentService.list().then((res) => setDepartment(res));
+
+    DepartmentService.findAllDepartmentLists().then((res) => {
+      console.log(res);
+
+      setLists(res);
+    });
+
+    DepartmentService.all().then((res) => setDepartment(res));
   }, [newList]);
 
 
   return (
-    <>
-      {lists !== undefined ? (
-        <>
-          {console.log(lists)}
-          <Header>Lists</Header>
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Name</Table.HeaderCell>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-                <Table.HeaderCell></Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {lists.map((list) => (
-                <Table.Row key={list.id}>
-                  {list.Lists}
-                  <Table.Cell>
-                    <Link to={`${list.id}`}>
-                      {list.name}
+    <div>
+      {
+        // eslint-disable-next-line no-nested-ternary
+        lists !== undefined && lists.length !== 0 && templateList.length !== 0 ? (
+          <>
+            <ul>
+              {lists[0].Lists.map((item) => (
+                <li key={item.id}>
 
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>{list.status}</Table.Cell>
-                </Table.Row>
+                  <Link to={`${item.id}`}>
+                    {item.name}
+                    {console.log(templateOptions)}
+                  </Link>
+                </li>
               ))}
-            </Table.Body>
-          </Table>
-        </>
-      ) : null}
-      <Header>Create new list</Header>
-      <CreateList setNewList={setNewList} options={options} />
-    </>
+              <CreateEmployee setNewList={setNewList} templateOptions={templateOptions} />
+
+            </ul>
+            <>
+              <h2>Create new template</h2>
+              <CreateList setNewList={setNewList} options={options} templateList />
+            </>
+          </>
+
+        )
+          : lists !== undefined && lists.length !== 0 && templateList.length === 0
+            ? (
+              <>
+                <p>Please create a template list</p>
+                <CreateList setNewList={setNewList} options={options} templateList />
+              </>
+            ) : 'No lists available, please join a department first'
+}
+    </div>
   );
 };
 

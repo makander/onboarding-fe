@@ -8,10 +8,8 @@ const destroy = async (id) => axios.delete();
 
 const update = async (data) => axios.put();
 
-const create = async (data) => {
-  console.log(data);
-  axios.post(`${process.env.REACT_APP_BASE_URL}/api/list`, data).then((res) => res.data);
-};
+const create = async (data) => axios.post(`${process.env.REACT_APP_BASE_URL}/api/list`, data).then((res) => res.data);
+
 
 export default {
   list,

@@ -26,7 +26,7 @@ const Lists = ({ listsId }) => {
     DepartmentService.get(listsId).then(((res) => {
       setDepartments(res);
     }));
-    DepartmentService.getForList(listsId).then((res) => {
+    DepartmentService.findAllDepartmentLists(listsId).then((res) => {
       const format = res.flatMap((user) => user.Users.map(({ id, firstName, lastName }) => ({
         value: id,
         text: `${firstName} ${lastName}`,
@@ -55,7 +55,6 @@ const Lists = ({ listsId }) => {
   };
 
 
-
   return (
     <>
 
@@ -81,7 +80,7 @@ const Lists = ({ listsId }) => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {list.Tasks !== undefined && list.Tasks.length !== 0 ? list.Tasks.map((item) => (!item.status
+              {list.Tasks !== undefined && list.Tasks.length !== 0 ? list.Tasks.map((item) => (item.status
                 ? (
                   <Table.Row key={item.id}>
                     <Table.Cell>
@@ -108,7 +107,7 @@ const Lists = ({ listsId }) => {
 
 
                     </Table.Cell>
-                    
+
 
                     <Table.Cell>
                       {item.User !== undefined && item.User !== null
