@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import {
-  Form, Segment, Input, Select, Button,
-} from 'semantic-ui-react';
-import { navigate } from '@reach/router';
+import { Form, Segment, Input, Select, Button } from 'semantic-ui-react';
+// import { navigate } from '@reach/router';
 import FormButton from './forms/FormButton';
 
 import EmployeeService from '../services/EmployeeService';
 
-
 const CreateEmployee = ({
-  setNewList, options, templateList, templateOptions,
+  setNewList,
+  options,
+  templateList,
+  templateOptions,
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -26,7 +26,6 @@ const CreateEmployee = ({
   const handleSelectTemplate = (e, { value }) => {
     setSelectTemplate(value);
   };
-
 
   const handleNewList = (e) => {
     e.preventDefault();
@@ -47,21 +46,20 @@ const CreateEmployee = ({
       };
 
       console.log(data.name);
-      EmployeeService.create(data)
-        .then((res) => {
-          setNewList(res);
-          setTitle('');
-          setDescription('');
-          setSelect([]);
-          setSelectTemplate([]);
-          setFirstName('');
-          setLastName('');
-          setOffice('');
-          setAddress('');
-          setEmail('');
-          setPhoneNumber('');
-          navigate('/lists');
-        });
+      EmployeeService.create(data).then((res) => {
+        setNewList(res);
+        setTitle('');
+        setDescription('');
+        setSelect([]);
+        setSelectTemplate([]);
+        setFirstName('');
+        setLastName('');
+        setOffice('');
+        setAddress('');
+        setEmail('');
+        setPhoneNumber('');
+        navigate('/lists');
+      });
     }
   };
 
@@ -70,47 +68,44 @@ const CreateEmployee = ({
       <Segment>
         <Form.Group>
           <Form onSubmit={handleNewList}>
-
-
             <Form.Input
               placeholder="First name"
               label="First name"
               type="text"
-              inputValue={firstName}
-              setInputValue={setFirstName}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
             />
-
 
             <Form.Input
               placeholder="Last name"
               label="Last name"
               type="text"
-              inputValue={lastName}
-              setInputValue={setLastName}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
             />
 
             <Form.Input
               placeholder="Title"
               label="Title"
               type="text"
-              inputValue={title}
-              setInputValue={setTitle}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
 
             <Form.Input
               placeholder="Email"
               label="Email"
               type="text"
-              inputValue={email}
-              setInputValue={setEmail}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
 
             <Form.Input
               placeholder="Adress"
               label="Adress"
               type="text"
-              inputValue={address}
-              setInputValue={setAddress}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
 
             <Form.Input
@@ -118,19 +113,16 @@ const CreateEmployee = ({
               label="PhoneNumber"
               control={Input}
               type="text"
-
-              inputValue={phoneNumber}
-              setInputValue={setPhoneNumber}
-
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
             />
-
 
             <Form.Input
               placeholder="Office"
               label="Office"
               type="text"
-              inputValue={office}
-              setInputValue={setOffice}
+              value={office}
+              onChange={(e) => setOffice(e.target.value)}
             />
 
             {templateOptions ? (

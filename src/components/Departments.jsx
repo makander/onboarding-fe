@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from '@reach/router';
-import {
-  Form, Button, Segment, Table,
-} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+
+import { Form, Button, Segment, Table } from 'semantic-ui-react';
 import DepartmentService from '../services/DepartmentService';
 import FormInput from './forms/FormInput';
 import FormButton from './forms/FormButton';
@@ -66,8 +65,8 @@ const Department = () => {
             <Table.Row>
               <Table.HeaderCell>Departments</Table.HeaderCell>
               <Table.HeaderCell>Members</Table.HeaderCell>
-              <Table.HeaderCell></Table.HeaderCell>
-              <Table.HeaderCell></Table.HeaderCell>
+              <Table.HeaderCell />
+              <Table.HeaderCell />
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -76,7 +75,9 @@ const Department = () => {
                 <Table.Cell>
                   <Link to={`${item.id}`}>{item.name}</Link>
                 </Table.Cell>
-                <Table.Cell>{item.Users !== undefined ? item.Users.length : null}</Table.Cell>
+                <Table.Cell>
+                  {item.Users !== undefined ? item.Users.length : null}
+                </Table.Cell>
                 <Table.Cell>
                   <Button onClick={() => handleClick(item.id)}>Delete</Button>
                 </Table.Cell>
@@ -113,15 +114,14 @@ const Department = () => {
                 placeholder="Add user to department"
                 options={options}
                 onChange={handleSelect}
-              // value={select}
+                // value={select}
                 inputValue={select}
               />
               <FormButton title="Save" type="submit" />
             </Form>
           </Form.Group>
         </Segment>
-      ) : null}
-      {' '}
+      ) : null}{' '}
     </div>
   );
 };

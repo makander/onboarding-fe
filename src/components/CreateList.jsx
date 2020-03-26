@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { Form, Segment } from 'semantic-ui-react';
-import { navigate } from '@reach/router';
+// import { navigate } from '@reach/router';
 import FormInput from './forms/FormInput';
 import FormButton from './forms/FormButton';
 import TextArea from './forms/FormTextArea';
 import FormDropDown from './forms/FormDropDown';
 import ListService from '../services/ListService';
 
-const CreateList = ({
-  setNewList, options, templateList, templateOptions,
-}) => {
+const CreateList = ({ setNewList, options, templateList, templateOptions }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [select, setSelect] = useState();
@@ -23,7 +21,6 @@ const CreateList = ({
     setSelect(value);
   };
 
-
   const handleNewList = (e) => {
     e.preventDefault();
     console.log('select tempalte in handleNewList', selectTemplate);
@@ -36,15 +33,14 @@ const CreateList = ({
         departments: select,
         status: false,
       };
-      ListService.create(data)
-        .then((res) => {
-          setNewList(res);
-          setTitle('');
-          setDescription('');
-          setSelect([]);
-          setSelectTemplate([]);
-          navigate('/lists');
-        });
+      ListService.create(data).then((res) => {
+        setNewList(res);
+        setTitle('');
+        setDescription('');
+        setSelect([]);
+        setSelectTemplate([]);
+        // navigate('/lists');
+      });
     } else {
       const data = {
         name: title,
@@ -56,17 +52,16 @@ const CreateList = ({
 
       console.log('data in createList', data);
 
-      ListService.create(data)
-        .then((res) => {
-          console.log('response in listservice without template', res);
-          setNewList(res);
-          if (res.templateList) {
-            navigate(`/lists/${res.id}`);
-          }
-          setTitle('');
-          setDescription('');
-          setSelect([]);
-        });
+      ListService.create(data).then((res) => {
+        console.log('response in listservice without template', res);
+        setNewList(res);
+        if (res.templateList) {
+          // navigate(`/lists/${res.id}`);
+        }
+        setTitle('');
+        setDescription('');
+        setSelect([]);
+      });
       /*     setTitle('');
       setDescription('');
       setSelect([]);
@@ -95,18 +90,18 @@ const CreateList = ({
                 placeholder="Select departments"
                 options={options}
                 onChange={handleSelect}
-              // value={select}
+                // value={select}
                 inputValue={select}
                 defaultValue="Select departments"
               />
-            ) : null }
+            ) : null}
 
             {templateOptions ? (
               <FormDropDown
                 placeholder="Use template"
                 options={templateOptions}
                 onChange={handleSelectTemplate}
-              // value={select}
+                // value={select}
                 inputValue={select}
                 defaultValue="Use template"
               />

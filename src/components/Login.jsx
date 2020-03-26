@@ -1,12 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { navigate } from '@reach/router';
-import {
-  Button, Form, Segment, Header,
-} from 'semantic-ui-react';
+// import { navigate } from '@reach/router';
+import { Button, Form, Segment, Header, Grid } from 'semantic-ui-react';
 import { AuthContext } from '../context/AuthContex';
 import UserService from '../services/UserService';
 
-const Login = () => {
+const Login = (props) => {
+  const { history } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { dispatch } = useContext(AuthContext);
@@ -14,39 +13,53 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
+    UserService.loginUser({ email, password })
+      .then((res) => {
+        dispatch({
+          type: 'LOGIN',
+          payload: res.data.user,
+        });
 
-    UserService.loginUser({ email, password }).then((res) => {
-      dispatch({
-        type: 'LOGIN',
-        payload: res.data.user,
-      });
-
-      navigate('/home');
-    })
+        history.push('/home');
+      })
       .catch((err) => console.log(err));
   };
   return (
-    <Segment stacked>
-      <Header textAlign="center">
-        Login to Border
-      </Header>
-      <Form onSubmit={handleLogin}>
-        <Form.Field>
-          <label>Email</label>
-          <input name="email" placeholder="Enter email" required onChange={(e) => setEmail(e.target.value)} />
-        </Form.Field>
-        <Form.Field>
-          <label>Password</label>
-          <input name="password" placeholder="Enter password" required onChange={(e) => setPassword(e.target.value)} />
-        </Form.Field>
+    <Grid container centered columns={1} style={{ marginTop: '7em' }}>
+      <Grid.Row centered>
+        <Grid.Column width="10">
+          <Segment stacked>
+            <Header textAlign="center">Login to Border</Header>
+            <Form onSubmit={handleLogin}>
+              <Form.Field>
+                <label>Email</label>
+                <input
+                  name="email"
+                  placeholder="Enter email"
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Password</label>
+                <input
+                  name="password"
+                  placeholder="Enter password"
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Field>
 
-
-        <Button type="submit">Login</Button>
-        <p>Don&apos;t have an account? Sign up here.</p>
-      </Form>
-    </Segment>
+              <Button fluid size="large" type="submit">
+                Login
+              </Button>
+              <p>Don&apos;t have an account? Sign up here.</p>
+            </Form>
+          </Segment>
+        </Grid.Column>{' '}
+      </Grid.Row>
+    </Grid>
   );
 };
-
 
 export default Login;

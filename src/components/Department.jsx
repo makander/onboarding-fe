@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Segment, Form, Header, Button, Grid, Table, Dimmer, Loader, Image,
+  Segment,
+  Form,
+  Header,
+  Button,
+  Grid,
+  Table,
+  Dimmer,
+  Loader,
+  Image,
 } from 'semantic-ui-react';
-import { navigate } from '@reach/router';
+// import { navigate } from '@reach/router';
 import DepartmentService from '../services/DepartmentService';
 import UserService from '../services/UserService';
 import FormInput from './forms/FormInput';
@@ -16,7 +24,6 @@ const Department = ({ departmentsId }) => {
   const [options, setOptions] = useState([]);
   const [loader, setLoader] = useState(true);
 
-
   useEffect(() => {
     DepartmentService.get(departmentsId).then((res) => {
       setDepartments(res);
@@ -25,11 +32,15 @@ const Department = ({ departmentsId }) => {
   }, []);
 
   useEffect(() => {
-    const opts = users.filter((entry1) => departments.Users && !departments.Users.some((entry2) => entry1.id === entry2.id));
-    const filterOptions = (opts.map(({ id, firstName, lastName }) => ({
+    const opts = users.filter(
+      (entry1) =>
+        departments.Users &&
+        !departments.Users.some((entry2) => entry1.id === entry2.id)
+    );
+    const filterOptions = opts.map(({ id, firstName, lastName }) => ({
       value: id,
       text: `${firstName} ${lastName}`,
-    })));
+    }));
     setOptions(filterOptions);
     setLoader(false);
   }, [users, departments]);
@@ -57,14 +68,15 @@ const Department = ({ departmentsId }) => {
     setName('');
   };
 
-
   const handleSelect = (e, { value }) => {
     setSelect(value);
   };
 
   const handleDelete = (e) => {
     e.preventDefault();
-    DepartmentService.destroy(departmentsId).then(() => navigate('/departments'));
+    DepartmentService.destroy(departmentsId).then(() =>
+      navigate('/departments')
+    );
   };
 
   const handleClick = (e, id) => {
@@ -75,21 +87,13 @@ const Department = ({ departmentsId }) => {
   };
 
   return (
-
-
     <div>
       {!loader ? (
         <>
           {' '}
-          <Header>
-            Update department:
-            {' '}
-            {departments.name}
-          </Header>
-
+          <Header>Update department: {departments.name}</Header>
           <Segment>
             <Form onSubmit={onSubmit}>
-
               <FormInput
                 placeholder="Department name"
                 label="Name"
@@ -102,22 +106,25 @@ const Department = ({ departmentsId }) => {
                   <Table.Header>
                     <Table.Row>
                       <Table.HeaderCell rowSpan="2">Members</Table.HeaderCell>
-                      <Table.HeaderCell></Table.HeaderCell>
+                      <Table.HeaderCell />
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
-                    {departments.Users !== undefined && departments.Users.length !== 0 ? departments.Users.map((item) => (
-                      <Table.Row key={item.id}>
-                        <Table.Cell>
-                          {item.firstName}
-                          {' '}
-                          {item.lastName}
-                        </Table.Cell>
-                        <Table.Cell textAlign="right">
-                          <Button onClick={(e) => handleClick(e, item.id)}>Remove</Button>
-                        </Table.Cell>
-                      </Table.Row>
-                    )) : (
+                    {departments.Users !== undefined &&
+                    departments.Users.length !== 0 ? (
+                      departments.Users.map((item) => (
+                        <Table.Row key={item.id}>
+                          <Table.Cell>
+                            {item.firstName} {item.lastName}
+                          </Table.Cell>
+                          <Table.Cell textAlign="right">
+                            <Button onClick={(e) => handleClick(e, item.id)}>
+                              Remove
+                            </Button>
+                          </Table.Cell>
+                        </Table.Row>
+                      ))
+                    ) : (
                       <Table.Cell>
                         No users members in this department
                       </Table.Cell>
@@ -138,11 +145,14 @@ const Department = ({ departmentsId }) => {
               <Grid centered>
                 {' '}
                 <Form.Group>
-                  <Button floated="left" type="submit">Save</Button>
-                  <Button floated="right" onClick={((e) => handleDelete(e))}>Delete</Button>
+                  <Button floated="left" type="submit">
+                    Save
+                  </Button>
+                  <Button floated="right" onClick={(e) => handleDelete(e)}>
+                    Delete
+                  </Button>
                 </Form.Group>
               </Grid>
-
             </Form>
           </Segment>
         </>
@@ -158,6 +168,5 @@ const Department = ({ departmentsId }) => {
     </div>
   );
 };
-
 
 export default Department;

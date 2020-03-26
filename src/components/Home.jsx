@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { Link } from '@reach/router';
-import { List, Segment } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { List, Segment, Grid } from 'semantic-ui-react';
 import UserService from '../services/UserService';
+import Sidebar from './Sidebar';
 
 const Home = () => {
   useEffect(() => {
@@ -9,7 +10,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Segment>
+    <Grid.Column width={13} textAlign="center" color="orange">
       <List divided>
         <List.Item>
           <Link to="/lists">Lists</Link>
@@ -21,7 +22,7 @@ const Home = () => {
           <Link to="/tasks">Tasks</Link>
         </List.Item>
       </List>
-    </Segment>
+    </Grid.Column>
   );
 };
 

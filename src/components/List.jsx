@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import {
-  Form,
-  Header, Table, Button,
-} from 'semantic-ui-react';
+import { Form, Header, Table, Button } from 'semantic-ui-react';
 import ListService from '../services/ListService';
 import DepartmentService from '../services/DepartmentService';
 import CreateTask from './CreateTask';
@@ -23,21 +20,23 @@ const Lists = ({ listsId }) => {
     ListService.get(listsId).then((res) => {
       setList(res.data);
     });
-    DepartmentService.get(listsId).then(((res) => {
+    DepartmentService.get(listsId).then((res) => {
       setDepartments(res);
-    }));
+    });
     DepartmentService.findAllDepartmentLists(listsId).then((res) => {
-      const format = res.flatMap((user) => user.Users.map(({ id, firstName, lastName }) => ({
-        value: id,
-        text: `${firstName} ${lastName}`,
-      })));
+      const format = res.flatMap((user) =>
+        user.Users.map(({ id, firstName, lastName }) => ({
+          value: id,
+          text: `${firstName} ${lastName}`,
+        }))
+      );
 
-
-      const opts = format.filter((v, i, a) => a.findIndex((t) => (t.value === v.value)) === i);
+      const opts = format.filter(
+        (v, i, a) => a.findIndex((t) => t.value === v.value) === i
+      );
       setOptions(opts);
     });
   }, [task]);
-
 
   const handleSelect = (e, { value }) => {
     e.preventDefault();
@@ -54,20 +53,12 @@ const Lists = ({ listsId }) => {
     });
   };
 
-
   return (
     <>
-
       {' '}
       {list !== undefined ? (
         <>
-
-          <Header>
-            Tasks for list:
-            {' '}
-
-            {list.name}
-          </Header>
+          <Header>Tasks for list: {list.name}</Header>
           debugger:
           <Table>
             <Table.Header>
@@ -80,59 +71,57 @@ const Lists = ({ listsId }) => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {list.Tasks !== undefined && list.Tasks.length !== 0 ? list.Tasks.map((item) => (item.status
-                ? (
-                  <Table.Row key={item.id}>
-                    <Table.Cell>
-                      {item.name}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {item.description}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {' '}
-                      <Form>
-                        <Form.Checkbox
-                          inline
-                          label="completed"
-                          checked={item.status}
+              {list.Tasks !== undefined && list.Tasks.length !== 0
+                ? list.Tasks.map((item) =>
+                    item.status ? (
+                      <Table.Row key={item.id}>
+                        <Table.Cell>{item.name}</Table.Cell>
+                        <Table.Cell>{item.description}</Table.Cell>
+                        <Table.Cell>
+                          {' '}
+                          <Form>
+                            <Form.Checkbox
+                              inline
+                              label="completed"
+                              checked={item.status}
+                              onChange={() =>
+                                handleStatus(item.status, item.id)
+                              }
+                            />
+                          </Form>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <TaskDropDown
+                            options={options}
+                            TaskServiceUpdateTask={TaskService.updateTask}
+                            id={item.id}
+                            setTask={setTask}
+                          />
+                        </Table.Cell>
 
-                          onChange={() => handleStatus(item.status, item.id)}
-
-                        />
-                      </Form>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <TaskDropDown options={options} TaskServiceUpdateTask={TaskService.updateTask} id={item.id} setTask={setTask} />
-
-
-                    </Table.Cell>
-
-
-                    <Table.Cell>
-                      {item.User !== undefined && item.User !== null
-
-                        ? (
-                          <p>
-                            {item.User.firstName}
-                            {' '}
-                            {item.User.lastName}
-                          </p>
-                        )
-                        : ''}
-                    </Table.Cell>
-
-                  </Table.Row>
-                )
-                : null)) : null}
+                        <Table.Cell>
+                          {item.User !== undefined && item.User !== null ? (
+                            <p>
+                              {item.User.firstName} {item.User.lastName}
+                            </p>
+                          ) : (
+                            ''
+                          )}
+                        </Table.Cell>
+                      </Table.Row>
+                    ) : null
+                  )
+                : null}
             </Table.Body>
           </Table>
         </>
       ) : null}
-
-
       <Header>Create new task</Header>
-      <CreateTask setTask={setTask} listsId={listsId} departments={departments} />
+      <CreateTask
+        setTask={setTask}
+        listsId={listsId}
+        departments={departments}
+      />
     </>
   );
 };

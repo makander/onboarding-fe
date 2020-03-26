@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-  Grid,
-} from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
+import Sidebar from './Sidebar';
 
 const ContentWrap = ({ children }) => (
-  <Grid columns={1} textAlign="center" centered>
-    <Grid.Column width={12} textAlign="center">
-      {children}
-    </Grid.Column>
+  <Grid columns={1}>
+    <Grid.Row>{children}</Grid.Row>
   </Grid>
 );
 

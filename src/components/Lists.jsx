@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Header, List } from 'semantic-ui-react';
-import { Link } from '@reach/router';
+import { Link } from 'react-router-dom';
 import ListService from '../services/ListService';
 import CreateList from './CreateList';
 import CreateEmployee from './CreateEmployee';
@@ -26,7 +26,7 @@ const Lists = ({ history }) => {
 
   useEffect(() => {
     ListService.list().then((res) => {
-      const template = res.filter((item) => (item.templateList));
+      const template = res.filter((item) => item.templateList);
       setTemplateList(template);
       console.log(template);
     });
@@ -40,41 +40,44 @@ const Lists = ({ history }) => {
     DepartmentService.all().then((res) => setDepartment(res));
   }, [newList]);
 
-
   return (
     <div>
-      {
-        // eslint-disable-next-line no-nested-ternary
-        lists !== undefined && lists.length !== 0 && templateList.length !== 0 ? (
+      {// eslint-disable-next-line no-nested-ternary
+      lists !== undefined && lists.length !== 0 && templateList.length !== 0 ? (
+        <>
+          <List>
+            {lists[0].Lists.map((item) => (
+              <List.Item key={item.id}>
+                <Link to={`${item.id}`}>
+                  {item.name}
+                  {console.log(templateOptions)}
+                </Link>
+              </List.Item>
+            ))}
+            <CreateEmployee
+              setNewList={setNewList}
+              templateOptions={templateOptions}
+            />
+          </List>
           <>
-            <ul>
-              {lists[0].Lists.map((item) => (
-                <li key={item.id}>
-
-                  <Link to={`${item.id}`}>
-                    {item.name}
-                    {console.log(templateOptions)}
-                  </Link>
-                </li>
-              ))}
-              <CreateEmployee setNewList={setNewList} templateOptions={templateOptions} />
-
-            </ul>
-            <>
-              <h2>Create new template</h2>
-              <CreateList setNewList={setNewList} options={options} templateList />
-            </>
+            <h2>Create new template</h2>
+            <CreateList
+              setNewList={setNewList}
+              options={options}
+              templateList
+            />
           </>
-
-        )
-          : lists !== undefined && lists.length !== 0 && templateList.length === 0
-            ? (
-              <>
-                <p>Please create a template list</p>
-                <CreateList setNewList={setNewList} options={options} templateList />
-              </>
-            ) : 'No lists available, please join a department first'
-}
+        </>
+      ) : lists !== undefined &&
+        lists.length !== 0 &&
+        templateList.length === 0 ? (
+        <>
+          <p>Please create a template list</p>
+          <CreateList setNewList={setNewList} options={options} templateList />
+        </>
+      ) : (
+        'No lists available, please join a department first'
+      )}
     </div>
   );
 };
