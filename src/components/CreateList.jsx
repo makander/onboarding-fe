@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
-import { Form, Segment } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import {
+  Form,
+  Segment,
+  Grid,
+  Input,
+  Button,
+  Header,
+  Dropdown,
+} from 'semantic-ui-react';
 // import { navigate } from '@reach/router';
-import FormInput from './forms/FormInput';
-import FormButton from './forms/FormButton';
-import TextArea from './forms/FormTextArea';
-import FormDropDown from './forms/FormDropDown';
-import ListService from '../services/ListService';
 
-const CreateList = ({ setNewList, options, templateList, templateOptions }) => {
+import ListService from '../services/ListService';
+import DepartmentService from '../services/DepartmentService';
+
+const CreateList = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [select, setSelect] = useState();
   const [selectTemplate, setSelectTemplate] = useState();
+  const [department, setDepartment] = useState([]);
+  const [lists, setLists] = useState([]);
+  const [newList, setNewList] = useState([]);
 
-  const handleSelectTemplate = (e, { value }) => {
-    setSelectTemplate(value);
-  };
+  useEffect(() => {
+    DepartmentService.findAllDepartmentLists().then((res) => {
+      console.log(res);
+
+      setLists(res);
+    });
+
+    DepartmentService.all().then((res) => setDepartment(res));
+  }, []);
+
+  const options = department.map(({ id, name }) => ({
+    value: id,
+    text: `${name}`,
+  }));
 
   const handleSelect = (e, { value }) => {
     setSelect(value);
@@ -23,95 +43,77 @@ const CreateList = ({ setNewList, options, templateList, templateOptions }) => {
 
   const handleNewList = (e) => {
     e.preventDefault();
-    console.log('select tempalte in handleNewList', selectTemplate);
 
-    if (selectTemplate !== undefined) {
-      const data = {
-        listId: selectTemplate,
-        name: title,
-        description,
-        departments: select,
-        status: false,
-      };
-      ListService.create(data).then((res) => {
-        setNewList(res);
-        setTitle('');
-        setDescription('');
-        setSelect([]);
-        setSelectTemplate([]);
-        // navigate('/lists');
-      });
-    } else {
-      const data = {
-        name: title,
-        description,
-        departments: select,
-        status: false,
-        templateList,
-      };
+    const data = {
+      name: title,
+      description,
+      departments: select,
+      status: false,
+      templateList: true,
+    };
 
-      console.log('data in createList', data);
+    console.log('data in createList', data);
 
-      ListService.create(data).then((res) => {
-        console.log('response in listservice without template', res);
-        setNewList(res);
-        if (res.templateList) {
-          // navigate(`/lists/${res.id}`);
-        }
-        setTitle('');
-        setDescription('');
-        setSelect([]);
-      });
-      /*     setTitle('');
+    ListService.create(data).then((res) => {
+      console.log('response in listservice without template', res);
+      if (res.templateList) {
+        // navigate(`/lists/${res.id}`);
+      }
+      setTitle('');
+      setDescription('');
+      setSelect([]);
+    });
+    /*     setTitle('');
       setDescription('');
       setSelect([]);
    */
-      /*     if (templateList) {
+    /*     if (templateList) {
         navigate('/home');
       } */
-    }
   };
 
   return (
-    <>
-      <Segment>
-        <Form.Group>
-          <Form onSubmit={handleNewList}>
-            <FormInput
-              placeholder="Title"
-              label="Title"
-              type="text"
-              inputValue={title}
-              setInputValue={setTitle}
-            />
+    <Grid.Column width="10">
+      <div style={{ margin: '2em 0' }}>
+        <Header textAlign="left">Create new list</Header>
+      </div>
+      <Grid.Row>
+        <Grid.Column>
+          <Segment>
+            <Form.Group>
+              <Form onSubmit={handleNewList}>
+                <Form.Input
+                  placeholder="Title"
+                  label="Title"
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
 
-            {options ? (
-              <FormDropDown
-                placeholder="Select departments"
-                options={options}
-                onChange={handleSelect}
-                // value={select}
-                inputValue={select}
-                defaultValue="Select departments"
-              />
-            ) : null}
-
-            {templateOptions ? (
-              <FormDropDown
-                placeholder="Use template"
-                options={templateOptions}
-                onChange={handleSelectTemplate}
-                // value={select}
-                inputValue={select}
-                defaultValue="Use template"
-              />
-            ) : null}
-
-            <FormButton title="Save" type="submit" />
-          </Form>
-        </Form.Group>
-      </Segment>
-    </>
+                {options ? (
+                  <Dropdown
+                    placeholder="Select departments"
+                    fluid
+                    label="Department"
+                    multiple
+                    // search
+                    selection
+                    value={select}
+                    options={options}
+                    onChange={handleSelect}
+                    // defaultValue={[]}
+                    clearable
+                  />
+                ) : null}
+                <div style={{ marginTop: '1em' }}>
+                  <Button type="submit">Save</Button>
+                </div>
+              </Form>
+            </Form.Group>
+          </Segment>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid.Column>
   );
 };
 

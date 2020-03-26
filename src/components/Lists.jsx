@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Header, List } from 'semantic-ui-react';
+import { Table, Grid, Header, List, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import ListService from '../services/ListService';
 import CreateList from './CreateList';
@@ -41,44 +41,52 @@ const Lists = ({ history }) => {
   }, [newList]);
 
   return (
-    <div>
-      {// eslint-disable-next-line no-nested-ternary
-      lists !== undefined && lists.length !== 0 && templateList.length !== 0 ? (
-        <>
-          <List>
-            {lists[0].Lists.map((item) => (
-              <List.Item key={item.id}>
-                <Link to={`${item.id}`}>
-                  {item.name}
-                  {console.log(templateOptions)}
-                </Link>
-              </List.Item>
-            ))}
-            <CreateEmployee
-              setNewList={setNewList}
-              templateOptions={templateOptions}
-            />
-          </List>
-          <>
-            <h2>Create new template</h2>
-            <CreateList
-              setNewList={setNewList}
-              options={options}
-              templateList
-            />
-          </>
-        </>
-      ) : lists !== undefined &&
-        lists.length !== 0 &&
-        templateList.length === 0 ? (
-        <>
-          <p>Please create a template list</p>
-          <CreateList setNewList={setNewList} options={options} templateList />
-        </>
-      ) : (
-        'No lists available, please join a department first'
-      )}
-    </div>
+    <Grid.Column width="10">
+      <div style={{ margin: '2em 0' }}>
+        <Header float="left" textAlign="left">
+          Create new list
+        </Header>
+      </div>
+      <Grid.Row>
+        <Grid.Column>
+          {// eslint-disable-next-line no-nested-ternary
+          lists !== undefined &&
+          lists.length !== 0 &&
+          templateList.length !== 0 ? (
+            <>
+              <Segment>
+                <List divided relaxed>
+                  {lists[0].Lists.map((item) => (
+                    <List.Item key={item.id}>
+                      <List.Content floated="left">
+                        <Link to={`${item.id}`}>
+                          {item.name}
+                          {console.log(templateOptions)}
+                        </Link>
+                      </List.Content>
+                    </List.Item>
+                  ))}
+                </List>
+              </Segment>
+              <Link>
+                <Button floated="left">Mew template</Button>
+              </Link>
+            </>
+          ) : lists !== undefined &&
+            lists.length !== 0 &&
+            templateList.length === 0 ? (
+            <>
+              <p>Please create a template list</p>
+              <Link>
+                <Button>Mew template</Button>
+              </Link>
+            </>
+          ) : (
+            'No lists available, please join a department first'
+          )}
+        </Grid.Column>
+      </Grid.Row>
+    </Grid.Column>
   );
 };
 

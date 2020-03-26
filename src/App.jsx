@@ -27,8 +27,6 @@ function App() {
     <div>
       <AuthContextProvider>
         <BrowserRouter>
-          <Route path="/departments" exact component={Departments} />
-          <Route path="/departments/:id" exact component={Department} />
 
           <Route path="/" exact component={Start} />
           <Route path="/login" exact component={Login} />
@@ -41,7 +39,13 @@ function App() {
             exact
             component={CreateEmployee}
           />
-          <ProtectedRoute path="/templates" exact component={Lists} />
+          <ProtectedRoute path="/lists/template" exact component={CreateList} />
+          <ProtectedRoute path="/departments" exact component={Departments} />
+    {/*       <ProtectedRoute
+            path="/departments/:id"
+            exact
+            component={Department}
+          /> */}
           {/*           <ProtectedRoute path="/lists/:id" exact component={List} /> */}
         </BrowserRouter>
       </AuthContextProvider>
