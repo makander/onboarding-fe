@@ -2,9 +2,9 @@ import React from 'react';
 import { Grid } from 'semantic-ui-react';
 
 const MainWrap = ({ children }) => (
-  <Grid.Column width={13} color="orange" relaxed container>
-    <Grid>{children}</Grid>
-  </Grid.Column>
+  <Grid stackable columns={1}>
+    {children}
+  </Grid>
 );
 
 export default MainWrap;

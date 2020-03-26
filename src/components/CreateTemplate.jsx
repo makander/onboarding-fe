@@ -13,7 +13,7 @@ import {
 import ListService from '../services/ListService';
 import DepartmentService from '../services/DepartmentService';
 
-const CreateList = () => {
+const CreateTemplate = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [select, setSelect] = useState();
@@ -117,4 +117,4 @@ const CreateList = () => {
   );
 };
 
-export default CreateList;
+export default CreateTemplate;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Grid, Header, List, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import ListService from '../services/ListService';
-import CreateList from './CreateList';
+import CreateList from './CreateTemplate';
 import CreateEmployee from './CreateEmployee';
 
 import DepartmentService from '../services/DepartmentService';

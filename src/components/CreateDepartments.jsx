@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import {
-  Form,
-  Button,
-  Segment,
-  Table,
-  Grid,
-  Header,
-  Container,
-} from 'semantic-ui-react';
+import { Form, Button, Segment, Table } from 'semantic-ui-react';
 import DepartmentService from '../services/DepartmentService';
 import FormInput from './forms/FormInput';
 import FormButton from './forms/FormButton';
 import FormDropDown from './forms/FormDropDown';
 import UserService from '../services/UserService';
 
-const Department = () => {
+const CreateDepartments = () => {
   const [departments, setDepartments] = useState([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -66,49 +58,50 @@ const Department = () => {
   };
 
   return (
-    <Grid.Column width="10">
-      <div style={{ margin: '2em 0' }}>
-        <Header as="h2" textAlign="left">
-          Departments
-        </Header>
-      </div>
+    <div>
       {departments.length !== null ? (
-        <Container>
-          <Grid stackable columns={1} celled>
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Departments</Table.HeaderCell>
+              <Table.HeaderCell>Members</Table.HeaderCell>
+              <Table.HeaderCell />
+              <Table.HeaderCell />
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
             {departments.map((item) => (
-              <Grid.Row key={item.id} centered>
-                <Grid.Column verticalAlign="middle" computer="4">
+              <Table.Row key={item.id}>
+                <Table.Cell>
                   <Link to={`${item.id}`}>{item.name}</Link>
-                </Grid.Column>
-                <Grid.Column verticalAlign="middle" computer="4">
+                </Table.Cell>
+                <Table.Cell>
                   {item.Users !== undefined ? item.Users.length : null}
-                </Grid.Column>
-                <Grid.Column verticalAlign="middle" computer="4">
+                </Table.Cell>
+                <Table.Cell>
                   <Button onClick={() => handleClick(item.id)}>Delete</Button>
-                </Grid.Column>
-                <Grid.Column verticalAlign="middle" computer="4">
+                </Table.Cell>
+                <Table.Cell>
                   <Button onClick={() => handleClick(item.id)}>Edit</Button>
-                </Grid.Column>
-              </Grid.Row>
+                </Table.Cell>
+              </Table.Row>
             ))}
-          </Grid>
-        </Container>
+          </Table.Body>
+        </Table>
       ) : null}
       {users.length > 0 ? (
-        <Grid.Column width="10">
-          <Header as="h3">Create new department</Header>
-          <Segment>
-            <Form.Group>
-              <Form onSubmit={onSubmit}>
-                <FormInput
-                  placeholder="Change department name"
-                  label="Name"
-                  type="text"
-                  inputValue={name}
-                  setInputValue={setName}
-                />
+        <Segment>
+          <Form.Group>
+            <Form onSubmit={onSubmit}>
+              <FormInput
+                placeholder="Change department name"
+                label="Name"
+                type="text"
+                inputValue={name}
+                setInputValue={setName}
+              />
 
-                {/*        <TextArea
+              {/*        <TextArea
                 placeholder="Description"
                 label="Description"
                 value={description}
@@ -117,21 +110,20 @@ const Department = () => {
               />
  */}
 
-                <FormDropDown
-                  placeholder="Add user to department"
-                  options={options}
-                  onChange={handleSelect}
-                  // value={select}
-                  inputValue={select}
-                />
-                <FormButton title="Save" type="submit" />
-              </Form>
-            </Form.Group>
-          </Segment>
-        </Grid.Column>
+              <FormDropDown
+                placeholder="Add user to department"
+                options={options}
+                onChange={handleSelect}
+                // value={select}
+                inputValue={select}
+              />
+              <FormButton title="Save" type="submit" />
+            </Form>
+          </Form.Group>
+        </Segment>
       ) : null}{' '}
-    </Grid.Column>
+    </div>
   );
 };
 
-export default Department;
+export default CreateDepartments;

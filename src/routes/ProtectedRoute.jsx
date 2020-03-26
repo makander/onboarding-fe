@@ -15,9 +15,8 @@ const ProtectedRoute = ({ component: Component, ...props }) => {
         authStatus.userIsAuthenticated ? (
           <ContentWrap>
             <Sidebar />
-            <MainWrap>
-              <Component {...props} />
-            </MainWrap>
+
+            <Component {...props} />
           </ContentWrap>
         ) : (
           <Redirect to={props.redirectTo ? props.redirectTo : '/'} />

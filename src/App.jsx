@@ -15,7 +15,7 @@ import List from './components/List';
 import Lists from './components/Lists';
 import Departments from './components/Departments';
 import Department from './components/Department';
-import CreateList from './components/CreateList';
+import CreateTemplate from './components/CreateTemplate';
 import CreateEmployee from './components/CreateEmployee';
 
 axios.defaults.withCredentials = true;
@@ -27,7 +27,6 @@ function App() {
     <div>
       <AuthContextProvider>
         <BrowserRouter>
-
           <Route path="/" exact component={Start} />
           <Route path="/login" exact component={Login} />
           <Route path="/register" exact component={Register} />
@@ -39,9 +38,13 @@ function App() {
             exact
             component={CreateEmployee}
           />
-          <ProtectedRoute path="/lists/template" exact component={CreateList} />
+          <ProtectedRoute
+            path="/lists/template"
+            exact
+            component={CreateTemplate}
+          />
           <ProtectedRoute path="/departments" exact component={Departments} />
-    {/*       <ProtectedRoute
+          {/*       <ProtectedRoute
             path="/departments/:id"
             exact
             component={Department}

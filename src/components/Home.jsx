@@ -10,19 +10,17 @@ const Home = () => {
   }, []);
 
   return (
-    <Grid.Column width={13} textAlign="center" color="orange">
-      <List divided>
-        <List.Item>
-          <Link to="/lists">Lists</Link>
-        </List.Item>
-        <List.Item>
-          <Link to="/departments">Departments</Link>
-        </List.Item>
-        <List.Item>
-          <Link to="/tasks">Tasks</Link>
-        </List.Item>
-      </List>
-    </Grid.Column>
+    <List divided>
+      <List.Item>
+        <Link to="/lists">Lists</Link>
+      </List.Item>
+      <List.Item>
+        <Link to="/departments">Departments</Link>
+      </List.Item>
+      <List.Item>
+        <Link to="/tasks">Tasks</Link>
+      </List.Item>
+    </List>
   );
 };
 
