@@ -7,11 +7,9 @@ import {
   Button,
   Container,
   Grid,
+  Segment,
 } from 'semantic-ui-react';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   useParams,
 } from 'react-router-dom';
 import ListService from '../services/ListService';
@@ -77,41 +75,47 @@ const Lists = () => {
       </div>
       {list !== undefined ? (
         <Container>
-          <Grid stackable columns={1} textAlign="left">
-            {list.Tasks !== undefined && list.Tasks.length !== 0
-              ? list.Tasks.map((item) => (
-                  <Grid.Row key={item.id} style={{ padding: '0' }}>
-                    <Grid.Column verticalAlign="middle" computer="3">
-                      {item.name}
-                    </Grid.Column>
-                    <Grid.Column verticalAlign="middle" computer="3">
-                      <Form>
-                        <Form.Checkbox
-                          inline
-                          label="completed"
-                          checked={item.status}
-                          onChange={() => handleStatus(item.status, item.id)}
-                        />
-                      </Form>
-                    </Grid.Column>
-                    <Grid.Column verticalAlign="middle" computer="6">
-                      <TaskDropDown
-                        options={options}
-                        TaskServiceUpdateTask={TaskService.updateTask}
-                        id={item.id}
-                        setTask={setTask}
-                      />
-                    </Grid.Column>
-
-                    {item.User !== undefined && item.User !== null ? (
+          <Segment>
+            <Grid stackable columns={1} textAlign="left">
+              {list.Tasks !== undefined && list.Tasks.length !== 0
+                ? list.Tasks.map((item) => (
+                    <Grid.Row key={item.id} style={{ padding: '0' }}>
                       <Grid.Column verticalAlign="middle" computer="3">
-                        Assigned to: {item.User.firstName} {item.User.lastName}
+                        {item.name}
                       </Grid.Column>
-                    ) : null}
-                  </Grid.Row>
-                ))
-              : null}
-          </Grid>
+                      <Grid.Column verticalAlign="middle" computer="3">
+                        {item.User !== undefined && item.User !== null ? (
+                          <p>
+                            Assigned: {item.User.firstName} {item.User.lastName}
+                          </p>
+                        ) : (
+                          'No assigned user'
+                        )}
+                      </Grid.Column>
+                      <Grid.Column verticalAlign="middle" computer="6">
+                        <TaskDropDown
+                          options={options}
+                          TaskServiceUpdateTask={TaskService.updateTask}
+                          id={item.id}
+                          setTask={setTask}
+                        />
+                      </Grid.Column>
+
+                      <Grid.Column verticalAlign="middle" computer="3">
+                        <Form>
+                          <Form.Checkbox
+                            inline
+                            label="completed"
+                            checked={item.status}
+                            onChange={() => handleStatus(item.status, item.id)}
+                          />
+                        </Form>
+                      </Grid.Column>
+                    </Grid.Row>
+                  ))
+                : null}
+            </Grid>
+          </Segment>
         </Container>
       ) : null}
       <Header>Create new task</Header>

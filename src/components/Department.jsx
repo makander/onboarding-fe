@@ -9,14 +9,19 @@ import {
   Dimmer,
   Loader,
   Image,
+  Dropdown,
+  Container,
+  List,
+  GridColumn,
 } from 'semantic-ui-react';
+import { useParams } from 'react-router-dom';
 // import { navigate } from '@reach/router';
 import DepartmentService from '../services/DepartmentService';
 import UserService from '../services/UserService';
 import FormInput from './forms/FormInput';
 import FormDropDown from './forms/FormDropDown';
 
-const Department = ({ departmentsId }) => {
+const Department = () => {
   const [departments, setDepartments] = useState([]);
   const [name, setName] = useState('');
   const [users, setUsers] = useState([]);
@@ -24,8 +29,10 @@ const Department = ({ departmentsId }) => {
   const [options, setOptions] = useState([]);
   const [loader, setLoader] = useState(true);
 
+  const departmentsId = useParams();
+
   useEffect(() => {
-    DepartmentService.get(departmentsId).then((res) => {
+    DepartmentService.get(departmentsId.id).then((res) => {
       setDepartments(res);
     });
     UserService.findAll().then((data) => setUsers(data));
@@ -51,16 +58,18 @@ const Department = ({ departmentsId }) => {
         name: departments.name,
         users: departments.Users,
       };
-      DepartmentService.update(departmentsId, updatedDepartment).then((res) => {
-        setDepartments(res);
-      });
+      DepartmentService.update(departmentsId.id, updatedDepartment).then(
+        (res) => {
+          setDepartments(res);
+        }
+      );
     } else {
       const data = {
         name,
         users: select,
       };
 
-      DepartmentService.update(departmentsId, data).then((res) => {
+      DepartmentService.update(departmentsId.id, data).then((res) => {
         setDepartments(res);
       });
     }
@@ -74,88 +83,105 @@ const Department = ({ departmentsId }) => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    DepartmentService.destroy(departmentsId).then(() =>
+    DepartmentService.destroy(departmentsId.id).then(() =>
       navigate('/departments')
     );
   };
 
   const handleClick = (e, id) => {
     e.preventDefault();
-    DepartmentService.removeUser(departmentsId, { UserId: id }).then((res) => {
-      setDepartments(res);
-    });
+    DepartmentService.removeUser(departmentsId.id, { UserId: id }).then(
+      (res) => {
+        setDepartments(res);
+      }
+    );
   };
 
   return (
-    <div>
+    <Grid.Column width="12">
+      <div style={{ margin: '2em 0' }}>
+        <Header as="h2" textAlign="left">
+          Edit: {departments.name}
+        </Header>
+      </div>
       {!loader ? (
-        <>
-          {' '}
-          <Header>Update department: {departments.name}</Header>
-          <Segment>
-            <Form onSubmit={onSubmit}>
-              <FormInput
-                placeholder="Department name"
-                label="Name"
-                type="text"
-                inputValue={name}
-                setInputValue={setName}
-              />
-              <>
-                <Table>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell rowSpan="2">Members</Table.HeaderCell>
-                      <Table.HeaderCell />
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    {departments.Users !== undefined &&
-                    departments.Users.length !== 0 ? (
-                      departments.Users.map((item) => (
-                        <Table.Row key={item.id}>
-                          <Table.Cell>
-                            {item.firstName} {item.lastName}
-                          </Table.Cell>
-                          <Table.Cell textAlign="right">
-                            <Button onClick={(e) => handleClick(e, item.id)}>
-                              Remove
-                            </Button>
-                          </Table.Cell>
-                        </Table.Row>
-                      ))
-                    ) : (
-                      <Table.Cell>
-                        No users members in this department
-                      </Table.Cell>
-                    )}
-                  </Table.Body>
-                </Table>
-              </>
-              <FormDropDown
-                placeholder="Select users"
-                options={options}
-                onChange={handleSelect}
-                inputValue={select}
-                required
-                defaulltValue={select}
-              />
+        <Container>
+          <Grid stackable columns={1}>
+            <Grid.Column width="12">
+              <Segment style={{ marginTop: '2em' }}>
+                <Grid.Row>
+                  <Grid.Column width="10">
+                    <Form onSubmit={onSubmit} inline>
+                      <Form.Group>
+                        <Form.Input
+                          placeholder="New name"
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          width="12"
+                        />
+                        <br />
+                        <Form.Button content="Submit" />
+                      </Form.Group>
+                    </Form>
+                  </Grid.Column>
+                </Grid.Row>
+              </Segment>
 
-              <br />
-              <Grid centered>
-                {' '}
-                <Form.Group>
-                  <Button floated="left" type="submit">
-                    Save
-                  </Button>
-                  <Button floated="right" onClick={(e) => handleDelete(e)}>
-                    Delete
-                  </Button>
-                </Form.Group>
-              </Grid>
-            </Form>
-          </Segment>
-        </>
+              <Segment style={{ marginTop: '2em' }}>
+                {departments.Users !== undefined &&
+                departments.Users.length !== 0 ? (
+                  departments.Users.map((item) => (
+                    <Grid.Row>
+                      <Grid.Column width="10" style={{ margin: '2em' }}>
+                        <p style={{ display: 'inline-block' }}>
+                          {item.firstName} {item.lastName}
+                        </p>
+                        <Button
+                          floated="right"
+                          onClick={(e) => handleClick(e, item.id)}
+                        >
+                          Remove
+                        </Button>
+                      </Grid.Column>
+                    </Grid.Row>
+                  ))
+                ) : (
+                  <Grid.Column verticalAlign="middle" width="10">
+                    No users members in this department
+                  </Grid.Column>
+                )}
+              </Segment>
+
+              <Segment style={{ marginTop: '2em' }}>
+                <Grid.Row>
+                  <Grid.Column width="10">
+                    <Form onSubmit={onSubmit}>
+                      <Form.Group>
+                        <Form.Select
+                          placeholder="Use template"
+                          options={options}
+                          onChange={handleSelect}
+                          value={select}
+                          clearable
+                          width="14"
+                        />
+                        <Button float="right" type="submit">
+                          Save
+                        </Button>
+                      </Form.Group>
+                    </Form>
+                  </Grid.Column>
+
+                  {/* 
+                <Button type="submit">Save</Button>
+
+                <Button onClick={(e) => handleDelete(e)}>Delete</Button> */}
+                </Grid.Row>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </Container>
       ) : (
         <Segment>
           <Dimmer active inverted>
@@ -165,7 +191,7 @@ const Department = ({ departmentsId }) => {
           <Image src="https://react.semantic-ui.com/images/wireframe/paragraph.png" />
         </Segment>
       )}
-    </div>
+    </Grid.Column>
   );
 };
 

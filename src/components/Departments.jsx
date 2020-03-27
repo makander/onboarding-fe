@@ -78,7 +78,7 @@ const Department = () => {
             {departments.map((item) => (
               <Grid.Row key={item.id} centered>
                 <Grid.Column verticalAlign="middle" computer="4">
-                  <Link to={`${item.id}`}>{item.name}</Link>
+                  <Link to={`/departments/${item.id}`}>{item.name}</Link>
                 </Grid.Column>
                 <Grid.Column verticalAlign="middle" computer="4">
                   {item.Users !== undefined ? item.Users.length : null}

@@ -46,11 +46,11 @@ function App() {
             />
             <ProtectedRoute path="/lists/:id" exact component={List} />
             <ProtectedRoute path="/departments" exact component={Departments} />
-            {/*       <ProtectedRoute
-            path="/departments/:id"
-            exact
-            component={Department}
-          /> */}
+            <ProtectedRoute
+              path="/departments/:id"
+              exact
+              component={Department}
+            />
           </Switch>
         </BrowserRouter>
       </AuthContextProvider>
