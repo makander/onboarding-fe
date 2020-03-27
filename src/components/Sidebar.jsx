@@ -29,10 +29,10 @@ const Sidebar = () => {
 
         <Menu.Menu>
           <Menu.Item name="view lists">
-            <Link to="/lists/templates">View</Link>
+            <Link to="/templates">View</Link>
           </Menu.Item>
           <Menu.Item name="new">
-            <Link to="/lists/template">Create</Link>
+            <Link to="/template">Create</Link>
           </Menu.Item>
         </Menu.Menu>
       </Menu.Item>

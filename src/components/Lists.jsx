@@ -44,7 +44,7 @@ const Lists = ({ history }) => {
     <Grid.Column width="10">
       <div style={{ margin: '2em 0' }}>
         <Header float="left" textAlign="left">
-          Create new list
+          Lists
         </Header>
       </div>
       <Grid.Row>
@@ -59,7 +59,7 @@ const Lists = ({ history }) => {
                   {lists[0].Lists.map((item) => (
                     <List.Item key={item.id}>
                       <List.Content floated="left">
-                        <Link to={`${item.id}`}>
+                        <Link to={`/lists/${item.id}`}>
                           {item.name}
                           {console.log(templateOptions)}
                         </Link>

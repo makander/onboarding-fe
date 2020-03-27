@@ -75,7 +75,7 @@ const CreateTemplate = () => {
   return (
     <Grid.Column width="10">
       <div style={{ margin: '2em 0' }}>
-        <Header textAlign="left">Create new list</Header>
+        <Header textAlign="left">Create new template</Header>
       </div>
       <Grid.Row>
         <Grid.Column>

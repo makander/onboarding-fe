@@ -153,7 +153,6 @@ const CreateEmployee = ({ setNewList, options }) => {
                     options={templateOptions}
                     onChange={handleSelectTemplate}
                     value={select}
-                    defaultValue="Use template"
                     clearable
                   />
                 ) : null}

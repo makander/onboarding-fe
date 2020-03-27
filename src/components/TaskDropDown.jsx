@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
-import {
-  Button, Form,
-} from 'semantic-ui-react';
-import FormSimpleDropDown from './forms/FormSimpleDropDown';
-
+import { Button, Form, Container } from 'semantic-ui-react';
 
 const selectStyle = {
   width: 200,
+  marginTop: '0.5em',
 };
 
-const TaskDropDown = ({
-  options, TaskServiceUpdateTask, id, setTask,
-}) => {
+const TaskDropDown = ({ options, TaskServiceUpdateTask, id, setTask }) => {
   const [select, setSelect] = useState('');
-
 
   const handleClick = (taskId) => {
     const taskData = {
@@ -31,24 +25,17 @@ const TaskDropDown = ({
 
   return (
     <Form>
+      <Form.Group inline style={selectStyle}>
+        <Form.Select
+          placeholder="Assign User"
+          options={options}
+          onChange={handleSelect}
+          value={select}
+        />
 
-      <Form.Group>
-        <div style={selectStyle}>
-          <FormSimpleDropDown
-
-
-            placeholder="Assign User"
-            options={options}
-            onChange={handleSelect}
-              // value={select}
-            inputValue={select}
-          />
-        </div>
         <Button onClick={() => handleClick(id)}>Save</Button>
       </Form.Group>
     </Form>
-
-
   );
 };
 

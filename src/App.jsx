@@ -27,29 +27,31 @@ function App() {
     <div>
       <AuthContextProvider>
         <BrowserRouter>
-          <Route path="/" exact component={Start} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/register" exact component={Register} />
+          <Switch>
+            <Route path="/" exact component={Start} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/register" exact component={Register} />
 
-          <ProtectedRoute path="/home" component={Home} />
-          <ProtectedRoute path="/lists" exact component={Lists} />
-          <ProtectedRoute
-            path="/lists/create"
-            exact
-            component={CreateEmployee}
-          />
-          <ProtectedRoute
-            path="/lists/template"
-            exact
-            component={CreateTemplate}
-          />
-          <ProtectedRoute path="/departments" exact component={Departments} />
-          {/*       <ProtectedRoute
+            <ProtectedRoute path="/home" component={Home} />
+            <ProtectedRoute path="/lists" exact component={Lists} />
+            <ProtectedRoute
+              path="/templates"
+              exact
+              component={CreateTemplate}
+            />
+            <ProtectedRoute
+              path="/lists/create"
+              exact
+              component={CreateEmployee}
+            />
+            <ProtectedRoute path="/lists/:id" exact component={List} />
+            <ProtectedRoute path="/departments" exact component={Departments} />
+            {/*       <ProtectedRoute
             path="/departments/:id"
             exact
             component={Department}
           /> */}
-          {/*           <ProtectedRoute path="/lists/:id" exact component={List} /> */}
+          </Switch>
         </BrowserRouter>
       </AuthContextProvider>
     </div>
