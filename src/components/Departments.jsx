@@ -65,7 +65,7 @@ const Department = () => {
           Departments
         </Header>
       </div>
-      {departments.length !== null ? (
+      {departments.length !== null && departments.length !== 0 ? (
         <Container>
           <Grid stackable columns={1} celled>
             {departments.map((item) => (

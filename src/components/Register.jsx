@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Form, Segment, Header, Grid } from 'semantic-ui-react';
 
-const Register = ({ navigate }) => {
+const Register = ({ history }) => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -18,7 +18,7 @@ const Register = ({ navigate }) => {
         password,
       })
       .then(() => {
-        navigate('/');
+        history.push('/');
       });
   };
 

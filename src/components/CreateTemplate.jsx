@@ -12,7 +12,7 @@ import {
 import ListService from '../services/ListService';
 import DepartmentService from '../services/DepartmentService';
 
-const CreateTemplate = () => {
+const CreateTemplate = ({ history }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [select, setSelect] = useState();
@@ -45,7 +45,7 @@ const CreateTemplate = () => {
 
     ListService.create(data).then((res) => {
       if (res.templateList) {
-        // navigate(`/lists/${res.id}`);
+        history.push(`/lists/${res.id}`);
       }
       setTitle('');
       setDescription('');
