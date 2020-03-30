@@ -3,6 +3,7 @@ import { Grid, Header, List, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import DepartmentService from '../services/DepartmentService';
+import ListService from '../services/ListService';
 
 const Lists = ({ history, template, header }) => {
   const [lists, setLists] = useState([]);
@@ -10,6 +11,8 @@ const Lists = ({ history, template, header }) => {
     DepartmentService.findAllDepartmentLists().then((res) => {
       setLists(res);
     });
+
+    ListService.all((res) => console.log(res));
   }, []);
 
   const DisplayList = () => {
@@ -20,7 +23,7 @@ const Lists = ({ history, template, header }) => {
       ? (listContent = lists[0].Lists.filter((item) => item.templateList))
       : (listContent = lists[0].Lists.filter((item) => !item.templateList));
 
-    return (
+    return lists[0].Lists.length !== 0 ? (
       <List divided relaxed>
         {listContent.map((item) => (
           <List.Item key={item.id}>
@@ -30,6 +33,8 @@ const Lists = ({ history, template, header }) => {
           </List.Item>
         ))}
       </List>
+    ) : (
+      <p>{template ? 'No templates available' : 'No lists available'}</p>
     );
   };
 
@@ -46,6 +51,7 @@ const Lists = ({ history, template, header }) => {
           lists !== undefined && lists.length !== 0 ? (
             <>
               <Segment>
+                {' '}
                 <DisplayList />
               </Segment>
 
@@ -58,13 +64,6 @@ const Lists = ({ history, template, header }) => {
                   <Button>New employee list</Button>
                 </Link>
               )}
-            </>
-          ) : lists !== undefined && lists.length !== 0 ? (
-            <>
-              <p>Please create a template list</p>
-              <Link to="/templates/create">
-                <Button>New template</Button>
-              </Link>
             </>
           ) : (
             'No lists available, please join a department first'

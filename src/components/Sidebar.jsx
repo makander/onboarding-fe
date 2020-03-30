@@ -10,53 +10,10 @@ const Sidebar = () => {
       style={{ marginTop: '0.5em', minHeight: '100vh', paddingLeft: '-1rem' }}
       inverted
     >
-      <Dropdown item text="Lists">
-        <Dropdown.Menu>
-          <Dropdown.Item as={Link} name="View" to="/lists">
-            View
-          </Dropdown.Item>
+      <Menu.Item as={Link} name="Lists" to="/lists" />
 
-          <Dropdown.Item as={Link} name="Create" to="/lists/create">
-            Create
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-
-      <Dropdown item text="Templates">
-        <Dropdown.Menu>
-          <Dropdown.Item as={Link} name="View" to="/templates">
-            View
-          </Dropdown.Item>
-
-          <Dropdown.Item as={Link} name="Create" to="/templates/create">
-            Create
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-
-      <Dropdown item text="Departments">
-        <Dropdown.Menu>
-          <Dropdown.Item as={Link} name="View" to="/departments">
-            View
-          </Dropdown.Item>
-
-          <Dropdown.Item as={Link} name="Create" to="/departments/create">
-            Create
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-
-      <Dropdown item text="Users">
-        <Dropdown.Menu>
-          <Dropdown.Item as={Link} name="View" to="/departments">
-            View
-          </Dropdown.Item>
-
-          <Dropdown.Item as={Link} name="Create" to="/departments/create">
-            Create
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <Menu.Item as={Link} name="Templates" to="/templates" />
+      <Menu.Item as={Link} name="Department" to="/departments" />
 
       <Menu.Item>
         <Menu.Menu>

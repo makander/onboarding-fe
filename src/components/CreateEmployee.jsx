@@ -28,7 +28,7 @@ const CreateEmployee = ({ history }) => {
   };
 
   useEffect(() => {
-    ListService.list().then((res) => {
+    ListService.all().then((res) => {
       const template = res.filter((item) => item.templateList);
       setTemplateList(template);
     });

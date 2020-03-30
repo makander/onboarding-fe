@@ -34,14 +34,13 @@ const CreateTask = ({ setTask, listsId }) => {
               label="Title"
               type="text"
               value={title}
-              onChange={setTitle}
+              onChange={(e) => setTitle(e.target.value)}
             />
 
             <Form.TextArea
               placeholder="Description"
               label="Description"
-              inputValue={description}
-              setInputValue={setDescription}
+              onChange={(e) => setDescription(e.target.value)}
               name="textarea"
             />
 
