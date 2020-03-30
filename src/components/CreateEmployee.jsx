@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Form,
-  Segment,
-  Input,
-  Select,
-  Button,
-  Grid,
-  Header,
-} from 'semantic-ui-react';
+import { Form, Segment, Input, Button, Grid, Header } from 'semantic-ui-react';
 // import { navigate } from '@reach/router';
-import FormButton from './forms/FormButton';
 
 import EmployeeService from '../services/EmployeeService';
 import ListService from '../services/ListService';
 
-const CreateEmployee = ({ setNewList, options }) => {
+const CreateEmployee = ({ history }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [select, setSelect] = useState();
@@ -25,7 +16,6 @@ const CreateEmployee = ({ setNewList, options }) => {
   const [address, setAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [office, setOffice] = useState('');
-  const [listName, setListName] = useState('');
   const [templateList, setTemplateList] = useState([]);
 
   const templateOptions = templateList.map(({ id, name }) => ({
@@ -41,13 +31,11 @@ const CreateEmployee = ({ setNewList, options }) => {
     ListService.list().then((res) => {
       const template = res.filter((item) => item.templateList);
       setTemplateList(template);
-      console.log(template);
     });
   }, []);
 
   const handleNewList = (e) => {
     e.preventDefault();
-    console.log('select tempalte in handleNewList', selectTemplate);
     if (selectTemplate !== undefined) {
       const data = {
         listId: selectTemplate,
@@ -63,8 +51,7 @@ const CreateEmployee = ({ setNewList, options }) => {
         title,
       };
 
-      console.log(data.name);
-      EmployeeService.create(data).then((res) => {
+      EmployeeService.create(data).then(() => {
         setTitle('');
         setDescription('');
         setSelect([]);
@@ -75,7 +62,7 @@ const CreateEmployee = ({ setNewList, options }) => {
         setAddress('');
         setEmail('');
         setPhoneNumber('');
-        navigate('/lists');
+        history.push('/lists');
       });
     }
   };

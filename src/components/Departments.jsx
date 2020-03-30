@@ -5,15 +5,12 @@ import {
   Form,
   Button,
   Segment,
-  Table,
   Grid,
   Header,
   Container,
 } from 'semantic-ui-react';
 import DepartmentService from '../services/DepartmentService';
-import FormInput from './forms/FormInput';
-import FormButton from './forms/FormButton';
-import FormDropDown from './forms/FormDropDown';
+
 import UserService from '../services/UserService';
 
 const Department = () => {
@@ -32,17 +29,13 @@ const Department = () => {
   }, []);
 
   const onSubmit = () => {
-    console.log(departments);
-
     const department = {
       name,
       description,
       users: select,
     };
-    console.log(department);
 
     DepartmentService.create(department).then((res) => {
-      console.log(res.data);
       setDepartments(departments.concat([res.data]));
     });
     setSelect([]);
@@ -100,12 +93,12 @@ const Department = () => {
           <Segment>
             <Form.Group>
               <Form onSubmit={onSubmit}>
-                <FormInput
-                  placeholder="Change department name"
-                  label="Name"
+                <Form.Input
+                  placeholder="Enter department name"
+                  label="Department name"
                   type="text"
-                  inputValue={name}
-                  setInputValue={setName}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
 
                 {/*        <TextArea
@@ -117,14 +110,15 @@ const Department = () => {
               />
  */}
 
-                <FormDropDown
+                <Form.Select
                   placeholder="Add user to department"
                   options={options}
                   onChange={handleSelect}
-                  // value={select}
-                  inputValue={select}
+                  value={select}
+                  multiple
+                  clearable
                 />
-                <FormButton title="Save" type="submit" />
+                <Form.Button type="submit">Save</Form.Button>
               </Form>
             </Form.Group>
           </Segment>

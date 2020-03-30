@@ -5,27 +5,22 @@ import {
   Header,
   Button,
   Grid,
-  Table,
   Dimmer,
   Loader,
   Image,
-  Dropdown,
   Container,
   List,
-  GridColumn,
 } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 // import { navigate } from '@reach/router';
 import DepartmentService from '../services/DepartmentService';
 import UserService from '../services/UserService';
-import FormInput from './forms/FormInput';
-import FormDropDown from './forms/FormDropDown';
 
-const Department = () => {
+const Department = ({ history }) => {
   const [departments, setDepartments] = useState([]);
   const [name, setName] = useState('');
   const [users, setUsers] = useState([]);
-  const [select, setSelect] = useState([]);
+  const [select, setSelect] = useState('');
   const [options, setOptions] = useState([]);
   const [loader, setLoader] = useState(true);
 
@@ -84,7 +79,7 @@ const Department = () => {
   const handleDelete = (e) => {
     e.preventDefault();
     DepartmentService.destroy(departmentsId.id).then(() =>
-      navigate('/departments')
+      history.push('/departments')
     );
   };
 
@@ -127,31 +122,34 @@ const Department = () => {
                   </Grid.Column>
                 </Grid.Row>
               </Segment>
-
-              <Segment style={{ marginTop: '2em' }}>
-                {departments.Users !== undefined &&
-                departments.Users.length !== 0 ? (
-                  departments.Users.map((item) => (
-                    <Grid.Row>
-                      <Grid.Column width="10" style={{ margin: '2em' }}>
-                        <p style={{ display: 'inline-block' }}>
-                          {item.firstName} {item.lastName}
-                        </p>
-                        <Button
-                          floated="right"
-                          onClick={(e) => handleClick(e, item.id)}
-                        >
-                          Remove
-                        </Button>
-                      </Grid.Column>
-                    </Grid.Row>
-                  ))
-                ) : (
-                  <Grid.Column verticalAlign="middle" width="10">
-                    No users members in this department
-                  </Grid.Column>
-                )}
-              </Segment>
+              <Grid.Row>
+                <Segment style={{ marginTop: '2em' }}>
+                  {departments.Users !== undefined &&
+                  departments.Users.length !== 0 ? (
+                    departments.Users.map((item) => (
+                      <List divided>
+                        <List.Item key={item.id}>
+                          <List.Content floated="left" verticalAlign="bottom">
+                            {item.firstName} {item.lastName}
+                          </List.Content>
+                          <List.Content floated="right" verticalAlign="top">
+                            <Button
+                              compact
+                              onClick={(e) => handleClick(e, item.id)}
+                            >
+                              Remove
+                            </Button>
+                          </List.Content>
+                        </List.Item>
+                      </List>
+                    ))
+                  ) : (
+                    <Grid.Column verticalAlign="middle" width="10">
+                      No users members in this department
+                    </Grid.Column>
+                  )}
+                </Segment>
+              </Grid.Row>
 
               <Segment style={{ marginTop: '2em' }}>
                 <Grid.Row>
@@ -159,13 +157,16 @@ const Department = () => {
                     <Form onSubmit={onSubmit}>
                       <Form.Group>
                         <Form.Select
-                          placeholder="Use template"
+                          placeholder="Add user to department"
                           options={options}
                           onChange={handleSelect}
                           value={select}
+                          multiple
                           clearable
                           width="14"
+                          label="Users"
                         />
+
                         <Button float="right" type="submit">
                           Save
                         </Button>

@@ -1,64 +1,62 @@
-import React, { Component } from 'react';
-import { Menu, Grid } from 'semantic-ui-react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  NavLink,
-} from 'react-router-dom';
+import React from 'react';
+import { Menu, Dropdown } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
-    <Menu vertical color="grey" style={{ marginTop: '0.5em' }}>
-      <Menu.Item>
-        <Menu.Header>Lists</Menu.Header>
+    <Menu
+      vertical
+      color="grey"
+      style={{ marginTop: '0.5em', minHeight: '100vh', paddingLeft: '-1rem' }}
+      inverted
+    >
+      <Dropdown item text="Lists">
+        <Dropdown.Menu>
+          <Dropdown.Item as={Link} name="View" to="/lists">
+            View
+          </Dropdown.Item>
 
-        <Menu.Menu>
-          <Menu.Item name="view lists">
-            <Link to="/lists">View</Link>
-          </Menu.Item>
-          <Menu.Item name="new">
-            <Link to="/lists/create">Create</Link>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu.Item>
+          <Dropdown.Item as={Link} name="Create" to="/lists/create">
+            Create
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
 
-      <Menu.Item>
-        <Menu.Header>Templates</Menu.Header>
+      <Dropdown item text="Templates">
+        <Dropdown.Menu>
+          <Dropdown.Item as={Link} name="View" to="/templates">
+            View
+          </Dropdown.Item>
 
-        <Menu.Menu>
-          <Menu.Item name="view lists">
-            <Link to="/templates">View</Link>
-          </Menu.Item>
-          <Menu.Item name="new">
-            <Link to="/template">Create</Link>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu.Item>
+          <Dropdown.Item as={Link} name="Create" to="/templates/create">
+            Create
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
 
-      <Menu.Item>
-        <Menu.Header>Departments</Menu.Header>
+      <Dropdown item text="Departments">
+        <Dropdown.Menu>
+          <Dropdown.Item as={Link} name="View" to="/departments">
+            View
+          </Dropdown.Item>
 
-        <Menu.Menu>
-          <Menu.Item name="view lists">
-            <Link to="/departments">View</Link>
-          </Menu.Item>
-          <Menu.Item name="view lists">
-            <Link to="/lists/templates">Create</Link>
-          </Menu.Item>
-          <Menu.Item name="php" />
-        </Menu.Menu>
-      </Menu.Item>
+          <Dropdown.Item as={Link} name="Create" to="/departments/create">
+            Create
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
 
-      <Menu.Item>
-        <Menu.Header>Users</Menu.Header>
+      <Dropdown item text="Users">
+        <Dropdown.Menu>
+          <Dropdown.Item as={Link} name="View" to="/departments">
+            View
+          </Dropdown.Item>
 
-        <Menu.Menu>
-          <Menu.Item name="Add users" />
-          <Menu.Item name="dedicated" />
-        </Menu.Menu>
-      </Menu.Item>
+          <Dropdown.Item as={Link} name="Create" to="/departments/create">
+            Create
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
 
       <Menu.Item>
         <Menu.Menu>

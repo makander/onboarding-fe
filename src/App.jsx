@@ -2,27 +2,23 @@ import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import Sidebar from './components/Sidebar';
 import AuthContextProvider from './context/AuthContex';
-import ContentWrap from './components/ContentWrap';
 import Start from './components/Start';
-import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
 import List from './components/List';
-import Lists from './components/Lists';
 import Departments from './components/Departments';
 import Department from './components/Department';
 import CreateTemplate from './components/CreateTemplate';
 import CreateEmployee from './components/CreateEmployee';
+import TemplateList from './components/TemplateList';
+import EmployeeList from './components/EmployeeLists';
 
 axios.defaults.withCredentials = true;
 
 function App() {
-  const routes = [{ path: '/home', sidebar: Sidebar, home: Home }];
-
   return (
     <div>
       <AuthContextProvider>
@@ -33,18 +29,22 @@ function App() {
             <Route path="/register" exact component={Register} />
 
             <ProtectedRoute path="/home" component={Home} />
-            <ProtectedRoute path="/lists" exact component={Lists} />
-            <ProtectedRoute
-              path="/templates"
-              exact
-              component={CreateTemplate}
-            />
+
+            <ProtectedRoute path="/lists" exact component={EmployeeList} />
             <ProtectedRoute
               path="/lists/create"
               exact
               component={CreateEmployee}
             />
             <ProtectedRoute path="/lists/:id" exact component={List} />
+
+            <ProtectedRoute
+              path="/templates/create"
+              exact
+              component={CreateTemplate}
+            />
+            <ProtectedRoute path="/templates" exact component={TemplateList} />
+
             <ProtectedRoute path="/departments" exact component={Departments} />
             <ProtectedRoute
               path="/departments/:id"

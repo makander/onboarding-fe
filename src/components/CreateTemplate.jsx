@@ -3,7 +3,6 @@ import {
   Form,
   Segment,
   Grid,
-  Input,
   Button,
   Header,
   Dropdown,
@@ -17,18 +16,10 @@ const CreateTemplate = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [select, setSelect] = useState();
-  const [selectTemplate, setSelectTemplate] = useState();
+
   const [department, setDepartment] = useState([]);
-  const [lists, setLists] = useState([]);
-  const [newList, setNewList] = useState([]);
 
   useEffect(() => {
-    DepartmentService.findAllDepartmentLists().then((res) => {
-      console.log(res);
-
-      setLists(res);
-    });
-
     DepartmentService.all().then((res) => setDepartment(res));
   }, []);
 
@@ -52,10 +43,7 @@ const CreateTemplate = () => {
       templateList: true,
     };
 
-    console.log('data in createList', data);
-
     ListService.create(data).then((res) => {
-      console.log('response in listservice without template', res);
       if (res.templateList) {
         // navigate(`/lists/${res.id}`);
       }

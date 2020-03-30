@@ -93,12 +93,12 @@ const CreateDepartments = () => {
         <Segment>
           <Form.Group>
             <Form onSubmit={onSubmit}>
-              <FormInput
-                placeholder="Change department name"
-                label="Name"
+              <Form.Input
+                placeholder="Enter department name"
+                label="Department name"
                 type="text"
-                inputValue={name}
-                setInputValue={setName}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
 
               {/*        <TextArea
@@ -110,7 +110,7 @@ const CreateDepartments = () => {
               />
  */}
 
-              <FormDropDown
+              <Form.Select
                 placeholder="Add user to department"
                 options={options}
                 onChange={handleSelect}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Segment, Input, Select, Button, Grid } from 'semantic-ui-react';
-import { navigate } from '@reach/router';
+import { Grid } from 'semantic-ui-react';
+
 import CreateEmployee from './CreateEmployee';
 import ListService from '../services/ListService';
 

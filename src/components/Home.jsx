@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { List, Segment, Grid } from 'semantic-ui-react';
 import UserService from '../services/UserService';
-import Sidebar from './Sidebar';
 
 const Home = () => {
   useEffect(() => {

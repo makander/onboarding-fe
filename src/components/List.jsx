@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import {
-  Form,
-  Header,
-  Table,
-  Button,
-  Container,
-  Grid,
-  Segment,
-} from 'semantic-ui-react';
-import {
-  useParams,
-} from 'react-router-dom';
+import { Form, Container, Grid, Segment, Header } from 'semantic-ui-react';
+import { useParams } from 'react-router-dom';
 import ListService from '../services/ListService';
 import DepartmentService from '../services/DepartmentService';
 import CreateTask from './CreateTask';
 import TaskService from '../services/TaskService';
-import FormSimpleDropDown from './forms/FormSimpleDropDown';
 import TaskDropDown from './TaskDropDown';
 
 const Lists = () => {
@@ -118,7 +107,7 @@ const Lists = () => {
           </Segment>
         </Container>
       ) : null}
-      <Header>Create new task</Header>
+      <Header >Create new task</Header>
       <CreateTask
         setTask={setTask}
         listsId={listsId.id}
