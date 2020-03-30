@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Form, Segment,
-} from 'semantic-ui-react';
-import FormInput from './forms/FormInput';
-import FormButton from './forms/FormButton';
-import TextArea from './forms/FormTextArea';
+import { Form, Segment } from 'semantic-ui-react';
+
 import TaskService from '../services/TaskService';
 
 const CreateTask = ({ setTask, listsId }) => {
@@ -12,7 +8,6 @@ const CreateTask = ({ setTask, listsId }) => {
   const [description, setDescription] = useState('');
 
   // const [user, setUser] = useState('');
-
 
   const handleNewTask = () => {
     const newTask = {
@@ -31,19 +26,18 @@ const CreateTask = ({ setTask, listsId }) => {
 
   return (
     <>
-
       <Segment>
         <Form.Group>
           <Form onSubmit={handleNewTask}>
-            <FormInput
+            <Form.Input
               placeholder="Title"
               label="Title"
               type="text"
-              inputValue={title}
-              setInputValue={setTitle}
+              value={title}
+              onChange={setTitle}
             />
 
-            <TextArea
+            <Form.TextArea
               placeholder="Description"
               label="Description"
               inputValue={description}
@@ -51,7 +45,7 @@ const CreateTask = ({ setTask, listsId }) => {
               name="textarea"
             />
 
-            <FormButton title="Save" type="submit" />
+            <Form.Button type="submit">Save</Form.Button>
           </Form>
         </Form.Group>
       </Segment>

@@ -1,21 +1,20 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import { Router } from '@reach/router';
-
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import AuthContextProvider from './context/AuthContex';
-import ContentWrap from './components/ContentWrap';
 import Start from './components/Start';
-import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import ProtectedRoute from './routes/ProtectedRoute';
 import List from './components/List';
-import Lists from './components/Lists';
 import Departments from './components/Departments';
 import Department from './components/Department';
-
+import CreateTemplate from './components/CreateTemplate';
+import CreateEmployee from './components/CreateEmployee';
+import TemplateList from './components/TemplateList';
+import EmployeeList from './components/EmployeeLists';
 
 axios.defaults.withCredentials = true;
 
@@ -23,28 +22,39 @@ function App() {
   return (
     <div>
       <AuthContextProvider>
-        <Navbar />
-        <ContentWrap start={Start}>
-          <Router>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/" exact component={Start} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/register" exact component={Register} />
 
-            <Departments component={Departments} path="/departments" />
-            <Department component={Department} path="/departments/:departmentsId" />
-            <Start path="/" />
-            <Login path="/login" />
-            <Register path="/register" />
+            <ProtectedRoute path="/home" component={Home} />
 
-            <ProtectedRoute component={Home} path="/home" />
-            <ProtectedRoute component={Lists} path="/lists" />
-            <ProtectedRoute component={List} path="/lists/:listsId" />
+            <ProtectedRoute path="/lists" exact component={EmployeeList} />
+            <ProtectedRoute
+              path="/lists/create"
+              exact
+              component={CreateEmployee}
+            />
+            <ProtectedRoute path="/lists/:id" exact component={List} />
 
+            <ProtectedRoute
+              path="/templates/create"
+              exact
+              component={CreateTemplate}
+            />
+            <ProtectedRoute path="/templates" exact component={TemplateList} />
 
-          </Router>
-        </ContentWrap>
+            <ProtectedRoute path="/departments" exact component={Departments} />
+            <ProtectedRoute
+              path="/departments/:id"
+              exact
+              component={Department}
+            />
+          </Switch>
+        </BrowserRouter>
       </AuthContextProvider>
-
     </div>
-
-
   );
 }
 
