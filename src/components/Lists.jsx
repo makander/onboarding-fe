@@ -39,7 +39,7 @@ const Lists = ({ history, template, header }) => {
   };
 
   return (
-    <Grid.Column width="10">
+    <Grid.Column width="13">
       <div style={{ margin: '2em 0' }}>
         <Header float="left" textAlign="left">
           {header}

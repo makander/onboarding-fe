@@ -93,7 +93,7 @@ const Department = ({ history }) => {
   };
 
   return (
-    <Grid.Column width="12">
+    <Grid.Column width="13">
       <div style={{ margin: '2em 0' }}>
         <Header as="h2" textAlign="left">
           Edit: {departments.name}
@@ -102,7 +102,7 @@ const Department = ({ history }) => {
       {!loader ? (
         <Container>
           <Grid stackable columns={1}>
-            <Grid.Column width="12">
+            <Grid.Column width="13">
               <Segment style={{ marginTop: '2em' }}>
                 <Grid.Row>
                   <Grid.Column width="10">

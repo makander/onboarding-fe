@@ -59,15 +59,15 @@ const Department = () => {
   };
 
   return (
-    <Grid.Column width="10">
+    <Grid.Column width="13">
       <div style={{ margin: '2em 0' }}>
         <Header as="h2" textAlign="left">
           Departments
         </Header>
       </div>
-      {departments.length !== null && departments.length !== 0 ? (
-        <Container>
-          <Grid stackable columns={1} celled>
+      <Segment>
+        {departments.length !== null && departments.length !== 0 ? (
+          <Grid stackable columns={13} textAlign="left">
             {departments.map((item) => (
               <Grid.Row key={item.id} centered>
                 <Grid.Column verticalAlign="middle" computer="4">
@@ -76,19 +76,19 @@ const Department = () => {
                 <Grid.Column verticalAlign="middle" computer="4">
                   {item.Users !== undefined ? item.Users.length : null}
                 </Grid.Column>
-                <Grid.Column verticalAlign="middle" computer="4">
+                <Grid.Column verticalAlign="middle" computer="2">
                   <Button onClick={() => handleClick(item.id)}>Delete</Button>
                 </Grid.Column>
-                <Grid.Column verticalAlign="middle" computer="4">
+                <Grid.Column verticalAlign="middle" computer="2">
                   <Button onClick={() => handleClick(item.id)}>Edit</Button>
                 </Grid.Column>
               </Grid.Row>
             ))}
           </Grid>
-        </Container>
-      ) : null}
+        ) : null}
+      </Segment>
       {users.length > 0 ? (
-        <Grid.Column width="10">
+        <Grid.Column width="13">
           <Header as="h3">Create new department</Header>
           <Segment>
             <Form.Group>

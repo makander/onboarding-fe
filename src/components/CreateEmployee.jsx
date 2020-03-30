@@ -68,7 +68,7 @@ const CreateEmployee = ({ history }) => {
   };
 
   return (
-    <Grid.Column width="10">
+    <Grid.Column width="13">
       <div style={{ margin: '2em 0' }}>
         <Header textAlign="left">Create new list</Header>
       </div>
