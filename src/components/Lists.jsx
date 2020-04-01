@@ -7,31 +7,140 @@ import ListService from '../services/ListService';
 
 const Lists = ({ history, template, header }) => {
   const [lists, setLists] = useState([]);
+  const [viewAll, setViewAll] = useState(false);
+  const [viewCompleted, setViewCompleted] = useState(false);
+  const [viewIncomplete, setViewIncomplete] = useState(true);
+
   useEffect(() => {
     DepartmentService.findAllDepartmentLists().then((res) => {
       setLists(res);
+      console.log(res);
     });
 
     ListService.all((res) => console.log(res));
   }, []);
 
+  const NumberOfTasks = () => {};
+
+  const handleIncomplete = () => {
+    setViewIncomplete(true);
+    setViewCompleted(false);
+    setViewAll(false);
+  };
+  const handleCompleted = () => {
+    setViewIncomplete(false);
+    setViewCompleted(true);
+    setViewAll(false);
+  };
+  const handleAll = () => {
+    setViewIncomplete(false);
+    setViewCompleted(false);
+    setViewAll(true);
+  };
+
+  // return <>Lists</>;
   const DisplayList = () => {
     let listContent;
+
+    // const taskFilter = item.Tasks.filter((task) => task.status !== true).length;
 
     // eslint-disable-next-line no-unused-expressions
     template
       ? (listContent = lists[0].Lists.filter((item) => item.templateList))
       : (listContent = lists[0].Lists.filter((item) => !item.templateList));
 
+    const completedLists = listContent.filter((item) => item.status);
+    const incompleted = listContent.filter((item) => !item.status);
+
     return lists[0].Lists.length !== 0 ? (
       <List divided relaxed>
-        {listContent.map((item) => (
-          <List.Item key={item.id}>
-            <List.Content floated="left">
-              <Link to={`/lists/${item.id}`}>{item.name}</Link>
-            </List.Content>
-          </List.Item>
-        ))}
+        {viewIncomplete
+          ? incompleted.map((item) => (
+              <List.Item key={item.id}>
+                {console.log(item)}
+                <List.Content floated="left">
+                  <Link to={`/lists/${item.id}`}>{item.name}</Link>
+                </List.Content>
+                <List.Content floated="left">
+                  <Link to={`/lists/edit/${item.id}`}>
+                    <Button>Edit</Button>
+                  </Link>
+                </List.Content>
+                <List.Content floated="left">
+                  <p>
+                    {item.Tasks.length != null && !item.templateList ? (
+                      <>
+                        Completed tasks:{' '}
+                        {item.Tasks.filter((task) => task.status).length}{' '}
+                        {' / '}
+                        {item.Tasks.length}
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </p>
+                </List.Content>
+              </List.Item>
+            ))
+          : ''}
+        {viewCompleted
+          ? completedLists.map((item) => (
+              <List.Item key={item.id}>
+                {console.log(item)}
+                <List.Content floated="left">
+                  <Link to={`/lists/${item.id}`}>{item.name}</Link>
+                </List.Content>
+                <List.Content floated="left">
+                  <Link to={`/lists/edit/${item.id}`}>
+                    <Button>Edit</Button>
+                  </Link>
+                </List.Content>
+                <List.Content floated="left">
+                  <p>
+                    {item.Tasks.length != null && !item.templateList ? (
+                      <>
+                        Completed tasks:{' '}
+                        {item.Tasks.filter((task) => task.status).length}{' '}
+                        {' / '}
+                        {item.Tasks.length}
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </p>
+                </List.Content>
+              </List.Item>
+            ))
+          : ''}
+        {viewAll
+          ? listContent.map((item) => (
+              <List.Item key={item.id}>
+                {console.log(item)}
+                <List.Content floated="left">
+                  <Link to={`/lists/${item.id}`}>{item.name}</Link>
+                </List.Content>
+                <List.Content floated="left">
+                  <Link to={`/lists/edit/${item.id}`}>
+                    <Button>Edit</Button>
+                  </Link>
+                </List.Content>
+                <List.Content floated="left">
+                  <p>
+                    {item.Tasks.length != null && !item.templateList ? (
+                      <>
+                        Completed tasks:{' '}
+                        {item.Tasks.filter((task) => task.status).length}{' '}
+                        {' / '}
+                        {item.Tasks.length}
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </p>
+                </List.Content>
+              </List.Item>
+            ))
+          : ''}
       </List>
     ) : (
       <p>{template ? 'No templates available' : 'No lists available'}</p>
@@ -50,6 +159,11 @@ const Lists = ({ history, template, header }) => {
           {// eslint-disable-next-line no-nested-ternary
           lists !== undefined && lists.length !== 0 ? (
             <>
+              <Button.Group>
+                <Button onClick={() => handleIncomplete()}>Incomplete</Button>
+                <Button onClick={() => handleCompleted()}>Completed</Button>
+                <Button onClick={() => handleAll()}>All</Button>
+              </Button.Group>
               <Segment>
                 {' '}
                 <DisplayList />

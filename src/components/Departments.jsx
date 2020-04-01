@@ -85,7 +85,9 @@ const Department = () => {
               </Grid.Row>
             ))}
           </Grid>
-        ) : null}
+        ) : (
+          <p>No departments available, please create one below</p>
+        )}
       </Segment>
       {users.length > 0 ? (
         <Grid.Column width="13">

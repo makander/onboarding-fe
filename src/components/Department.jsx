@@ -11,6 +11,7 @@ import {
   Container,
   List,
 } from 'semantic-ui-react';
+import { v4 as uuidv4 } from 'uuid';
 import { useParams } from 'react-router-dom';
 // import { navigate } from '@reach/router';
 import DepartmentService from '../services/DepartmentService';
@@ -20,7 +21,7 @@ const Department = ({ history }) => {
   const [departments, setDepartments] = useState([]);
   const [name, setName] = useState('');
   const [users, setUsers] = useState([]);
-  const [select, setSelect] = useState('');
+  const [select, setSelect] = useState([]);
   const [options, setOptions] = useState([]);
   const [loader, setLoader] = useState(true);
 
@@ -78,9 +79,10 @@ const Department = ({ history }) => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    DepartmentService.destroy(departmentsId.id).then(() =>
-      history.push('/departments')
-    );
+    console.log(departments.id);
+    console.log(departmentsId.id);
+    DepartmentService.destroy(departmentsId.id);
+    history.push('/departments');
   };
 
   const handleClick = (e, id) => {
@@ -100,89 +102,77 @@ const Department = ({ history }) => {
         </Header>
       </div>
       {!loader ? (
-        <Container>
-          <Grid stackable columns={1}>
-            <Grid.Column width="13">
-              <Segment style={{ marginTop: '2em' }}>
-                <Grid.Row>
-                  <Grid.Column width="10">
-                    <Form onSubmit={onSubmit} inline>
-                      <Form.Group>
-                        <Form.Input
-                          placeholder="New name"
-                          type="text"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          width="12"
-                        />
-                        <br />
-                        <Form.Button content="Submit" />
-                      </Form.Group>
-                    </Form>
-                  </Grid.Column>
-                </Grid.Row>
-              </Segment>
+        <Grid stackable columns={16}>
+          <Grid.Column width="16">
+            <Segment style={{ marginTop: '2em' }}>
+              <Header>Change name on department: {departments.name}</Header>
               <Grid.Row>
-                <Segment style={{ marginTop: '2em' }}>
-                  {departments.Users !== undefined &&
-                  departments.Users.length !== 0 ? (
-                    departments.Users.map((item) => (
-                      <List divided>
-                        <List.Item key={item.id}>
-                          <List.Content floated="left" verticalAlign="bottom">
-                            {item.firstName} {item.lastName}
-                          </List.Content>
-                          <List.Content floated="right" verticalAlign="top">
-                            <Button
-                              compact
-                              onClick={(e) => handleClick(e, item.id)}
-                            >
-                              Remove
-                            </Button>
-                          </List.Content>
-                        </List.Item>
-                      </List>
-                    ))
-                  ) : (
-                    <Grid.Column verticalAlign="middle" width="10">
-                      No users members in this department
-                    </Grid.Column>
-                  )}
-                </Segment>
+                <Form onSubmit={onSubmit}>
+                  <Form.Group>
+                    <Form.Input
+                      placeholder="New name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    <br />
+                    <Form.Button content="Save" />
+                  </Form.Group>
+                </Form>
+                <Form onSubmit={handleDelete}>
+                  <Form.Button>Delete</Form.Button>
+                </Form>
               </Grid.Row>
-
+            </Segment>
+            <Grid.Row>
               <Segment style={{ marginTop: '2em' }}>
-                <Grid.Row>
-                  <Grid.Column width="10">
-                    <Form onSubmit={onSubmit}>
-                      <Form.Group>
-                        <Form.Select
-                          placeholder="Add user to department"
-                          options={options}
-                          onChange={handleSelect}
-                          value={select}
-                          multiple
-                          clearable
-                          width="14"
-                          label="Users"
-                        />
-
-                        <Button float="right" type="submit">
-                          Save
-                        </Button>
-                      </Form.Group>
-                    </Form>
-                  </Grid.Column>
-
-                  {/* 
-                <Button type="submit">Save</Button>
-
-                <Button onClick={(e) => handleDelete(e)}>Delete</Button> */}
-                </Grid.Row>
+                <Header>Users in department: </Header>
+                {departments.Users !== undefined &&
+                departments.Users.length !== 0 ? (
+                  departments.Users.map((item) => (
+                    <List divided key={item.id}>
+                      <List.Item>
+                        <List.Content floated="left" verticalAlign="bottom">
+                          {item.firstName} {item.lastName}
+                        </List.Content>
+                        <List.Content verticalAlign="top">
+                          <Button
+                            compact
+                            onClick={(e) => handleClick(e, item.id)}
+                          >
+                            Remove
+                          </Button>
+                        </List.Content>
+                      </List.Item>
+                    </List>
+                  ))
+                ) : (
+                  <p>No users members in this department</p>
+                )}
               </Segment>
-            </Grid.Column>
-          </Grid>
-        </Container>
+            </Grid.Row>
+
+            <Segment style={{ marginTop: '2em' }}>
+              <Header>Add users</Header>
+              <Grid.Row>
+                <Form onSubmit={onSubmit}>
+                  <Form.Group>
+                    <Form.Select
+                      placeholder="Add user to department"
+                      options={options}
+                      onChange={handleSelect}
+                      value={select}
+                      multiple
+                      clearable
+                    />
+
+                    <Form.Button type="submit">Save</Form.Button>
+                  </Form.Group>
+                </Form>
+              </Grid.Row>
+            </Segment>
+          </Grid.Column>
+        </Grid>
       ) : (
         <Segment>
           <Dimmer active inverted>

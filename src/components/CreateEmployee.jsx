@@ -75,7 +75,7 @@ const CreateEmployee = ({ history }) => {
       <Grid.Row>
         <Grid.Column>
           <Segment>
-            <Form.Group textAlign="left">
+            <Form.Group>
               <Form onSubmit={handleNewList}>
                 <Form.Input
                   placeholder="First name"

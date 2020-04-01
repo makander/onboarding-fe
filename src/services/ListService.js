@@ -6,11 +6,17 @@ const all = async () =>
     .then((res) => res.data);
 
 const get = async (id) =>
-  axios.get(`${process.env.REACT_APP_BASE_URL}/api/list/${id}`);
+  axios
+    .get(`${process.env.REACT_APP_BASE_URL}/api/list/${id}`)
+    .then((res) => res.data);
 
-const destroy = async (id) => axios.delete();
+const destroy = async (id) =>
+  axios.delete(`${process.env.REACT_APP_BASE_URL}/api/list/${id}`);
 
-const update = async (data) => axios.put();
+const update = async (id, data) =>
+  axios
+    .put(`${process.env.REACT_APP_BASE_URL}/api/list/${id}`, data)
+    .then((res) => res.data);
 
 const create = async (data) =>
   axios

@@ -15,6 +15,7 @@ import CreateTemplate from './components/CreateTemplate';
 import CreateEmployee from './components/CreateEmployee';
 import TemplateList from './components/TemplateList';
 import EmployeeList from './components/EmployeeLists';
+import EditList from './components/EditList';
 
 axios.defaults.withCredentials = true;
 
@@ -36,6 +37,7 @@ function App() {
               exact
               component={CreateEmployee}
             />
+            <ProtectedRoute path="/lists/edit/:id" exact component={EditList} />
             <ProtectedRoute path="/lists/:id" exact component={List} />
 
             <ProtectedRoute
