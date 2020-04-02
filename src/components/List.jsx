@@ -32,10 +32,10 @@ const Lists = ({ history }) => {
       console.log(res);
       setList(res);
     });
-    DepartmentService.findAllDepartmentTasks(listsId.id).then((res) => {
+    DepartmentService.allTasks(listsId.id).then((res) => {
       setDepartments(res);
     });
-    DepartmentService.findAllDepartmentLists(listsId.id).then((res) => {
+    DepartmentService.allLists(listsId.id).then((res) => {
       const format = res.flatMap((user) =>
         user.Users.map(({ id, firstName, lastName }) => ({
           value: id,

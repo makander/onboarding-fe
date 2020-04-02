@@ -10,6 +10,11 @@ const allLists = async () =>
     .get(`${process.env.REACT_APP_BASE_URL}/api/department/lists`)
     .then((res) => res.data);
 
+const allTasks = async () =>
+  axios
+    .get(`${process.env.REACT_APP_BASE_URL}/api/department/tasks`)
+    .then((res) => res.data);
+
 const get = async (id) =>
   axios
     .get(`${process.env.REACT_APP_BASE_URL}/api/department/${id}`)
@@ -30,7 +35,7 @@ const removeUser = async (id, data) =>
     })
     .then((res) => res.data);
 
-const findAllDepartmentTasks = async () =>
+/* const findAllDepartmentTasks = async () =>
   axios
     .get(`${process.env.REACT_APP_BASE_URL}/api/department/tasks`)
     .then((res) => res.data);
@@ -39,7 +44,7 @@ const findAllDepartmentLists = async () =>
   axios
     .get(`${process.env.REACT_APP_BASE_URL}/api/department/lists`)
     .then((res) => console.log(res));
-
+ */
 const create = async (data) =>
   axios.post(`${process.env.REACT_APP_BASE_URL}/api/department`, data);
 
@@ -50,7 +55,8 @@ export default {
   update,
   create,
   removeUser,
-  findAllDepartmentTasks,
-  findAllDepartmentLists,
+  /*   findAllDepartmentTasks,
+  findAllDepartmentLists, */
   allLists,
+  allTasks,
 };
