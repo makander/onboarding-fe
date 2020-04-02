@@ -5,6 +5,11 @@ const all = async () =>
     .get(`${process.env.REACT_APP_BASE_URL}/api/department/all`)
     .then((res) => res.data);
 
+const allLists = async () =>
+  axios
+    .get(`${process.env.REACT_APP_BASE_URL}/api/department/lists`)
+    .then((res) => res.data);
+
 const get = async (id) =>
   axios
     .get(`${process.env.REACT_APP_BASE_URL}/api/department/${id}`)
@@ -25,15 +30,15 @@ const removeUser = async (id, data) =>
     })
     .then((res) => res.data);
 
-const findAllDepartmentTasks = async (id) =>
+const findAllDepartmentTasks = async () =>
   axios
-    .get(`${process.env.REACT_APP_BASE_URL}/api/department/${id}/tasks`)
+    .get(`${process.env.REACT_APP_BASE_URL}/api/department/tasks`)
     .then((res) => res.data);
 
-const findAllDepartmentLists = async (id) =>
+const findAllDepartmentLists = async () =>
   axios
-    .get(`${process.env.REACT_APP_BASE_URL}/api/department/${id}/list`)
-    .then((res) => res.data);
+    .get(`${process.env.REACT_APP_BASE_URL}/api/department/lists`)
+    .then((res) => console.log(res));
 
 const create = async (data) =>
   axios.post(`${process.env.REACT_APP_BASE_URL}/api/department`, data);
@@ -47,4 +52,5 @@ export default {
   removeUser,
   findAllDepartmentTasks,
   findAllDepartmentLists,
+  allLists,
 };

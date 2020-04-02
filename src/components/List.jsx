@@ -7,8 +7,9 @@ import {
   Segment,
   Header,
   Button,
+  Message,
 } from 'semantic-ui-react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import ListService from '../services/ListService';
 import DepartmentService from '../services/DepartmentService';
@@ -102,11 +103,11 @@ const Lists = ({ history }) => {
             Complete list
           </Button>
         ) : (
-          'No'
+          ''
         )}
       </>
     ) : (
-      ''
+      <Message positive>This list has been completed</Message>
     );
   };
 
@@ -187,9 +188,12 @@ const Lists = ({ history }) => {
         departments={departments}
       />
       <Button.Group floated="right">
-        <Button secondary onClick={() => editList()}>
-          Edit
+        <Button secondary>
+          <Link style={{ color: 'White' }} to={`/lists/edit/${listsId.id}`}>
+            Edit
+          </Link>
         </Button>
+
         <Button negative onClick={() => deleteList()}>
           Delete
         </Button>

@@ -12,15 +12,13 @@ const Lists = ({ history, template, header }) => {
   const [viewIncomplete, setViewIncomplete] = useState(true);
 
   useEffect(() => {
-    DepartmentService.findAllDepartmentLists().then((res) => {
+    DepartmentService.allLists().then((res) => {
       setLists(res);
       console.log(res);
     });
 
     ListService.all((res) => console.log(res));
   }, []);
-
-  const NumberOfTasks = () => {};
 
   const handleIncomplete = () => {
     setViewIncomplete(true);
@@ -61,11 +59,7 @@ const Lists = ({ history, template, header }) => {
                 <List.Content floated="left">
                   <Link to={`/lists/${item.id}`}>{item.name}</Link>
                 </List.Content>
-                <List.Content floated="left">
-                  <Link to={`/lists/edit/${item.id}`}>
-                    <Button>Edit</Button>
-                  </Link>
-                </List.Content>
+
                 <List.Content floated="left">
                   <p>
                     {item.Tasks.length != null && !item.templateList ? (
@@ -91,11 +85,6 @@ const Lists = ({ history, template, header }) => {
                   <Link to={`/lists/${item.id}`}>{item.name}</Link>
                 </List.Content>
                 <List.Content floated="left">
-                  <Link to={`/lists/edit/${item.id}`}>
-                    <Button>Edit</Button>
-                  </Link>
-                </List.Content>
-                <List.Content floated="left">
                   <p>
                     {item.Tasks.length != null && !item.templateList ? (
                       <>
@@ -118,11 +107,6 @@ const Lists = ({ history, template, header }) => {
                 {console.log(item)}
                 <List.Content floated="left">
                   <Link to={`/lists/${item.id}`}>{item.name}</Link>
-                </List.Content>
-                <List.Content floated="left">
-                  <Link to={`/lists/edit/${item.id}`}>
-                    <Button>Edit</Button>
-                  </Link>
                 </List.Content>
                 <List.Content floated="left">
                   <p>
@@ -157,7 +141,7 @@ const Lists = ({ history, template, header }) => {
       <Grid.Row>
         <Grid.Column>
           {// eslint-disable-next-line no-nested-ternary
-          lists !== undefined && lists.length !== 0 ? (
+          lists != null && lists.length !== 0 ? (
             <>
               <Button.Group>
                 <Button onClick={() => handleIncomplete()}>Incomplete</Button>
