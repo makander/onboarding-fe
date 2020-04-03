@@ -9,6 +9,7 @@ const Sidebar = () => {
       color="grey"
       style={{ marginTop: '0.5em', minHeight: '100vh', paddingLeft: '-1rem' }}
       inverted
+      fixed
     >
       <Menu.Item as={Link} name="Lists" to="/lists" />
 

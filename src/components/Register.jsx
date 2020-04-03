@@ -11,7 +11,7 @@ const Register = ({ history }) => {
   const handleRegistration = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:5000/api/user/register', {
+      .post('/api/user/register', {
         firstName,
         lastName,
         email,
@@ -58,6 +58,7 @@ const Register = ({ history }) => {
                 <input
                   placeholder="Enter Password"
                   required
+                  type="password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Form.Field>

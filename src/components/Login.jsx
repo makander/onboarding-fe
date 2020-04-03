@@ -46,6 +46,7 @@ const Login = (props) => {
                   name="password"
                   placeholder="Enter password"
                   required
+                  type="password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Form.Field>

@@ -11,41 +11,13 @@ const Navbar = () => {
   } = useContext(AuthContext);
 
   return (
-    <>
-      {id ? (
-        <Menu fixed="top">
-          {' '}
-          <Menu.Item>
-            <Link to="/home">Home</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to="/lists">Lists</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to="/task">Tasks</Link>
-          </Menu.Item>
-          <Menu.Menu position="right">
-            <Menu.Item>
-              <Link to="/logout">Logout</Link>
-            </Menu.Item>
-          </Menu.Menu>
-        </Menu>
-      ) : (
-        <Menu fixed="top">
-          <Menu.Item>
-            <Link to="/">Border</Link>
-          </Menu.Item>
+    <Menu top inverted style={{ width: '100%', paddingTop: '1em' }}>
+      <Menu.Item as={Link} name="Lists" to="/lists" />
 
-          <Menu.Item>
-            <Link to="/register">Register</Link>
-          </Menu.Item>
-
-          <Menu.Item>
-            <Link to="/login">Login</Link>
-          </Menu.Item>
-        </Menu>
-      )}
-    </>
+      <Menu.Item as={Link} name="Templates" to="/templates" />
+      <Menu.Item as={Link} name="Department" to="/departments" />
+      <Menu.Item name="">logout</Menu.Item>
+    </Menu>
   );
 };
 

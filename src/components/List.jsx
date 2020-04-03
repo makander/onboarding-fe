@@ -112,7 +112,7 @@ const Lists = ({ history }) => {
   };
 
   return (
-    <Grid.Column width="13">
+    <>
       <div style={{ margin: '2em 0' }}>
         <Header as="h2" textAlign="left">
           {/* ? `Task for template:  ${list.name}`
@@ -124,15 +124,15 @@ const Lists = ({ history }) => {
       </div>
       {list != null ? (
         <>
-          <Segment>
-            <Grid stackable columns={13} textAlign="left">
+          <>
+            <Grid stackable textAlign="left">
               {list.Tasks != null && list.Tasks.length !== 0 ? (
                 list.Tasks.map((item) => (
                   <Grid.Row key={item.id} style={{ padding: '0' }}>
                     <Grid.Column verticalAlign="middle" computer="3">
                       {item.name}
                     </Grid.Column>
-                    <Grid.Column verticalAlign="middle" computer="5">
+                    <Grid.Column verticalAlign="middle" tablet="3" computer="5">
                       {item.User != null && item.User != null ? (
                         <>
                           <p>
@@ -150,6 +150,7 @@ const Lists = ({ history }) => {
                         'No assigned user'
                       )}
                     </Grid.Column>
+
                     <Grid.Column verticalAlign="middle" computer="5">
                       <TaskDropDown
                         options={options}
@@ -177,7 +178,7 @@ const Lists = ({ history }) => {
                 </>
               )}
             </Grid>
-          </Segment>
+          </>
           <CompleteSegment />
         </>
       ) : null}
@@ -198,7 +199,7 @@ const Lists = ({ history }) => {
           Delete
         </Button>
       </Button.Group>
-    </Grid.Column>
+    </>
   );
 };
 

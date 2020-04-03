@@ -25,7 +25,7 @@ const TaskDropDown = ({ options, TaskServiceUpdateTask, id, setTask }) => {
 
   return (
     <Form>
-      <Form.Group inline style={selectStyle}>
+      <Form.Group inline>
         <Form.Select
           placeholder="Assign User"
           options={options}
@@ -33,7 +33,7 @@ const TaskDropDown = ({ options, TaskServiceUpdateTask, id, setTask }) => {
           value={select}
         />
 
-        <Button onClick={() => handleClick(id)}>Save</Button>
+        <Form.Button onClick={() => handleClick(id)} content="Save" />
       </Form.Group>
     </Form>
   );
