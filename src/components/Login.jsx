@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 // import { navigate } from '@reach/router';
 import { Button, Form, Segment, Header, Grid } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContex';
 import UserService from '../services/UserService';
 
@@ -54,7 +55,10 @@ const Login = (props) => {
               <Button fluid size="large" type="submit">
                 Login
               </Button>
-              <p>Don&apos;t have an account? Sign up here.</p>
+              <p>
+                Don&apos;t have an account? Sign up&nbsp;
+                <Link to="/register">here</Link>.
+              </p>
             </Form>
           </Segment>
         </Grid.Column>{' '}
