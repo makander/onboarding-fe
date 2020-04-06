@@ -11,6 +11,7 @@ const Sidebar = () => {
       inverted
       fixed
     >
+      <Menu.Item as={Link} name="Home" to="/home" />
       <Menu.Item as={Link} name="Lists" to="/lists" />
 
       <Menu.Item as={Link} name="Templates" to="/templates" />

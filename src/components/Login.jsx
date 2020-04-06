@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 // import { navigate } from '@reach/router';
 import { Button, Form, Segment, Header, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContex';
+import { AuthContext } from '../context/AuthContext';
 import UserService from '../services/UserService';
 
 const Login = (props) => {

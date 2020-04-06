@@ -2,7 +2,7 @@ import React from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import AuthContextProvider from './context/AuthContex';
+import AuthContextProvider from './context/AuthContext';
 import Start from './components/Start';
 import Login from './components/Login';
 import Register from './components/Register';
