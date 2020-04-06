@@ -49,7 +49,12 @@ const Home = () => {
                 </List>
               </>
             ) : (
-              `Please join or create a <Link to={"/departments"}>department</Link>`
+              <>
+                <p>
+                  Please join or create a
+                  <Link to="/departments">department</Link>
+                </p>
+              </>
             )}
           </Segment>
         </>
