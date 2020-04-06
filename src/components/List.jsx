@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react';
 
 import {
   Form,
-  Container,
   Grid,
   Segment,
   Header,
   Button,
   Message,
   Loader,
-  Dimmer,
+  List,
 } from 'semantic-ui-react';
 import { useParams, Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -121,16 +120,43 @@ const Lists = ({ history }) => {
       {list != null && list.length !== 0 ? (
         <>
           <div style={{ margin: '2em 0' }}>
-            {/*      <Header as="h2" textAlign="left">
-              {/* ? `Task for template:  ${list.name}`
-            : `Tasks for:  ${list.name}` 
+            <Header as="h2" textAlign="left">
               {list.templateList != null
                 ? `Task for template:  ${list.name}`
                 : `Tasks for:  ${list.name}`}
-            </Header> */}
+            </Header>
           </div>
 
           <Grid stackable textAlign="left">
+            {list.Tasks != null && list.Employee ? (
+              <Grid.Row>
+                <Grid.Column verticalAlign="middle">
+                  <Segment>
+                    <Header as="h3">Employee information</Header>
+                    <List>
+                      <List.Item>
+                        <p>
+                          Name: {list.Employee.firstName}{' '}
+                          {list.Employee.lastName}
+                        </p>
+                      </List.Item>
+                      <List.Item>
+                        <p>Title: {list.Employee.title}</p>
+                      </List.Item>
+                      <List.Item>
+                        <p>Phone: {list.Employee.phoneNumber}</p>
+                      </List.Item>
+                      <List.Item>
+                        <p>Office: {list.Employee.office}</p>
+                      </List.Item>
+                    </List>
+                  </Segment>
+                </Grid.Column>
+              </Grid.Row>
+            ) : (
+              ''
+            )}
+
             {list.Tasks != null && list.Tasks.length !== 0 ? (
               list.Tasks.map((item) => (
                 <Grid.Row key={item.id} style={{ padding: '0' }}>
