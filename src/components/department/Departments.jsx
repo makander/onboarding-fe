@@ -81,9 +81,6 @@ const Department = () => {
                         <p>Members: {item.Users.length}</p>
                       ) : null}
                     </Grid.Column>
-                    {/*                 <Grid.Column verticalAlign="middle" computer="2">
-                  <Button onClick={() => handleClick(item.id)}>Delete</Button>
-                </Grid.Column> */}
                   </Grid.Row>
                 ))}
               </Grid>

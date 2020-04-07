@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import { Menu, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
   const {

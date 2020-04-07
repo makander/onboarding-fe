@@ -3,16 +3,21 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { List, Segment, Grid, Header, Loader } from 'semantic-ui-react';
 import UserService from '../services/UserService';
+import { AuthContext } from '../context/AuthContext';
 
 const Home = () => {
-  const [user, setUser] = useState([]);
+  const {
+    authStatus: { user },
+  } = useContext(AuthContext);
+
+  const [profile, setProfile] = useState([]);
   useEffect(() => {
-    UserService.findOne().then((res) => setUser(res));
+    UserService.findOne(user.id).then((res) => setProfile(res));
   }, []);
 
   return (
     <Grid.Column centered tablet={14} computer={12}>
-      {user != null && user.length !== 0 ? (
+      {profile != null && profile.length !== 0 ? (
         <>
           <div style={{ margin: '2em 0' }}>
             <Header float="left" textAlign="left">
@@ -21,12 +26,12 @@ const Home = () => {
           </div>
 
           <Segment>
-            {user.Tasks != null && user.Tasks.length !== 0 ? (
+            {profile.Tasks != null && profile.Tasks.length !== 0 ? (
               <>
                 <Header>Tasks</Header>
-                <p>You are assigned to {user.Tasks.length} tasks.</p>
+                <p>You are assigned to {profile.Tasks.length} tasks.</p>
                 <List>
-                  {user.Tasks.map((task) => (
+                  {profile.Tasks.map((task) => (
                     <List.Item>
                       <Link to={`/lists/${task.ListId}`}>{task.name}</Link>
                     </List.Item>
@@ -38,7 +43,7 @@ const Home = () => {
             )}
           </Segment>
           <Segment>
-            {user.Departments != null && user.Departments.length !== 0 ? (
+            {profile.Departments != null && user.Departments.length !== 0 ? (
               <>
                 <Header>Tasks</Header>
                 <p>You a member of the following departments:</p>
@@ -48,7 +53,7 @@ const Home = () => {
                   ))}
                 </List>
               </>
-            ) : user.admin ? (
+            ) : profile.admin ? (
               <>
                 <p>
                   Please create a <Link to="/departments">department</Link> and

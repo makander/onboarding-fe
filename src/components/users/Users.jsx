@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Grid, Header, Segment, List, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import UserService from '../services/UserService';
+import UserService from '../../services/UserService';
+import { AuthContext } from '../../context/AuthContext';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+
+  const {
+    authStatus: { user },
+  } = useContext(AuthContext);
 
   useEffect(() => {
     UserService.findAll().then((res) => setUsers(res));
@@ -31,9 +36,6 @@ const Users = () => {
                       Edit
                     </Button>
                   </Link>
-                  <Button compact floated="right">
-                    Delete
-                  </Button>
                 </List.Content>
               </List.Item>
             ))}

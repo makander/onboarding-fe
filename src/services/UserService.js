@@ -6,13 +6,13 @@ const logoutUser = async (id) => axios.post(id);
 
 const registerUser = async (data) => axios.post(`/api/user/register`, data);
 
-const edit = async (id) => axios.put(id);
+const edit = async (id, data) => axios.put(`/api/user/${id}`, data);
 
-const destroy = async (id) => axios.delete(id);
+const destroy = async (id) => axios.delete(`/api/user/${id}`);
+const findAll = async () => axios.get(`/api/user/`).then((res) => res.data);
 
-const findAll = async () => axios.get(`/api/user/all`).then((res) => res.data);
-
-const findOne = async () => axios.get(`/api/user/`).then((res) => res.data);
+const findOne = async (id) =>
+  axios.get(`/api/user/${id}`).then((res) => res.data);
 
 export default {
   loginUser,

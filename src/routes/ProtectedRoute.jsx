@@ -3,8 +3,8 @@ import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
 import { AuthContext } from '../context/AuthContext';
-import Sidebar from '../components/Sidebar';
-import Navbar from '../components/Navbar';
+import Sidebar from '../components/navigation/Sidebar';
+import Navbar from '../components/navigation/Navbar';
 
 const ProtectedRoute = ({ component: Component, ...props }) => {
   const { authStatus } = useContext(AuthContext);

@@ -16,8 +16,8 @@ import CreateEmployee from './components/list/CreateEmployee';
 import TemplateList from './components/list/TemplateList';
 import EmployeeList from './components/list/EmployeeLists';
 import EditList from './components/list/EditList';
-import Users from './components/Users';
-import User from './components/User';
+import Users from './components/users/Users';
+import User from './components/users/User';
 
 axios.defaults.withCredentials = true;
 

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 const Sidebar = () => {
   const {
@@ -24,6 +24,7 @@ const Sidebar = () => {
           <Menu.Item as={Link} name="Templates" to="/templates" />
           <Menu.Item as={Link} name="Department" to="/departments" />
           <Menu.Item as={Link} name="Users" to="/users" />
+          <Menu.Item as={Link} name="Profile" to={`/users/${user.id}`} />
         </>
       ) : (
         ''
