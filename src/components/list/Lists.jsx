@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Grid, Header, List, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
-import DepartmentService from '../services/DepartmentService';
-import ListService from '../services/ListService';
+import DepartmentService from '../../services/DepartmentService';
+import ListService from '../../services/ListService';
 
 const Lists = ({ history, template, header }) => {
   const [lists, setLists] = useState([]);
   const [viewAll, setViewAll] = useState(false);
   const [viewCompleted, setViewCompleted] = useState(false);
   const [viewIncomplete, setViewIncomplete] = useState(true);
+
+  const {
+    authStatus: { user },
+  } = useContext(AuthContext);
 
   useEffect(() => {
     DepartmentService.allLists().then((res) => {
@@ -36,11 +41,8 @@ const Lists = ({ history, template, header }) => {
     setViewAll(true);
   };
 
-  // return <>Lists</>;
   const DisplayList = () => {
     let listContent;
-
-    // const taskFilter = item.Tasks.filter((task) => task.status !== true).length;
 
     // eslint-disable-next-line no-unused-expressions
     template
@@ -149,11 +151,10 @@ const Lists = ({ history, template, header }) => {
                 <Button onClick={() => handleAll()}>All</Button>
               </Button.Group>
               <Segment>
-                {' '}
                 <DisplayList />
               </Segment>
 
-              {template ? (
+              {template && user.admin ? (
                 <Link to="/templates/create">
                   <Button>New template</Button>
                 </Link>
@@ -163,8 +164,10 @@ const Lists = ({ history, template, header }) => {
                 </Link>
               )}
             </>
+          ) : user.admin ? (
+            'No lists available, please create a department first'
           ) : (
-            'No lists available, please join a department first'
+            'No lists available, please contact your administrator'
           )}
         </Grid.Column>
       </Grid.Row>

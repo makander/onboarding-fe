@@ -2,7 +2,6 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react';
-import ContentWrap from '../components/ContentWrap';
 import { AuthContext } from '../context/AuthContext';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';

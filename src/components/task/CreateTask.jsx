@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Segment } from 'semantic-ui-react';
 
-import TaskService from '../services/TaskService';
+import TaskService from '../../services/TaskService';
 
 const CreateTask = ({ setTask, listsId }) => {
   const [title, setTitle] = useState('');

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Form, Segment, Input, Button, Grid, Header } from 'semantic-ui-react';
 // import { navigate } from '@reach/router';
 
-import EmployeeService from '../services/EmployeeService';
-import ListService from '../services/ListService';
+import EmployeeService from '../../services/EmployeeService';
+import ListService from '../../services/ListService';
 
 const CreateEmployee = ({ history }) => {
   const [title, setTitle] = useState('');

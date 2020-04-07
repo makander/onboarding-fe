@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 
 import CreateEmployee from './CreateEmployee';
-import ListService from '../services/ListService';
+import ListService from '../../services/ListService';
 
 const NewList = () => {
   const [templateList, setTemplateList] = useState([]);

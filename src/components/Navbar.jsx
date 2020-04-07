@@ -6,9 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
   const {
-    authStatus: {
-      user: { id },
-    },
+    authStatus: { user },
   } = useContext(AuthContext);
 
   return (
@@ -18,8 +16,15 @@ const Navbar = () => {
 
         <Menu.Item as={Link} name="Lists" to="/lists" />
 
-        <Menu.Item as={Link} name="Templates" to="/templates" />
-        <Menu.Item as={Link} name="Department" to="/departments" />
+        {user.admin ? (
+          <>
+            <Menu.Item as={Link} name="Templates" to="/templates" />
+            <Menu.Item as={Link} name="Department" to="/departments" />
+            <Menu.Item as={Link} name="Users" to="/users" />
+          </>
+        ) : (
+          ''
+        )}
         <Menu.Item name="">logout</Menu.Item>
       </Menu>
     </Grid.Row>

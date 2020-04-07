@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Menu, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Sidebar = () => {
+  const {
+    authStatus: { user },
+  } = useContext(AuthContext);
+
   return (
     <Menu
       vertical
@@ -14,9 +19,15 @@ const Sidebar = () => {
       <Menu.Item as={Link} name="Home" to="/home" />
       <Menu.Item as={Link} name="Lists" to="/lists" />
 
-      <Menu.Item as={Link} name="Templates" to="/templates" />
-      <Menu.Item as={Link} name="Department" to="/departments" />
-
+      {user.admin ? (
+        <>
+          <Menu.Item as={Link} name="Templates" to="/templates" />
+          <Menu.Item as={Link} name="Department" to="/departments" />
+          <Menu.Item as={Link} name="Users" to="/users" />
+        </>
+      ) : (
+        ''
+      )}
       <Menu.Item>
         <Menu.Menu>
           <Menu.Item name="">logout</Menu.Item>

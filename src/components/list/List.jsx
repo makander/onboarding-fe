@@ -13,11 +13,11 @@ import {
 } from 'semantic-ui-react';
 import { useParams, Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import ListService from '../services/ListService';
-import DepartmentService from '../services/DepartmentService';
-import CreateTask from './CreateTask';
-import TaskService from '../services/TaskService';
-import TaskDropDown from './TaskDropDown';
+import ListService from '../../services/ListService';
+import DepartmentService from '../../services/DepartmentService';
+import CreateTask from '../task/CreateTask';
+import TaskService from '../../services/TaskService';
+import TaskDropDown from '../task/TaskDropDown';
 
 const Lists = ({ history }) => {
   const [list, setList] = useState([]);

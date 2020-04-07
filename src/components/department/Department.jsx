@@ -8,14 +8,11 @@ import {
   Dimmer,
   Loader,
   Image,
-  Container,
   List,
 } from 'semantic-ui-react';
-import { v4 as uuidv4 } from 'uuid';
 import { useParams } from 'react-router-dom';
-// import { navigate } from '@reach/router';
-import DepartmentService from '../services/DepartmentService';
-import UserService from '../services/UserService';
+import DepartmentService from '../../services/DepartmentService';
+import UserService from '../../services/UserService';
 
 const Department = ({ history }) => {
   const [departments, setDepartments] = useState([]);
@@ -79,8 +76,6 @@ const Department = ({ history }) => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    console.log(departments.id);
-    console.log(departmentsId.id);
     DepartmentService.destroy(departmentsId.id);
     history.push('/departments');
   };

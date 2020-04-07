@@ -9,8 +9,8 @@ import {
 } from 'semantic-ui-react';
 // import { navigate } from '@reach/router';
 
-import ListService from '../services/ListService';
-import DepartmentService from '../services/DepartmentService';
+import ListService from '../../services/ListService';
+import DepartmentService from '../../services/DepartmentService';
 
 const CreateTemplate = ({ history }) => {
   const [title, setTitle] = useState('');

@@ -10,10 +10,10 @@ import {
   Divider,
 } from 'semantic-ui-react';
 import { v4 as uuidv4 } from 'uuid';
-import ListService from '../services/ListService';
-import DepartmentService from '../services/DepartmentService';
+import ListService from '../../services/ListService';
+import DepartmentService from '../../services/DepartmentService';
 
-const EditList = ({ history }) => {
+const EditList = () => {
   const [list, setList] = useState([]);
   const listsId = useParams();
   const [title, setTitle] = useState('');
@@ -62,8 +62,6 @@ const EditList = ({ history }) => {
         templateList: templateList !== list.templateList ? templateList : title,
       };
 
-      console.log(data);
-
       ListService.update(listsId.id, data).then((res) => {
         setTitle('');
         setDescription('');
@@ -75,7 +73,6 @@ const EditList = ({ history }) => {
   };
 
   const deleteDepartment = (id) => {
-    console.log('click', id);
     const filter = list.Departments.filter(
       (department) => department.id !== id
     );
@@ -85,7 +82,6 @@ const EditList = ({ history }) => {
     };
 
     ListService.update(listsId.id, data).then((res) => {
-      console.log(res);
       setList(res);
     });
   };

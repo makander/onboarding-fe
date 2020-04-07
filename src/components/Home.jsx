@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { List, Segment, Grid, Header, Loader } from 'semantic-ui-react';
@@ -7,7 +8,6 @@ const Home = () => {
   const [user, setUser] = useState([]);
   useEffect(() => {
     UserService.findOne().then((res) => setUser(res));
-    console.log(user);
   }, []);
 
   return (
@@ -48,12 +48,16 @@ const Home = () => {
                   ))}
                 </List>
               </>
-            ) : (
+            ) : user.admin ? (
               <>
                 <p>
-                  Please join or create a
-                  <Link to="/departments">department</Link>
+                  Please create a <Link to="/departments">department</Link> and
+                  add users to it
                 </p>
+              </>
+            ) : (
+              <>
+                <p>Please ask your administrator to add you to a department</p>
               </>
             )}
           </Segment>

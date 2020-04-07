@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { Form, Button, Segment, Table } from 'semantic-ui-react';
-import DepartmentService from '../services/DepartmentService';
-import FormInput from './forms/FormInput';
-import FormButton from './forms/FormButton';
-import FormDropDown from './forms/FormDropDown';
-import UserService from '../services/UserService';
+import DepartmentService from '../../services/DepartmentService';
+import UserService from '../../services/UserService';
 
 const CreateDepartments = () => {
   const [departments, setDepartments] = useState([]);
@@ -16,7 +12,6 @@ const CreateDepartments = () => {
   const [select, setSelect] = useState([]);
 
   useEffect(() => {
-    // UserService.findAll().then((res) => setUsers(res));
     UserService.findAll().then((res) => setUsers(res));
     DepartmentService.all().then((res) => {
       setDepartments(res);
@@ -24,17 +19,13 @@ const CreateDepartments = () => {
   }, []);
 
   const onSubmit = () => {
-    console.log(departments);
-
     const department = {
       name,
       description,
       users: select,
     };
-    console.log(department);
 
     DepartmentService.create(department).then((res) => {
-      console.log(res.data);
       setDepartments(departments.concat([res.data]));
     });
     setSelect([]);
@@ -117,7 +108,7 @@ const CreateDepartments = () => {
                 // value={select}
                 inputValue={select}
               />
-              <FormButton title="Save" type="submit" />
+              <Form.Button title="Save" type="submit" />
             </Form>
           </Form.Group>
         </Segment>
