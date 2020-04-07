@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import {
   Form,
@@ -18,6 +18,7 @@ import DepartmentService from '../../services/DepartmentService';
 import CreateTask from '../task/CreateTask';
 import TaskService from '../../services/TaskService';
 import TaskDropDown from '../task/TaskDropDown';
+import { AuthContext } from '../../context/AuthContext';
 
 const Lists = ({ history }) => {
   const [list, setList] = useState([]);
@@ -28,6 +29,10 @@ const Lists = ({ history }) => {
   const [task, setTask] = useState([]);
 
   const listsId = useParams();
+
+  const {
+    authStatus: { user },
+  } = useContext(AuthContext);
 
   useEffect(() => {
     ListService.get(listsId.id).then((res) => {
@@ -218,20 +223,25 @@ const Lists = ({ history }) => {
               listsId={listsId.id}
               departments={departments}
             />
-            <Button.Group floated="right">
-              <Button secondary>
-                <Link
-                  style={{ color: 'White' }}
-                  to={`/lists/edit/${listsId.id}`}
-                >
-                  Edit
-                </Link>
-              </Button>
 
-              <Button negative onClick={() => deleteList()}>
-                Delete
-              </Button>
-            </Button.Group>
+            {user.admin ? (
+              <Button.Group floated="right">
+                <Button secondary>
+                  <Link
+                    style={{ color: 'White' }}
+                    to={`/lists/edit/${listsId.id}`}
+                  >
+                    Edit
+                  </Link>
+                </Button>
+
+                <Button negative onClick={() => deleteList()}>
+                  Delete
+                </Button>
+              </Button.Group>
+            ) : (
+              ''
+            )}
           </>
         </>
       ) : (
