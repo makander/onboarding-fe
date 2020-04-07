@@ -68,89 +68,93 @@ const CreateEmployee = ({ history }) => {
   };
 
   return (
-    <Grid.Column width="13">
-      <div style={{ margin: '2em 0' }}>
-        <Header textAlign="left">Create new list</Header>
-      </div>
-      <Grid.Row>
-        <Grid.Column>
-          <Segment>
-            <Form.Group>
-              <Form onSubmit={handleNewList}>
-                <Form.Input
-                  placeholder="First name"
-                  label="First name"
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-
-                <Form.Input
-                  placeholder="Last name"
-                  label="Last name"
-                  type="text"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-
-                <Form.Input
-                  placeholder="Title"
-                  label="Title"
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-
-                <Form.Input
-                  placeholder="Email"
-                  label="Email"
-                  type="text"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-
-                <Form.Input
-                  placeholder="Adress"
-                  label="Adress"
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-
-                <Form.Input
-                  placeholder="Phone Number"
-                  label="Phone number"
-                  control={Input}
-                  type="text"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-
-                <Form.Input
-                  placeholder="Office"
-                  label="Office"
-                  type="text"
-                  value={office}
-                  onChange={(e) => setOffice(e.target.value)}
-                />
-
-                {templateOptions ? (
-                  <Form.Select
-                    placeholder="Use template"
-                    options={templateOptions}
-                    onChange={handleSelectTemplate}
-                    value={select}
-                    clearable
+    <>
+      <Grid.Column width="13">
+        <div style={{ margin: '2em 0' }}>
+          <Header textAlign="left">Create new list</Header>
+        </div>
+        <Grid.Row>
+          <Grid.Column>
+            <Segment>
+              <Form.Group>
+                <Form onSubmit={handleNewList}>
+                  <Form.Input
+                    placeholder="First name"
+                    label="First name"
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
-                ) : null}
 
-                <Button type="submit">Save</Button>
-              </Form>
-            </Form.Group>
-          </Segment>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid.Column>
+                  <Form.Input
+                    placeholder="Last name"
+                    label="Last name"
+                    type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+
+                  <Form.Input
+                    placeholder="Title"
+                    label="Title"
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+
+                  <Form.Input
+                    placeholder="Email"
+                    label="Email"
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+
+                  <Form.Input
+                    placeholder="Adress"
+                    label="Adress"
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+
+                  <Form.Input
+                    placeholder="Phone Number"
+                    label="Phone number"
+                    control={Input}
+                    type="text"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+
+                  <Form.Input
+                    placeholder="Office"
+                    label="Office"
+                    type="text"
+                    value={office}
+                    onChange={(e) => setOffice(e.target.value)}
+                  />
+
+                  {templateOptions ? (
+                    <Form.Select
+                      placeholder="Use template"
+                      options={templateOptions}
+                      onChange={handleSelectTemplate}
+                      value={select}
+                      clearable
+                    />
+                  ) : (
+                    ''
+                  )}
+
+                  <Button type="submit">Save</Button>
+                </Form>
+              </Form.Group>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid.Column>
+    </>
   );
 };
 

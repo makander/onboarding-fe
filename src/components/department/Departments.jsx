@@ -78,7 +78,7 @@ const Department = () => {
                       computer="4"
                     >
                       {item.Users !== undefined ? (
-                        <p>Members:{item.Users.length}</p>
+                        <p>Members: {item.Users.length}</p>
                       ) : null}
                     </Grid.Column>
                     {/*                 <Grid.Column verticalAlign="middle" computer="2">

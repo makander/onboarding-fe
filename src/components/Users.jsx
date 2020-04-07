@@ -21,7 +21,7 @@ const Users = () => {
         {users != null && users.length !== 0 ? (
           <List>
             {users.map((user) => (
-              <List.Item>
+              <List.Item key={user.id}>
                 <List.Content>
                   <p style={{ display: 'inline-block' }}>
                     {user.firstName} {user.lastName}
