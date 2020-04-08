@@ -42,10 +42,18 @@ const Home = () => {
               'You are not assigned to any tasks'
             )}
           </Segment>
+          {console.log(profile)}
           <Segment>
-            {profile.Departments != null && user.Departments.length !== 0 ? (
+            {!user.admin && user.Departments.length === 0
+              ? 'You are not assigned to a department, contact admin'
+              : user.admin && user.Departments.length === 0
+              ? 'You are not assigned to a department, please join or create one'
+              : ''}
+
+            {user.Departments != null && user.Departments.length !== 0 ? (
               <>
-                <Header>Tasks</Header>
+                <Header>Departments</Header>
+
                 <p>You a member of the following departments:</p>
                 <List>
                   {user.Departments.map((department) => (
@@ -53,17 +61,8 @@ const Home = () => {
                   ))}
                 </List>
               </>
-            ) : profile.admin ? (
-              <>
-                <p>
-                  Please create a <Link to="/departments">department</Link> and
-                  add users to it
-                </p>
-              </>
             ) : (
-              <>
-                <p>Please ask your administrator to add you to a department</p>
-              </>
+              ''
             )}
           </Segment>
         </>

@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Segment, Input, Button, Grid, Header } from 'semantic-ui-react';
+import {
+  Form,
+  Segment,
+  Input,
+  Button,
+  Grid,
+  Header,
+  Message,
+} from 'semantic-ui-react';
 // import { navigate } from '@reach/router';
 
 import EmployeeService from '../../services/EmployeeService';
@@ -135,7 +143,7 @@ const CreateEmployee = ({ history }) => {
                     onChange={(e) => setOffice(e.target.value)}
                   />
 
-                  {templateOptions ? (
+                  {templateOptions.value ? (
                     <Form.Select
                       placeholder="Use template"
                       options={templateOptions}
@@ -144,7 +152,12 @@ const CreateEmployee = ({ history }) => {
                       clearable
                     />
                   ) : (
-                    ''
+                    <Message>
+                      <p>
+                        No templates available. To use templates, contact your
+                        administator
+                      </p>
+                    </Message>
                   )}
 
                   <Button type="submit">Save</Button>

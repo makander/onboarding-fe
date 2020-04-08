@@ -121,31 +121,24 @@ const AdminLists = ({ history, template, header }) => {
       </div>
       <Grid.Row>
         <Grid.Column>
-          {// eslint-disable-next-line no-nested-ternary
-          lists != null && lists.length !== 0 ? (
-            <>
-              <Button.Group>
-                <Button onClick={() => handleIncomplete()}>Templates</Button>
-                <Button onClick={() => handleCompleted()}>
-                  Employee Lists
-                </Button>
-                <Button onClick={() => handleAll()}>All</Button>
-              </Button.Group>
-              <Segment>
-                <DisplayList />
-              </Segment>
+          <>
+            <Button.Group>
+              <Button onClick={() => handleIncomplete()}>Templates</Button>
+              <Button onClick={() => handleCompleted()}>Employee Lists</Button>
+              <Button onClick={() => handleAll()}>All</Button>
+            </Button.Group>
+            <Segment>
+              <DisplayList />
+            </Segment>
 
-              <Link to="/templates/create">
-                <Button>New template</Button>
-              </Link>
+            <Link to="/templates/create">
+              <Button>New template</Button>
+            </Link>
 
-              <Link to="/lists/create">
-                <Button>New employee list</Button>
-              </Link>
-            </>
-          ) : (
-            'No lists available'
-          )}
+            <Link to="/lists/create">
+              <Button>New employee list</Button>
+            </Link>
+          </>
         </Grid.Column>
       </Grid.Row>
     </>
