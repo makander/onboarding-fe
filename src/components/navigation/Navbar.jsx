@@ -18,7 +18,6 @@ const Navbar = () => {
 
         {user.admin ? (
           <>
-            <Menu.Item as={Link} name="Templates" to="/templates" />
             <Menu.Item as={Link} name="Department" to="/departments" />
             <Menu.Item as={Link} name="Users" to="/users" />
           </>

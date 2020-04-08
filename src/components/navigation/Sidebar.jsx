@@ -18,10 +18,8 @@ const Sidebar = () => {
     >
       <Menu.Item as={Link} name="Home" to="/home" />
       <Menu.Item as={Link} name="Lists" to="/lists" />
-
       {user.admin ? (
         <>
-          <Menu.Item as={Link} name="Templates" to="/templates" />
           <Menu.Item as={Link} name="Department" to="/departments" />
           <Menu.Item as={Link} name="Users" to="/users" />
           <Menu.Item as={Link} name="Profile" to={`/users/${user.id}`} />

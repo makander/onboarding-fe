@@ -18,6 +18,7 @@ import EmployeeList from './components/list/EmployeeLists';
 import EditList from './components/list/EditList';
 import Users from './components/users/Users';
 import User from './components/users/User';
+import Lists from './components/list/Lists';
 
 axios.defaults.withCredentials = true;
 
@@ -36,7 +37,8 @@ function App() {
             <ProtectedRoute path="/users" exact component={Users} />
             <ProtectedRoute path="/users/:id" exact component={User} />
 
-            <ProtectedRoute path="/lists" exact component={EmployeeList} />
+            <ProtectedRoute path="/lists" exact component={Lists} />
+
             <ProtectedRoute
               path="/lists/create"
               exact
