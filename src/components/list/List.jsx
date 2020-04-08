@@ -90,7 +90,10 @@ const Lists = ({ history }) => {
       templateList: list.templateList,
     };
 
-    ListService.update(list.id, data).then((res) => {
+    ListService.update(list.id, data).then(() => {
+      list.Tasks.forEach((t) => {
+        removeUser(t.id);
+      });
       history.push('/lists');
     });
   };
@@ -135,6 +138,8 @@ const Lists = ({ history }) => {
           <Grid stackable textAlign="left">
             {list.Tasks != null && list.Employee ? (
               <Grid.Row>
+                {console.log(list.Tasks)}
+                {console.log(list)}
                 <Grid.Column verticalAlign="middle">
                   <Segment>
                     <Header as="h3">Employee information</Header>
