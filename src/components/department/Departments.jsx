@@ -5,6 +5,7 @@ import { Form, Segment, Grid, Header } from 'semantic-ui-react';
 import DepartmentService from '../../services/DepartmentService';
 import UserService from '../../services/UserService';
 import { AuthContext } from '../../context/AuthContext';
+import { MessageContext } from '../../context/MessageContext';
 
 const Department = () => {
   const [departments, setDepartments] = useState([]);
@@ -12,6 +13,7 @@ const Department = () => {
   const [description, setDescription] = useState('');
   const [users, setUsers] = useState([]);
   const [select, setSelect] = useState([]);
+  const { dispatchMessage } = useContext(MessageContext);
 
   const {
     authStatus: { user },
@@ -19,10 +21,24 @@ const Department = () => {
 
   useEffect(() => {
     // UserService.findAll().then((res) => setUsers(res));
-    UserService.findAll().then((res) => setUsers(res));
-    DepartmentService.all().then((res) => {
-      setDepartments(res);
-    });
+    UserService.findAll()
+      .then((res) => setUsers(res))
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
+    DepartmentService.all()
+      .then((res) => {
+        setDepartments(res);
+      })
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
   }, []);
 
   const onSubmit = () => {

@@ -19,50 +19,67 @@ import EditList from './components/list/EditList';
 import Users from './components/users/Users';
 import User from './components/users/User';
 import Lists from './components/list/Lists';
+import MessageProvider from './context/MessageContext';
+import Notification from './components/Notification';
 
 axios.defaults.withCredentials = true;
 
 function App() {
   return (
     <div>
-      <AuthContextProvider>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/" exact component={Start} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/register" exact component={Register} />
+      <MessageProvider>
+        <Notification />
+        <AuthContextProvider>
+          <BrowserRouter>
+            <Switch>
+              <Route path="/" exact component={Start} />
+              <Route path="/login" exact component={Login} />
+              <Route path="/register" exact component={Register} />
 
-            <ProtectedRoute path="/home" component={Home} />
+              <ProtectedRoute path="/home" component={Home} />
 
-            <ProtectedRoute path="/users" exact component={Users} />
-            <ProtectedRoute path="/users/:id" exact component={User} />
+              <ProtectedRoute path="/users" exact component={Users} />
+              <ProtectedRoute path="/users/:id" exact component={User} />
 
-            <ProtectedRoute path="/lists" exact component={Lists} />
+              <ProtectedRoute path="/lists" exact component={Lists} />
 
-            <ProtectedRoute
-              path="/lists/create"
-              exact
-              component={CreateEmployee}
-            />
-            <ProtectedRoute path="/lists/edit/:id" exact component={EditList} />
-            <ProtectedRoute path="/lists/:id" exact component={List} />
+              <ProtectedRoute
+                path="/lists/create"
+                exact
+                component={CreateEmployee}
+              />
+              <ProtectedRoute
+                path="/lists/edit/:id"
+                exact
+                component={EditList}
+              />
+              <ProtectedRoute path="/lists/:id" exact component={List} />
 
-            <ProtectedRoute
-              path="/templates/create"
-              exact
-              component={CreateTemplate}
-            />
-            <ProtectedRoute path="/templates" exact component={TemplateList} />
+              <ProtectedRoute
+                path="/templates/create"
+                exact
+                component={CreateTemplate}
+              />
+              <ProtectedRoute
+                path="/templates"
+                exact
+                component={TemplateList}
+              />
 
-            <ProtectedRoute path="/departments" exact component={Departments} />
-            <ProtectedRoute
-              path="/departments/:id"
-              exact
-              component={Department}
-            />
-          </Switch>
-        </BrowserRouter>
-      </AuthContextProvider>
+              <ProtectedRoute
+                path="/departments"
+                exact
+                component={Departments}
+              />
+              <ProtectedRoute
+                path="/departments/:id"
+                exact
+                component={Department}
+              />
+            </Switch>
+          </BrowserRouter>
+        </AuthContextProvider>
+      </MessageProvider>
     </div>
   );
 }

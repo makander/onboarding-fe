@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Button, Form, Segment, Header, Grid } from 'semantic-ui-react';
+import { MessageContext } from '../../context/MessageContext';
 
 const Register = ({ history }) => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
+  const { dispatchMessage } = useContext(MessageContext);
 
   const handleRegistration = (e) => {
     e.preventDefault();
@@ -18,7 +20,17 @@ const Register = ({ history }) => {
         password,
       })
       .then(() => {
+        dispatchMessage({
+          type: 'SUCCESS',
+          payload: 'registered',
+        });
         history.push('/');
+      })
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
       });
   };
 

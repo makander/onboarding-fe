@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   Segment,
   Form,
@@ -13,6 +13,7 @@ import {
 import { useParams } from 'react-router-dom';
 import DepartmentService from '../../services/DepartmentService';
 import UserService from '../../services/UserService';
+import { MessageContext } from '../../context/MessageContext';
 
 const Department = ({ history }) => {
   const [departments, setDepartments] = useState([]);
@@ -21,14 +22,28 @@ const Department = ({ history }) => {
   const [select, setSelect] = useState([]);
   const [options, setOptions] = useState([]);
   const [loader, setLoader] = useState(true);
-
+  const { dispatchMessage } = useContext(MessageContext);
   const departmentsId = useParams();
 
   useEffect(() => {
-    DepartmentService.get(departmentsId.id).then((res) => {
-      setDepartments(res);
-    });
-    UserService.findAll().then((data) => setUsers(data));
+    DepartmentService.get(departmentsId.id)
+      .then((res) => {
+        setDepartments(res);
+      })
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
+    UserService.findAll()
+      .then((data) => setUsers(data))
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
   }, []);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Grid,
   Header,
@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 import UserService from '../../services/UserService';
+import { MessageContext } from '../../context/MessageContext';
 
 const User = ({ history }) => {
   const usersId = useParams();
@@ -19,13 +20,28 @@ const User = ({ history }) => {
   const [password, setPassword] = useState('');
   const [admin, setAdmin] = useState();
   const [email, setEmail] = useState();
+  const { dispatchMessage } = useContext(MessageContext);
 
   useEffect(() => {
-    UserService.findOne(usersId.id).then((res) => setUser(res));
+    UserService.findOne(usersId.id)
+      .then((res) => setUser(res))
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
   }, []);
 
   const handleDelete = () => {
-    UserService.destroy(usersId.id).then(() => history.push('/users'));
+    UserService.destroy(usersId.id)
+      .then(() => history.push('/users'))
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
   };
 
   const handleSubmit = () => {
@@ -37,7 +53,14 @@ const User = ({ history }) => {
       email: email !== user.email ? email : user.email,
     };
 
-    UserService.edit(user.id, data).then(() => history.push('/users'));
+    UserService.edit(user.id, data)
+      .then(() => history.push('/users'))
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
   };
 
   const handlePassword = () => {
@@ -48,7 +71,14 @@ const User = ({ history }) => {
       email: user.email,
     };
 
-    UserService.edit(user.id, data).then(() => history.push('/users'));
+    UserService.edit(user.id, data)
+      .then(() => history.push('/users'))
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
   };
 
   return (

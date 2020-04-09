@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const loginUser = async (data) => axios.post(`/api/user/login`, data);
 
-const logoutUser = async (id) => axios.post(id);
+const logoutUser = async () => axios.post(`/api/user/logout`);
 
 const registerUser = async (data) => axios.post(`/api/user/register`, data);
 

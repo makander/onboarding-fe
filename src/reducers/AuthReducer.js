@@ -10,7 +10,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         userIsAuthenticated: false,
-        user: action.payload,
+        user: {},
       };
     default:
       return state;

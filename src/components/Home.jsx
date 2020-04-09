@@ -4,15 +4,24 @@ import { Link } from 'react-router-dom';
 import { List, Segment, Grid, Header, Loader } from 'semantic-ui-react';
 import UserService from '../services/UserService';
 import { AuthContext } from '../context/AuthContext';
+import { MessageContext } from '../context/MessageContext';
 
 const Home = () => {
   const {
     authStatus: { user },
   } = useContext(AuthContext);
+  const { dispatchMessage } = useContext(MessageContext);
 
   const [profile, setProfile] = useState([]);
   useEffect(() => {
-    UserService.findOne(user.id).then((res) => setProfile(res));
+    UserService.findOne(user.id)
+      .then((res) => setProfile(res))
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
   }, []);
 
   return (

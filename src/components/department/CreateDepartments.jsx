@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Segment, Table } from 'semantic-ui-react';
 import DepartmentService from '../../services/DepartmentService';
 import UserService from '../../services/UserService';
+import { MessageContext } from '../../context/MessageContext';
 
 const CreateDepartments = () => {
   const [departments, setDepartments] = useState([]);
@@ -10,12 +11,20 @@ const CreateDepartments = () => {
   const [description, setDescription] = useState('');
   const [users, setUsers] = useState([]);
   const [select, setSelect] = useState([]);
-
+  const { dispatchMessage } = useContext(MessageContext);
+  
   useEffect(() => {
     UserService.findAll().then((res) => setUsers(res));
-    DepartmentService.all().then((res) => {
-      setDepartments(res);
-    });
+    DepartmentService.all()
+      .then((res) => {
+        setDepartments(res);
+      })
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
   }, []);
 
   const onSubmit = () => {

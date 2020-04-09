@@ -1,12 +1,26 @@
 import React, { useContext } from 'react';
-import { Menu, Dropdown } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import UserService from '../../services/UserService';
 
 const Sidebar = () => {
+  const history = useHistory();
+
   const {
+    dispatch,
     authStatus: { user },
   } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    UserService.logoutUser().then(() => {
+      dispatch({
+        type: 'LOGOUT',
+      });
+
+      history.push('/');
+    });
+  };
 
   return (
     <Menu
@@ -29,7 +43,7 @@ const Sidebar = () => {
       )}
       <Menu.Item>
         <Menu.Menu>
-          <Menu.Item name="">logout</Menu.Item>
+          <Menu.Item onClick={handleLogout}>logout</Menu.Item>
         </Menu.Menu>
       </Menu.Item>
     </Menu>

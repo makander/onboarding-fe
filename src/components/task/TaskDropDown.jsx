@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import { MessageContext } from '../../context/MessageContext';
 
 const selectStyle = {
   width: 200,
@@ -8,14 +8,21 @@ const selectStyle = {
 
 const TaskDropDown = ({ options, TaskServiceUpdateTask, id, setTask }) => {
   const [select, setSelect] = useState('');
-
+  const { dispatchMessage } = useContext(MessageContext);
   const handleClick = (taskId) => {
     const taskData = {
       userId: select,
     };
-    TaskServiceUpdateTask(taskId, taskData).then((res) => {
-      setTask([res]);
-    });
+    TaskServiceUpdateTask(taskId, taskData)
+      .then((res) => {
+        setTask([res]);
+      })
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
     setSelect('');
   };
 

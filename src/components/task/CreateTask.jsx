@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Segment } from 'semantic-ui-react';
 
 import TaskService from '../../services/TaskService';
+import { MessageContext } from '../../context/MessageContext';
 
 const CreateTask = ({ setTask, listsId }) => {
+  const { dispatchMessage } = useContext(MessageContext);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -17,11 +19,18 @@ const CreateTask = ({ setTask, listsId }) => {
       status: false,
     };
 
-    TaskService.createTask(newTask).then((res) => {
-      setTask(res.data);
-      setTitle('');
-      setDescription('');
-    });
+    TaskService.createTask(newTask)
+      .then((res) => {
+        setTask(res.data);
+        setTitle('');
+        setDescription('');
+      })
+      .catch((error) => {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      });
   };
 
   return (
