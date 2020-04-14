@@ -32,7 +32,7 @@ const Sidebar = () => {
     >
       <Menu.Item as={Link} name="Home" to="/home" />
       <Menu.Item as={Link} name="Lists" to="/lists" />
-      {user.admin ? (
+      {user != null && user.admin != null ? (
         <>
           <Menu.Item as={Link} name="Department" to="/departments" />
           <Menu.Item as={Link} name="Users" to="/users" />

@@ -19,7 +19,7 @@ const Home = () => {
       .catch((error) => {
         dispatchMessage({
           type: 'ERROR',
-          payload: error.response.data,
+          payload: error.response,
         });
       });
   }, []);
@@ -51,7 +51,7 @@ const Home = () => {
               'You are not assigned to any tasks'
             )}
           </Segment>
-          {console.log(profile)}
+
           <Segment>
             {!user.admin && user.Departments.length === 0
               ? 'You are not assigned to a department, contact admin'
