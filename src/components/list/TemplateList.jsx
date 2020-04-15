@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Grid, Header, List, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
 
-import DepartmentService from '../../services/DepartmentService';
+
 import ListService from '../../services/ListService';
 
 const TemplateList = ({ history }) => {
@@ -12,9 +11,6 @@ const TemplateList = ({ history }) => {
   const [viewCompleted, setViewCompleted] = useState(false);
   const [viewIncomplete, setViewIncomplete] = useState(true);
 
-  const {
-    authStatus: { user },
-  } = useContext(AuthContext);
 
   useEffect(() => {
     /*     DepartmentService.allLists().then((res) => {

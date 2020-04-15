@@ -44,35 +44,34 @@ const CreateEmployee = ({ history }) => {
 
   const handleNewList = (e) => {
     e.preventDefault();
-    if (selectTemplate !== undefined) {
-      const data = {
-        listId: selectTemplate,
-        description,
-        departments: select,
-        status: false,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        address,
-        office,
-        title,
-      };
 
-      EmployeeService.create(data).then(() => {
-        setTitle('');
-        setDescription('');
-        setSelect([]);
-        setSelectTemplate([]);
-        setFirstName('');
-        setLastName('');
-        setOffice('');
-        setAddress('');
-        setEmail('');
-        setPhoneNumber('');
-        history.push('/lists');
-      });
-    }
+    const data = {
+      listId: selectTemplate || '',
+      description,
+      departments: select || '',
+      status: false,
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      address,
+      office,
+      title,
+    };
+
+    EmployeeService.create(data).then(() => {
+      setTitle('');
+      setDescription('');
+      setSelect([]);
+      setSelectTemplate([]);
+      setFirstName('');
+      setLastName('');
+      setOffice('');
+      setAddress('');
+      setEmail('');
+      setPhoneNumber('');
+      history.push('/lists');
+    });
   };
 
   return (
@@ -143,7 +142,7 @@ const CreateEmployee = ({ history }) => {
                     onChange={(e) => setOffice(e.target.value)}
                   />
 
-                  {templateOptions.value ? (
+                  {templateOptions.length ? (
                     <Form.Select
                       placeholder="Use template"
                       options={templateOptions}

@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Form } from 'semantic-ui-react';
 import { MessageContext } from '../../context/MessageContext';
-
-const selectStyle = {
-  width: 200,
-  marginTop: '0.5em',
-};
 
 const TaskDropDown = ({ options, TaskServiceUpdateTask, id, setTask }) => {
   const [select, setSelect] = useState('');

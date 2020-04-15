@@ -17,8 +17,8 @@ const Start = () => {
 
         history.push('/home');
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        console.log('user session has expired');
       });
   }, []);
 

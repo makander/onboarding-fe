@@ -1,34 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Grid, Header, List, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
 
-import DepartmentService from '../../services/DepartmentService';
 import ListService from '../../services/ListService';
 
-const AdminLists = ({ history, template, header }) => {
+const AdminLists = ({ template, header }) => {
   const [lists, setLists] = useState([]);
   const [viewAll, setViewAll] = useState(false);
   const [viewCompleted, setViewCompleted] = useState(false);
   const [viewIncomplete, setViewIncomplete] = useState(true);
 
-  const {
-    authStatus: { user },
-  } = useContext(AuthContext);
-
   useEffect(() => {
-    /*     DepartmentService.allLists().then((res) => {
-      setLists(res);
-      console.log(res);
-    });
- */
-
     ListService.all().then((res) => {
-      const templates = res.filter((item) => item.templateList);
-      const employeeLists = res.filter((item) => !item.templateList);
-      console.log(templates);
-      console.log(employeeLists);
-      console.log(res);
       setLists(res);
     });
   }, []);
@@ -56,18 +39,17 @@ const AdminLists = ({ history, template, header }) => {
 
     const templates = lists.filter((item) => item.templateList);
     const employeeLists = lists.filter((item) => !item.templateList);
-    /* 
-    const completedLists = listContent.filter((item) => item.status);
-    const incompleted = listContent.filter((item) => !item.status); */
 
     return lists.length !== 0 ? (
       <List divided relaxed>
         {viewIncomplete
           ? templates.map((item) => (
               <List.Item key={item.id}>
-                {console.log(item)}
                 <List.Content floated="left">
                   <Link to={`/lists/${item.id}`}>{item.name}</Link>
+                </List.Content>
+                <List.Content floated="right">
+                  <p>Template</p>
                 </List.Content>
               </List.Item>
             ))
@@ -75,7 +57,6 @@ const AdminLists = ({ history, template, header }) => {
         {viewCompleted
           ? employeeLists.map((item) => (
               <List.Item key={item.id}>
-                {console.log(item)}
                 <List.Content floated="left">
                   <Link to={`/lists/${item.id}`}>{item.name}</Link>
                 </List.Content>
@@ -93,15 +74,52 @@ const AdminLists = ({ history, template, header }) => {
                     )}
                   </p>
                 </List.Content>
+                <List.Content floated="right">
+                  <p>Employee List</p>
+                </List.Content>
               </List.Item>
             ))
           : ''}
         {viewAll
           ? lists.map((item) => (
               <List.Item key={item.id}>
-                {console.log(item)}
                 <List.Content floated="left">
                   <Link to={`/lists/${item.id}`}>{item.name}</Link>
+                </List.Content>
+                {item.templateList ? (
+                  <List.Content floated="right">Template</List.Content>
+                ) : (
+                  <List.Content floated="right">Employee list</List.Content>
+                )}
+                <List.Content floated="left">
+                  <p>
+                    {item.Tasks != null && item.Tasks.length != null ? (
+                      <>
+                        {item.Tasks.length ===
+                        item.Tasks.filter((task) => task.status).length ? (
+                          'Completed'
+                        ) : (
+                          <>
+                            {!item.templateList ? (
+                              <p>
+                                Completed tasks:{' '}
+                                {
+                                  item.Tasks.filter((task) => task.status)
+                                    .length
+                                }{' '}
+                                {' / '}
+                                {item.Tasks.length}
+                              </p>
+                            ) : (
+                              ''
+                            )}
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </p>
                 </List.Content>
               </List.Item>
             ))

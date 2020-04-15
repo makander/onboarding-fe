@@ -12,7 +12,6 @@ import {
   List,
 } from 'semantic-ui-react';
 import { useParams, Link } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import ListService from '../../services/ListService';
 import DepartmentService from '../../services/DepartmentService';
 import CreateTask from '../task/CreateTask';
@@ -39,11 +38,12 @@ const Lists = ({ history }) => {
       console.log(res);
       setList(res);
     });
-    DepartmentService.allTasks(listsId.id).then((res) => {
-      setDepartments(res);
-    });
-    DepartmentService.allLists(listsId.id).then((res) => {
-      const format = res.flatMap((user) =>
+  }, [task]);
+
+  useEffect(() => {
+    if (list.Departments != null) {
+      console.log(list.Departments);
+      const format = list.Departments.flatMap((user) =>
         user.Users.map(({ id, firstName, lastName }) => ({
           value: id,
           text: `${firstName} ${lastName}`,
@@ -53,9 +53,11 @@ const Lists = ({ history }) => {
       const opts = format.filter(
         (v, i, a) => a.findIndex((t) => t.value === v.value) === i
       );
+      console.log(opts);
+      console.log(format);
       setOptions(opts);
-    });
-  }, [task]);
+    }
+  }, [list]);
 
   const handleSelect = (e, { value }) => {
     e.preventDefault();
@@ -129,7 +131,7 @@ const Lists = ({ history }) => {
         <>
           <div style={{ margin: '2em 0' }}>
             <Header as="h2" textAlign="left">
-              {list.templateList != null
+              {list.templateList
                 ? `Task for template:  ${list.name}`
                 : `Tasks for:  ${list.name}`}
             </Header>
@@ -138,8 +140,6 @@ const Lists = ({ history }) => {
           <Grid stackable textAlign="left">
             {list.Tasks != null && list.Employee ? (
               <Grid.Row>
-                {console.log(list.Tasks)}
-                {console.log(list)}
                 <Grid.Column verticalAlign="middle">
                   <Segment>
                     <Header as="h3">Employee information</Header>
@@ -173,44 +173,58 @@ const Lists = ({ history }) => {
                   <Grid.Column verticalAlign="middle" computer="3">
                     {item.name}
                   </Grid.Column>
-                  <Grid.Column verticalAlign="middle" tablet="3" computer="5">
-                    {item.User != null && item.User != null ? (
+                  <>
+                    {!list.templateList ? (
                       <>
-                        <p>
-                          Assigned: {item.User.firstName} {item.User.lastName}
-                          <Button
-                            floated="right"
-                            compact
-                            onClick={() => removeUser(item.id)}
-                          >
-                            x
-                          </Button>
-                        </p>
+                        <Grid.Column
+                          verticalAlign="middle"
+                          tablet="3"
+                          computer="5"
+                        >
+                          {item.User != null && item.User != null ? (
+                            <>
+                              <p>
+                                Assigned: {item.User.firstName}{' '}
+                                {item.User.lastName}
+                                <Button
+                                  floated="right"
+                                  compact
+                                  onClick={() => removeUser(item.id)}
+                                >
+                                  x
+                                </Button>
+                              </p>
+                            </>
+                          ) : (
+                            'No assigned user'
+                          )}
+                        </Grid.Column>
+                        <Grid.Column verticalAlign="middle" computer="5">
+                          <TaskDropDown
+                            options={options}
+                            TaskServiceUpdateTask={TaskService.updateTask}
+                            id={item.id}
+                            setTask={setTask}
+                          />
+                        </Grid.Column>
+
+                        <Grid.Column verticalAlign="middle" computer="2">
+                          <Form>
+                            <Form.Checkbox
+                              inline
+                              label="completed"
+                              checked={item.status}
+                              onChange={() =>
+                                handleStatus(item.status, item.id)
+                              }
+                            />
+                          </Form>
+                        </Grid.Column>
                       </>
                     ) : (
-                      'No assigned user'
+                      ''
                     )}
-                  </Grid.Column>
-
-                  <Grid.Column verticalAlign="middle" computer="5">
-                    <TaskDropDown
-                      options={options}
-                      TaskServiceUpdateTask={TaskService.updateTask}
-                      id={item.id}
-                      setTask={setTask}
-                    />
-                  </Grid.Column>
-
-                  <Grid.Column verticalAlign="middle" computer="2">
-                    <Form>
-                      <Form.Checkbox
-                        inline
-                        label="completed"
-                        checked={item.status}
-                        onChange={() => handleStatus(item.status, item.id)}
-                      />
-                    </Form>
-                  </Grid.Column>
+                  </>
                 </Grid.Row>
               ))
             ) : (
@@ -230,20 +244,29 @@ const Lists = ({ history }) => {
             />
 
             {user.admin ? (
-              <Button.Group floated="right">
-                <Button secondary>
-                  <Link
-                    style={{ color: 'White' }}
-                    to={`/lists/edit/${listsId.id}`}
-                  >
-                    Edit
-                  </Link>
-                </Button>
+              <>
+                {list.templateList ? (
+                  <Button positive onClick={() => history.push('/lists')}>
+                    Save template
+                  </Button>
+                ) : (
+                  ''
+                )}
+                <Button.Group floated="right">
+                  <Button secondary>
+                    <Link
+                      style={{ color: 'White' }}
+                      to={`/lists/edit/${listsId.id}`}
+                    >
+                      Edit
+                    </Link>
+                  </Button>
 
-                <Button negative onClick={() => deleteList()}>
-                  Delete
-                </Button>
-              </Button.Group>
+                  <Button negative onClick={() => deleteList()}>
+                    Delete
+                  </Button>
+                </Button.Group>
+              </>
             ) : (
               ''
             )}
