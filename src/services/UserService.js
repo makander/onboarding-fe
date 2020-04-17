@@ -1,19 +1,29 @@
 import axios from 'axios';
 
-const loginUser = async (data) => axios.post(`/api/user/login`, data);
+const loginUser = async (data) =>
+  axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/login`, data);
 
-const logoutUser = async () => axios.post(`/api/user/logout`);
+const logoutUser = async () =>
+  axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/logout`);
 
-const registerUser = async (data) => axios.post(`/api/user/register`, data);
+const registerUser = async (data) =>
+  axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/register`, data);
 
-const edit = async (id, data) => axios.put(`/api/user/${id}`, data);
+const edit = async (id, data) =>
+  axios.put(`${process.env.REACT_APP_BASE_URL}/api/user/${id}`, data);
 
-const destroy = async (id) => axios.delete(`/api/user/${id}`);
+const destroy = async (id) =>
+  axios.delete(`${process.env.REACT_APP_BASE_URL}/api/user/${id}`);
 
-const findAll = async () => axios.get(`/api/user/`).then((res) => res.data);
+const findAll = async () =>
+  axios
+    .get(`${process.env.REACT_APP_BASE_URL}/api/user/`)
+    .then((res) => res.data);
 
 const findOne = async (id) =>
-  axios.get(`/api/user/${id}`).then((res) => res.data);
+  axios
+    .get(`${process.env.REACT_APP_BASE_URL}/api/user/${id}`)
+    .then((res) => res.data);
 
 const refresh = async () => axios.post(`/api/user/refresh`);
 
