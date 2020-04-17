@@ -53,8 +53,7 @@ const Lists = ({ history }) => {
       const opts = format.filter(
         (v, i, a) => a.findIndex((t) => t.value === v.value) === i
       );
-      console.log(opts);
-      console.log(format);
+
       setOptions(opts);
     }
   }, [list]);
