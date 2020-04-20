@@ -13,8 +13,6 @@ import Departments from './components/department/Departments';
 import Department from './components/department/Department';
 import CreateTemplate from './components/list/CreateTemplate';
 import CreateEmployee from './components/list/CreateEmployee';
-import TemplateList from './components/list/TemplateList';
-import EmployeeList from './components/list/EmployeeLists';
 import EditList from './components/list/EditList';
 import Users from './components/users/Users';
 import User from './components/users/User';
@@ -59,11 +57,6 @@ function App() {
                 path="/templates/create"
                 exact
                 component={CreateTemplate}
-              />
-              <ProtectedRoute
-                path="/templates"
-                exact
-                component={TemplateList}
               />
 
               <ProtectedRoute

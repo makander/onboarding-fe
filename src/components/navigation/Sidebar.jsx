@@ -26,24 +26,24 @@ const Sidebar = () => {
     <Menu
       vertical
       color="grey"
-      style={{ marginTop: '0.5em', minHeight: '100vh', paddingLeft: '-1rem' }}
+      style={{ minHeight: '100vh', paddingLeft: '-1rem' }}
       inverted
-      fixed
+      fixed="left"
     >
       <Menu.Item as={Link} name="Home" to="/home" />
       <Menu.Item as={Link} name="Lists" to="/lists" />
-      {user != null && user.admin != null ? (
+      <Menu.Item as={Link} name="Profile" to={`/users/${user.id}`} />
+      {user != null && user.admin ? (
         <>
           <Menu.Item as={Link} name="Department" to="/departments" />
           <Menu.Item as={Link} name="Users" to="/users" />
-          <Menu.Item as={Link} name="Profile" to={`/users/${user.id}`} />
         </>
       ) : (
         ''
       )}
       <Menu.Item>
         <Menu.Menu>
-          <Menu.Item onClick={handleLogout}>logout</Menu.Item>
+          <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
         </Menu.Menu>
       </Menu.Item>
     </Menu>

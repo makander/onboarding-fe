@@ -22,7 +22,7 @@ const ProtectedRoute = ({ component: Component, ...props }) => {
                   <Sidebar />
                 </Grid.Column>
 
-                <Grid.Column centered tablet={14} computer={12}>
+                <Grid.Column tablet={14} computer={12}>
                   <Component {...props} />
                 </Grid.Column>
               </Grid.Row>

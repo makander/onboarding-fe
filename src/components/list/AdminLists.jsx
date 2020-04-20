@@ -92,7 +92,7 @@ const AdminLists = ({ template, header }) => {
                   <List.Content floated="right">Employee list</List.Content>
                 )}
                 <List.Content floated="left">
-                  <p>
+                  <div>
                     {item.Tasks != null && item.Tasks.length != null ? (
                       <>
                         {item.Tasks.length ===
@@ -119,7 +119,7 @@ const AdminLists = ({ template, header }) => {
                     ) : (
                       ''
                     )}
-                  </p>
+                  </div>
                 </List.Content>
               </List.Item>
             ))

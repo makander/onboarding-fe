@@ -13,7 +13,6 @@ import {
 } from 'semantic-ui-react';
 import { useParams, Link } from 'react-router-dom';
 import ListService from '../../services/ListService';
-import DepartmentService from '../../services/DepartmentService';
 import CreateTask from '../task/CreateTask';
 import TaskService from '../../services/TaskService';
 import TaskDropDown from '../task/TaskDropDown';
@@ -22,7 +21,6 @@ import { AuthContext } from '../../context/AuthContext';
 const Lists = ({ history }) => {
   const [list, setList] = useState([]);
   const [options, setOptions] = useState([]);
-  const [departments, setDepartments] = useState([]);
   const [select, setSelect] = useState();
 
   const [task, setTask] = useState([]);
@@ -35,14 +33,12 @@ const Lists = ({ history }) => {
 
   useEffect(() => {
     ListService.get(listsId.id).then((res) => {
-      console.log(res);
       setList(res);
     });
   }, [task]);
 
   useEffect(() => {
     if (list.Departments != null) {
-      console.log(list.Departments);
       const format = list.Departments.flatMap((user) =>
         user.Users.map(({ id, firstName, lastName }) => ({
           value: id,
@@ -125,7 +121,7 @@ const Lists = ({ history }) => {
   };
 
   return (
-    <Grid.Column centered tablet={14} computer={12}>
+    <Grid.Column centered={1} tablet={14} computer={12}>
       {list != null && list.length !== 0 ? (
         <>
           <div style={{ margin: '2em 0' }}>
@@ -236,11 +232,7 @@ const Lists = ({ history }) => {
 
           <>
             <Header>Add task</Header>
-            <CreateTask
-              setTask={setTask}
-              listsId={listsId.id}
-              departments={departments}
-            />
+            <CreateTask setTask={setTask} listsId={listsId.id} />
 
             {user.admin ? (
               <>

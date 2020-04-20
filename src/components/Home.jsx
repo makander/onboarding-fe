@@ -25,7 +25,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Grid.Column centered tablet={14} computer={12}>
+    <Grid.Column tablet={14} computer={12}>
       {profile != null && profile.length !== 0 ? (
         <>
           <div style={{ margin: '2em 0' }}>
@@ -41,7 +41,7 @@ const Home = () => {
                 <p>You are assigned to {profile.Tasks.length} tasks.</p>
                 <List>
                   {profile.Tasks.map((task) => (
-                    <List.Item>
+                    <List.Item key={task.id}>
                       <Link to={`/lists/${task.ListId}`}>{task.name}</Link>
                     </List.Item>
                   ))}
@@ -66,7 +66,7 @@ const Home = () => {
                 <p>You a member of the following departments:</p>
                 <List>
                   {user.Departments.map((department) => (
-                    <List.Item>{department.name}</List.Item>
+                    <List.Item key={department.id}>{department.name}</List.Item>
                   ))}
                 </List>
               </>
