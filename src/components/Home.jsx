@@ -1,7 +1,14 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { List, Segment, Grid, Header, Loader } from 'semantic-ui-react';
+import {
+  List,
+  Segment,
+  Grid,
+  Header,
+  Loader,
+  Message,
+} from 'semantic-ui-react';
 import UserService from '../services/UserService';
 import { AuthContext } from '../context/AuthContext';
 import { MessageContext } from '../context/MessageContext';
@@ -29,9 +36,11 @@ const Home = () => {
       {profile != null && profile.length !== 0 ? (
         <>
           <div style={{ margin: '2em 0' }}>
-            <Header float="left" textAlign="left">
-              Welcome {user.firstName} {user.lastName}
-            </Header>
+            <Message>
+              <Header float="left" textAlign="left">
+                Welcome {user.firstName} {user.lastName}
+              </Header>
+            </Message>
           </div>
 
           <Segment>

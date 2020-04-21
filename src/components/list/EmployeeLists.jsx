@@ -1,6 +1,13 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
-import { Grid, Header, List, Button, Segment } from 'semantic-ui-react';
+import {
+  Grid,
+  Header,
+  List,
+  Button,
+  Segment,
+  Message,
+} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import DepartmentService from '../../services/DepartmentService';
@@ -15,7 +22,6 @@ const EmployeeLists = ({ history }) => {
     DepartmentService.allLists().then((res) => {
       setLists(res);
     });
-
   }, []);
 
   const handleIncomplete = () => {
@@ -119,9 +125,11 @@ const EmployeeLists = ({ history }) => {
   return (
     <>
       <div style={{ margin: '2em 0' }}>
-        <Header float="left" textAlign="left">
-          Employee Lists
-        </Header>
+        <Message>
+          <Header float="left" textAlign="left">
+            Employee Lists
+          </Header>
+        </Message>
       </div>
       <Grid.Row>
         <Grid.Column>
