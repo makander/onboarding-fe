@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Form, Segment } from 'semantic-ui-react';
+import { Form, Segment, Header } from 'semantic-ui-react';
 
 import TaskService from '../../services/TaskService';
 import { MessageContext } from '../../context/MessageContext';
@@ -34,8 +34,12 @@ const CreateTask = ({ setTask, listsId }) => {
   };
 
   return (
-    <>
-      <Segment>
+    <div>
+      <Header as="h3" attached="top">
+        Create task
+      </Header>
+
+      <Segment attached>
         <Form.Group>
           <Form onSubmit={handleNewTask}>
             <Form.Input
@@ -57,7 +61,7 @@ const CreateTask = ({ setTask, listsId }) => {
           </Form>
         </Form.Group>
       </Segment>
-    </>
+    </div>
   );
 };
 

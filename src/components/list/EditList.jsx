@@ -7,7 +7,7 @@ import {
   Grid,
   Header,
   List,
-  Divider,
+  Message,
 } from 'semantic-ui-react';
 import { v4 as uuidv4 } from 'uuid';
 import ListService from '../../services/ListService';
@@ -31,7 +31,7 @@ const EditList = () => {
     DepartmentService.all().then((res) => {
       setDepartments(res);
     });
-  });
+  }, []);
 
   useEffect(() => {
     const opts = departments.filter((o1) =>
@@ -88,15 +88,20 @@ const EditList = () => {
   return (
     <Grid.Column width="13">
       <div style={{ margin: '2em 0' }}>
-        <Header textAlign="left">Edit list: {list.name}</Header>
+        <Message size="huge">
+          <Header textAlign="left" as="h2">
+            Edit list: {list.name}
+          </Header>
+        </Message>
       </div>
       {list.name !== undefined && departments !== undefined ? (
         <Grid.Row>
           <Grid.Column>
-            <Segment>
-              <Header as="h4">Summary for {list.name}</Header>
+            <Header as="h4" attached="top">
+              Summary:
+            </Header>
+            <Segment attached>
               {list.description ? <p>Decription: {list.description}</p> : ''}
-              <Divider />
 
               <h5>Template:</h5>
               {list.templateList ? <p>Yes</p> : <p>No</p>}
@@ -106,7 +111,9 @@ const EditList = () => {
                 ? list.Departments.map((item) => (
                     <List celled>
                       <List.Item key={uuidv4()}>
-                        <List.Content floated="left">{item.name}</List.Content>
+                        <List.Content verticalAlign="bottom" floated="left">
+                          {item.name}
+                        </List.Content>
                         <List.Content floated="right">
                           <Button
                             compact

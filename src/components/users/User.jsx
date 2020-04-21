@@ -7,6 +7,7 @@ import {
   Checkbox,
   Button,
   Message,
+  Divider,
 } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 import UserService from '../../services/UserService';
@@ -84,18 +85,24 @@ const User = ({ history }) => {
   return (
     <Grid.Column width="13">
       <div style={{ margin: '2em 0' }}>
-        <Header as="h2" textAlign="left">
-          Edit: {user.firstName} {user.lastName}
-        </Header>
+        <Message size="huge">
+          <Header as="h2" textAlign="left">
+            Edit: {user.firstName} {user.lastName}
+          </Header>
+        </Message>
       </div>
 
-      <Message>
+      <Header attached="top" as="h3">
+        Summary:
+      </Header>
+      <Segment attached>
         <p>
           Name: {user.firstName} {user.lastName}
         </p>
         <p>Email: {user.email}</p>
         <p>Admin access: {user.admin ? 'Yes' : 'No'}</p>
-      </Message>
+      </Segment>
+      <Divider hidden />
       <Segment>
         <Form onSubmit={handleSubmit}>
           <Form.Input
