@@ -36,7 +36,7 @@ const Home = () => {
       {profile != null && profile.length !== 0 ? (
         <>
           <div style={{ margin: '2em 0' }}>
-            <Message>
+            <Message size="huge">
               <Header float="left" textAlign="left">
                 Welcome {user.firstName} {user.lastName}
               </Header>

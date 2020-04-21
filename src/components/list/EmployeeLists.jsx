@@ -125,7 +125,7 @@ const EmployeeLists = ({ history }) => {
   return (
     <>
       <div style={{ margin: '2em 0' }}>
-        <Message>
+        <Message size="huge">
           <Header float="left" textAlign="left">
             Employee Lists
           </Header>
