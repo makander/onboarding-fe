@@ -32,7 +32,7 @@ const Login = (props) => {
       });
   };
   return (
-    <Grid container centered={1} columns={1} style={{ marginTop: '7em' }}>
+    <Grid container centered columns={1} style={{ marginTop: '7em' }}>
       <Grid.Row centered>
         <Grid.Column width="10">
           <Segment stacked>

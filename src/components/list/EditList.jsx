@@ -19,7 +19,6 @@ const EditList = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [select, setSelect] = useState();
-  const [selectTemplate, setSelectTemplate] = useState();
   const [listName, setListName] = useState();
   const [departments, setDepartments] = useState([]);
   const [options, setOptions] = useState([]);
@@ -32,7 +31,7 @@ const EditList = () => {
     DepartmentService.all().then((res) => {
       setDepartments(res);
     });
-  }, []);
+  });
 
   useEffect(() => {
     const opts = departments.filter((o1) =>
@@ -44,7 +43,7 @@ const EditList = () => {
     }));
 
     setOptions(filterOptions);
-  }, [departments]);
+  }, [departments, list.Departments]);
 
   const handleSelect = (e, { value }) => {
     setSelect(value);
@@ -66,16 +65,16 @@ const EditList = () => {
         setTitle('');
         setDescription('');
         setSelect([]);
-        setSelectTemplate([]);
+        setTemplateList('');
         setList(res);
       });
     }
   };
 
   const deleteDepartment = (id) => {
-    const filter = list.Departments.filter(
+    /*     const filter = list.Departments.filter(
       (department) => department.id !== id
-    );
+    ); */
 
     const data = {
       departmentId: id,

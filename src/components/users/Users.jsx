@@ -2,16 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Grid, Header, Segment, List, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import UserService from '../../services/UserService';
-import { AuthContext } from '../../context/AuthContext';
 import { MessageContext } from '../../context/MessageContext';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const { dispatchMessage } = useContext(MessageContext);
-
-  const {
-    authStatus: { user },
-  } = useContext(AuthContext);
 
   useEffect(() => {
     UserService.findAll()

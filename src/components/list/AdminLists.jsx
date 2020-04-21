@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Header, List, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
@@ -33,10 +33,6 @@ const AdminLists = ({ template, header }) => {
   };
 
   const DisplayList = () => {
-    let listContent;
-
-    // eslint-disable-next-line no-unused-expressions
-
     const templates = lists.filter((item) => item.templateList);
     const employeeLists = lists.filter((item) => !item.templateList);
 

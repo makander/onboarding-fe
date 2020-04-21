@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { Button, Form, Segment, Header, Grid } from 'semantic-ui-react';
 import { MessageContext } from '../../context/MessageContext';
+import UserService from '../../services/UserService';
 
 const Register = ({ history }) => {
   const [email, setEmail] = useState('');
@@ -12,13 +12,12 @@ const Register = ({ history }) => {
 
   const handleRegistration = (e) => {
     e.preventDefault();
-    axios
-      .post('/api/user/register', {
-        firstName,
-        lastName,
-        email,
-        password,
-      })
+    UserService.registerUser({
+      firstName,
+      lastName,
+      email,
+      password,
+    })
       .then(() => {
         dispatchMessage({
           type: 'SUCCESS',

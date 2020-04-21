@@ -21,7 +21,6 @@ import { AuthContext } from '../../context/AuthContext';
 const Lists = ({ history }) => {
   const [list, setList] = useState([]);
   const [options, setOptions] = useState([]);
-  const [select, setSelect] = useState();
 
   const [task, setTask] = useState([]);
 
@@ -35,7 +34,7 @@ const Lists = ({ history }) => {
     ListService.get(listsId.id).then((res) => {
       setList(res);
     });
-  }, [task]);
+  }, [task, listsId.id]);
 
   useEffect(() => {
     if (list.Departments != null) {
@@ -53,11 +52,6 @@ const Lists = ({ history }) => {
       setOptions(opts);
     }
   }, [list]);
-
-  const handleSelect = (e, { value }) => {
-    e.preventDefault();
-    setSelect(value);
-  };
 
   const handleStatus = (taskStatus, taskId) => {
     const taskData = {

@@ -22,7 +22,7 @@ const Start = () => {
       .catch(() => {
         console.log('user session has expired');
       });
-  }, []);
+  });
 
   return (
     <div>
