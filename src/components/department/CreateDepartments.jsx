@@ -12,7 +12,7 @@ const CreateDepartments = () => {
   const [users, setUsers] = useState([]);
   const [select, setSelect] = useState([]);
   const { dispatchMessage } = useContext(MessageContext);
-  
+
   useEffect(() => {
     UserService.findAll().then((res) => setUsers(res));
     DepartmentService.all()
@@ -42,6 +42,7 @@ const CreateDepartments = () => {
     setDescription();
   };
 
+  // Mapping out values for dropdown.
   const options = users.map(({ id, firstName, lastName }) => ({
     value: id,
     text: `${firstName} ${lastName}`,

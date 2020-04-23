@@ -7,7 +7,6 @@ import {
   Header,
   Dropdown,
 } from 'semantic-ui-react';
-// import { navigate } from '@reach/router';
 
 import ListService from '../../services/ListService';
 import DepartmentService from '../../services/DepartmentService';

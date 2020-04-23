@@ -12,6 +12,7 @@ import {
 import { useParams } from 'react-router-dom';
 import UserService from '../../services/UserService';
 import { MessageContext } from '../../context/MessageContext';
+import { AuthContext } from '../../context/AuthContext';
 
 const User = ({ history }) => {
   const usersId = useParams();
@@ -22,6 +23,8 @@ const User = ({ history }) => {
   const [admin, setAdmin] = useState();
   const [email, setEmail] = useState();
   const { dispatchMessage } = useContext(MessageContext);
+
+  const { dispatch, authStatus } = useContext(AuthContext);
 
   useEffect(() => {
     UserService.findOne(usersId.id)
@@ -53,6 +56,7 @@ const User = ({ history }) => {
       admin: admin !== user.admin ? admin : user.admin,
       email: email !== user.email ? email : user.email,
     };
+    console.log(data);
 
     UserService.edit(user.id, data)
       .then(() => history.push('/users'))
@@ -131,12 +135,16 @@ const User = ({ history }) => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <Form.Field
-            control={Checkbox}
-            label="Admin"
-            value={admin}
-            onChange={(e) => setAdmin(e.target.value)}
-          />
+          {authStatus.user.admin ? (
+            <Form.Field
+              control={Checkbox}
+              label="Admin"
+              checked={user.admin}
+              onChange={() => setAdmin(!admin)}
+            />
+          ) : (
+            ''
+          )}
           <Form.Button content="Save" />
         </Form>
       </Segment>

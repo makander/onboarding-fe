@@ -17,7 +17,6 @@ const NewList = () => {
     ListService.list().then((res) => {
       const template = res.filter((item) => item.templateList);
       setTemplateList(template);
-      console.log(template);
     });
   });
   return (

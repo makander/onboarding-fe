@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Form, Segment, Grid, Header } from 'semantic-ui-react';
+import {
+  Form,
+  Segment,
+  Grid,
+  Header,
+  Message,
+  Divider,
+} from 'semantic-ui-react';
 import DepartmentService from '../../services/DepartmentService';
 import UserService from '../../services/UserService';
 import { AuthContext } from '../../context/AuthContext';
@@ -20,7 +27,6 @@ const Department = () => {
   } = useContext(AuthContext);
 
   useEffect(() => {
-    // UserService.findAll().then((res) => setUsers(res));
     UserService.findAll()
       .then((res) => setUsers(res))
       .catch((error) => {
@@ -56,6 +62,7 @@ const Department = () => {
     setDescription();
   };
 
+  // mapping out values to be used in dropdown
   const options = users.map(({ id, firstName, lastName }) => ({
     value: id,
     text: `${firstName} ${lastName}`,
@@ -76,12 +83,14 @@ const Department = () => {
       {user.admin ? (
         <Grid.Column width="13">
           <div style={{ margin: '2em 0' }}>
-            <Header as="h2" textAlign="left">
-              Departments
-            </Header>
+            <Message size="huge">
+              <Header as="h2" textAlign="left">
+                Departments
+              </Header>
+            </Message>
           </div>
-          <Segment>
-            {departments.length !== null && departments.length !== 0 ? (
+          <Segment attached>
+            {departments !== null && departments.length !== 0 ? (
               <Grid stackable columns={13} textAlign="left">
                 {departments.map((item) => (
                   <Grid.Row key={item.id} centered>
@@ -104,10 +113,13 @@ const Department = () => {
               <p>No departments available, please create one below</p>
             )}
           </Segment>
+          <Divider hidden />
           {users.length > 0 ? (
             <Grid.Column width="13">
-              <Header as="h3">Create new department</Header>
-              <Segment>
+              <Header as="h3" attached="top">
+                Create new department
+              </Header>
+              <Segment attached>
                 <Form.Group>
                   <Form onSubmit={onSubmit}>
                     <Form.Input
@@ -128,6 +140,7 @@ const Department = () => {
  */}
 
                     <Form.Select
+                      label="Add users"
                       placeholder="Add user to department"
                       options={options}
                       onChange={handleSelect}

@@ -8,7 +8,6 @@ import {
   Header,
   Message,
 } from 'semantic-ui-react';
-// import { navigate } from '@reach/router';
 
 import EmployeeService from '../../services/EmployeeService';
 import ListService from '../../services/ListService';

@@ -162,7 +162,7 @@ const Lists = ({ history }) => {
             Tasks
           </Header>
           <Segment attached>
-            <Grid relaxed="very" textAlign="left">
+            <Grid relaxed="very" textAlign="left" style={{ marginTop: '1em' }}>
               {list.Tasks != null && list.Tasks.length !== 0 ? (
                 list.Tasks.map((item) => (
                   <Grid.Row key={item.id} style={{ padding: '0' }}>

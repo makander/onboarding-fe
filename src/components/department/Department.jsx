@@ -9,6 +9,8 @@ import {
   Loader,
   Image,
   List,
+  Message,
+  Divider,
 } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 import DepartmentService from '../../services/DepartmentService';
@@ -52,6 +54,8 @@ const Department = ({ history }) => {
         departments.Users &&
         !departments.Users.some((entry2) => entry1.id === entry2.id)
     );
+
+    // filter and mapping out values to be used in dropdown
     const filterOptions = opts.map(({ id, firstName, lastName }) => ({
       value: id,
       text: `${firstName} ${lastName}`,
@@ -107,15 +111,20 @@ const Department = ({ history }) => {
   return (
     <Grid.Column width="13">
       <div style={{ margin: '2em 0' }}>
-        <Header as="h2" textAlign="left">
-          Edit: {departments.name}
-        </Header>
+        <Message size="huge">
+          <Header as="h2" textAlign="left">
+            Edit: {departments.name}
+          </Header>
+        </Message>
       </div>
+      <Divider hidden />
       {!loader ? (
         <Grid stackable columns={16}>
           <Grid.Column width="16">
-            <Segment style={{ marginTop: '2em' }}>
-              <Header>Change name on department: {departments.name}</Header>
+            <Header as="h3" attached="top">
+              Change name on department: {departments.name}
+            </Header>
+            <Segment attached>
               <Grid.Row>
                 <Form onSubmit={onSubmit}>
                   <Form.Group>
@@ -135,8 +144,11 @@ const Department = ({ history }) => {
               </Grid.Row>
             </Segment>
             <Grid.Row>
-              <Segment style={{ marginTop: '2em' }}>
-                <Header>Users in department: </Header>
+              <Divider hidden />
+              <Header attached="top" as="h3">
+                Users in department
+              </Header>
+              <Segment attached>
                 {departments.Users !== undefined &&
                 departments.Users.length !== 0 ? (
                   departments.Users.map((item) => (
@@ -162,8 +174,11 @@ const Department = ({ history }) => {
               </Segment>
             </Grid.Row>
 
-            <Segment style={{ marginTop: '2em' }}>
-              <Header>Add users</Header>
+            <Divider hidden />
+            <Header as="h3" attached="top">
+              Add users
+            </Header>
+            <Segment attached>
               <Grid.Row>
                 <Form onSubmit={onSubmit}>
                   <Form.Group>

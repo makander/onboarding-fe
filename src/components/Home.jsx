@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import {
   List,
   Segment,
@@ -14,13 +14,17 @@ import { AuthContext } from '../context/AuthContext';
 import { MessageContext } from '../context/MessageContext';
 
 const Home = () => {
+  const history = useHistory();
+  const location = useLocation();
   const {
     authStatus: { user },
   } = useContext(AuthContext);
   const { dispatchMessage } = useContext(MessageContext);
 
   const [profile, setProfile] = useState([]);
+
   useEffect(() => {
+    // console.log(history);
     UserService.findOne(user.id)
       .then((res) => setProfile(res))
       .catch((error) => {
@@ -29,7 +33,7 @@ const Home = () => {
           payload: error.response,
         });
       });
-  }, []);
+  }, [location.pathname]);
 
   return (
     <Grid.Column tablet={14} computer={12}>
@@ -62,19 +66,19 @@ const Home = () => {
           </Segment>
 
           <Segment>
-            {!user.admin && user.Departments.length === 0
+            {!profile.admin && profile.Departments.length === 0
               ? 'You are not assigned to a department, contact admin'
-              : user.admin && user.Departments.length === 0
+              : profile.admin && profile.Departments.length === 0
               ? 'You are not assigned to a department, please join or create one'
               : ''}
 
-            {user.Departments != null && user.Departments.length !== 0 ? (
+            {profile.Departments != null && profile.Departments.length !== 0 ? (
               <>
                 <Header>Departments</Header>
 
                 <p>You a member of the following departments:</p>
                 <List>
-                  {user.Departments.map((department) => (
+                  {profile.Departments.map((department) => (
                     <List.Item key={department.id}>{department.name}</List.Item>
                   ))}
                 </List>

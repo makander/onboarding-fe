@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const all = async () =>
   axios
-    .get(`${process.env.REACT_APP_BASE_URL}/api/department/all`)
+    .get(`${process.env.REACT_APP_BASE_URL}/api/department/`)
     .then((res) => res.data);
 
 const allLists = async () =>
