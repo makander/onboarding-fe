@@ -15,7 +15,7 @@ const edit = async (id, data) =>
 const destroy = async (id) =>
   axios.delete(`${process.env.REACT_APP_BASE_URL}/api/user/${id}`);
 
-const findAll = async () =>
+const findAll = () =>
   axios
     .get(`${process.env.REACT_APP_BASE_URL}/api/user/`)
     .then((res) => res.data);

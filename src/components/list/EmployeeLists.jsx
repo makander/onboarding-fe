@@ -7,6 +7,7 @@ import {
   Button,
   Segment,
   Message,
+  Loader,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
@@ -148,7 +149,11 @@ const EmployeeLists = ({ history }) => {
               </Link>
             </>
           ) : (
-            'No lists available, please contact your administrator'
+            <Segment style={{ margin: '2em 0' }}>
+              <Loader active inline="centered" size="huge">
+                Loading
+              </Loader>
+            </Segment>
           )}
         </Grid.Column>
       </Grid.Row>

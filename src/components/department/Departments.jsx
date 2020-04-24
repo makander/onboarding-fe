@@ -8,6 +8,7 @@ import {
   Header,
   Message,
   Divider,
+  Loader,
 } from 'semantic-ui-react';
 import DepartmentService from '../../services/DepartmentService';
 import UserService from '../../services/UserService';
@@ -21,30 +22,30 @@ const Department = () => {
   const [users, setUsers] = useState([]);
   const [select, setSelect] = useState([]);
   const { dispatchMessage } = useContext(MessageContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     authStatus: { user },
   } = useContext(AuthContext);
 
   useEffect(() => {
-    UserService.findAll()
-      .then((res) => setUsers(res))
-      .catch((error) => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const getUsers = await UserService.findAll();
+        const getDeps = await DepartmentService.all();
+
+        setDepartments(getDeps);
+        setUsers(getUsers);
+      } catch (error) {
         dispatchMessage({
           type: 'ERROR',
           payload: error.response.data,
         });
-      });
-    DepartmentService.all()
-      .then((res) => {
-        setDepartments(res);
-      })
-      .catch((error) => {
-        dispatchMessage({
-          type: 'ERROR',
-          payload: error.response.data,
-        });
-      });
+      }
+      setIsLoading(false);
+    };
+    fetchData();
   }, []);
 
   const onSubmit = () => {
@@ -80,57 +81,61 @@ const Department = () => {
 
   return (
     <>
-      {user.admin ? (
-        <Grid.Column width="13">
-          <div style={{ margin: '2em 0' }}>
-            <Message size="huge">
-              <Header as="h2" textAlign="left">
-                Departments
-              </Header>
-            </Message>
-          </div>
-          <Segment attached>
-            {departments !== null && departments.length !== 0 ? (
-              <Grid stackable columns={13} textAlign="left">
-                {departments.map((item) => (
-                  <Grid.Row key={item.id} centered>
-                    <Grid.Column verticalAlign="middle" computer="4">
-                      <Link to={`/departments/${item.id}`}>{item.name}</Link>
-                    </Grid.Column>
-                    <Grid.Column
-                      floated="right"
-                      verticalAlign="middle"
-                      computer="4"
-                    >
-                      {item.Users !== undefined ? (
-                        <p>Members: {item.Users.length}</p>
-                      ) : null}
-                    </Grid.Column>
-                  </Grid.Row>
-                ))}
-              </Grid>
-            ) : (
-              <p>No departments available, please create one below</p>
-            )}
-          </Segment>
-          <Divider hidden />
-          {users.length > 0 ? (
+      {!isLoading ? (
+        <>
+          {user.admin ? (
             <Grid.Column width="13">
-              <Header as="h3" attached="top">
-                Create new department
-              </Header>
+              <div style={{ margin: '2em 0' }}>
+                <Message size="huge">
+                  <Header as="h2" textAlign="left">
+                    Departments
+                  </Header>
+                </Message>
+              </div>
               <Segment attached>
-                <Form.Group>
-                  <Form onSubmit={onSubmit}>
-                    <Form.Input
-                      placeholder="Enter department name"
-                      label="Department name"
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
+                {departments !== null && departments.length !== 0 ? (
+                  <Grid stackable columns={13} textAlign="left">
+                    {departments.map((item) => (
+                      <Grid.Row key={item.id} centered>
+                        <Grid.Column verticalAlign="middle" computer="4">
+                          <Link to={`/departments/${item.id}`}>
+                            {item.name}
+                          </Link>
+                        </Grid.Column>
+                        <Grid.Column
+                          floated="right"
+                          verticalAlign="middle"
+                          computer="4"
+                        >
+                          {item.Users !== undefined ? (
+                            <p>Members: {item.Users.length}</p>
+                          ) : null}
+                        </Grid.Column>
+                      </Grid.Row>
+                    ))}
+                  </Grid>
+                ) : (
+                  <p>No departments available, please create one below</p>
+                )}
+              </Segment>
+              <Divider hidden />
+              {users.length > 0 ? (
+                <Grid.Column width="13">
+                  <Header as="h3" attached="top">
+                    Create new department
+                  </Header>
+                  <Segment attached>
+                    <Form.Group>
+                      <Form onSubmit={onSubmit}>
+                        <Form.Input
+                          placeholder="Enter department name"
+                          label="Department name"
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
 
-                    {/*        <TextArea
+                        {/*        <TextArea
                 placeholder="Description"
                 label="Description"
                 value={description}
@@ -139,24 +144,32 @@ const Department = () => {
               />
  */}
 
-                    <Form.Select
-                      label="Add users"
-                      placeholder="Add user to department"
-                      options={options}
-                      onChange={handleSelect}
-                      value={select}
-                      multiple
-                      clearable
-                    />
-                    <Form.Button type="submit">Save</Form.Button>
-                  </Form>
-                </Form.Group>
-              </Segment>
+                        <Form.Select
+                          label="Add users"
+                          placeholder="Add user to department"
+                          options={options}
+                          onChange={handleSelect}
+                          value={select}
+                          multiple
+                          clearable
+                        />
+                        <Form.Button type="submit">Save</Form.Button>
+                      </Form>
+                    </Form.Group>
+                  </Segment>
+                </Grid.Column>
+              ) : null}{' '}
             </Grid.Column>
-          ) : null}{' '}
-        </Grid.Column>
+          ) : (
+            'Not authorized'
+          )}
+        </>
       ) : (
-        'Not authorized'
+        <Segment style={{ margin: '2em 0' }}>
+          <Loader active inline="centered" size="huge">
+            Loading
+          </Loader>
+        </Segment>
       )}
     </>
   );

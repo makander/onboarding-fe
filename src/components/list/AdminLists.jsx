@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Header, List, Button, Segment } from 'semantic-ui-react';
+import { Grid, Header, List, Button, Segment, Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import ListService from '../../services/ListService';
@@ -135,24 +135,34 @@ const AdminLists = ({ template, header }) => {
       </div>
       <Grid.Row>
         <Grid.Column>
-          <>
-            <Button.Group>
-              <Button onClick={() => handleIncomplete()}>Templates</Button>
-              <Button onClick={() => handleCompleted()}>Employee Lists</Button>
-              <Button onClick={() => handleAll()}>All</Button>
-            </Button.Group>
-            <Segment>
-              <DisplayList />
+          {lists != null && lists.length !== 0 ? (
+            <>
+              <Button.Group>
+                <Button onClick={() => handleIncomplete()}>Templates</Button>
+                <Button onClick={() => handleCompleted()}>
+                  Employee Lists
+                </Button>
+                <Button onClick={() => handleAll()}>All</Button>
+              </Button.Group>
+              <Segment>
+                <DisplayList />
+              </Segment>
+
+              <Link to="/templates/create">
+                <Button>New template</Button>
+              </Link>
+
+              <Link to="/lists/create">
+                <Button>New employee list</Button>
+              </Link>
+            </>
+          ) : (
+            <Segment style={{ margin: '2em 0' }}>
+              <Loader active inline="centered" size="huge">
+                Loading
+              </Loader>
             </Segment>
-
-            <Link to="/templates/create">
-              <Button>New template</Button>
-            </Link>
-
-            <Link to="/lists/create">
-              <Button>New employee list</Button>
-            </Link>
-          </>
+          )}
         </Grid.Column>
       </Grid.Row>
     </>
