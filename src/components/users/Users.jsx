@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Grid, Header, Segment, List, Button, Loader } from 'semantic-ui-react';
+import {
+  Grid,
+  Header,
+  Segment,
+  List,
+  Button,
+  Loader,
+  Message,
+} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import UserService from '../../services/UserService';
 import { MessageContext } from '../../context/MessageContext';
@@ -30,9 +38,11 @@ const Users = () => {
       {!isLoading ? (
         <Grid.Column width="13">
           <div style={{ margin: '2em 0' }}>
-            <Header as="h2" textAlign="left">
-              Users
-            </Header>
+            <Message size="huge">
+              <Header as="h2" textAlign="left">
+                Users
+              </Header>
+            </Message>
           </div>
           <Segment>
             <List>

@@ -41,24 +41,24 @@ const CreateEmployee = ({ history }) => {
     });
   }, []);
 
-  const handleNewList = (e) => {
+  const handleNewList = async (e) => {
     e.preventDefault();
+    try {
+      const data = {
+        listId: selectTemplate || '',
+        description,
+        departments: select || '',
+        status: false,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        address,
+        office,
+        title,
+      };
 
-    const data = {
-      listId: selectTemplate || '',
-      description,
-      departments: select || '',
-      status: false,
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      address,
-      office,
-      title,
-    };
-
-    EmployeeService.create(data).then(() => {
+      await EmployeeService.create(data);
       setTitle('');
       setDescription('');
       setSelect([]);
@@ -70,9 +70,10 @@ const CreateEmployee = ({ history }) => {
       setEmail('');
       setPhoneNumber('');
       history.push('/lists');
-    });
+    } catch (e) {
+      console.log(e);
+    }
   };
-
   return (
     <>
       <Grid.Column width="13">

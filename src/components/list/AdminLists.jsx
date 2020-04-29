@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Header, List, Button, Segment, Loader } from 'semantic-ui-react';
+import {
+  Grid,
+  Header,
+  List,
+  Button,
+  Segment,
+  Loader,
+  Message,
+} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import ListService from '../../services/ListService';
@@ -129,13 +137,15 @@ const AdminLists = ({ template, header }) => {
   return (
     <>
       <div style={{ margin: '2em 0' }}>
-        <Header float="left" textAlign="left">
-          {header}
-        </Header>
+        <Message size="huge">
+          <Header as="h2" textAlign="left">
+            Admin lists
+          </Header>
+        </Message>
       </div>
       <Grid.Row>
         <Grid.Column>
-          {lists != null && lists.length !== 0 ? (
+          {lists != null ? (
             <>
               <Button.Group>
                 <Button onClick={() => handleIncomplete()}>Templates</Button>

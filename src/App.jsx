@@ -19,6 +19,7 @@ import User from './components/users/User';
 import Lists from './components/list/Lists';
 import MessageProvider from './context/MessageContext';
 import Notification from './components/Notification';
+import Notifications from './components/messaging/Notifications';
 
 axios.defaults.withCredentials = true;
 
@@ -41,6 +42,11 @@ function App() {
 
               <ProtectedRoute path="/lists" exact component={Lists} />
 
+              <ProtectedRoute
+                path="/notifications"
+                exact
+                component={Notifications}
+              />
               <ProtectedRoute
                 path="/lists/create"
                 exact

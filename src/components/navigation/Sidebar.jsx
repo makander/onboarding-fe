@@ -37,6 +37,7 @@ const Sidebar = () => {
         <>
           <Menu.Item as={Link} name="Department" to="/departments" />
           <Menu.Item as={Link} name="Users" to="/users" />
+          <Menu.Item as={Link} name="Notifications" to="/notifications" />
         </>
       ) : (
         ''
