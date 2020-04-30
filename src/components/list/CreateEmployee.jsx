@@ -15,7 +15,7 @@ import ListService from '../../services/ListService';
 const CreateEmployee = ({ history }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [select, setSelect] = useState();
+  const [select, setSelect] = useState({});
   const [selectTemplate, setSelectTemplate] = useState();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -147,7 +147,6 @@ const CreateEmployee = ({ history }) => {
                       placeholder="Use template"
                       options={templateOptions}
                       onChange={handleSelectTemplate}
-                      value={select}
                       clearable
                     />
                   ) : (

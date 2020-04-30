@@ -38,25 +38,21 @@ const Login = (props) => {
           <Segment stacked>
             <Header textAlign="center">Login to Border</Header>
             <Form onSubmit={handleLogin}>
-              <Form.Field>
-                <label>Email</label>
-                <input
-                  name="email"
-                  placeholder="Enter email"
-                  required
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Field>
-              <Form.Field>
-                <label>Password</label>
-                <input
-                  name="password"
-                  placeholder="Enter password"
-                  required
-                  type="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Form.Field>
+              <Form.Input
+                label="Email"
+                name="email"
+                placeholder="Enter email"
+                required
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              <Form.Input
+                label="Password"
+                name="email"
+                placeholder="Enter password"
+                required
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
               <Button fluid size="large" type="submit">
                 Login

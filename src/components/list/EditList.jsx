@@ -109,8 +109,8 @@ const EditList = () => {
               <Header as="h5">Departments:</Header>
               {list.Departments !== undefined
                 ? list.Departments.map((item) => (
-                    <List celled>
-                      <List.Item key={uuidv4()}>
+                    <List celled key={uuidv4()}>
+                      <List.Item>
                         <List.Content verticalAlign="bottom" floated="left">
                           {item.name}
                         </List.Content>

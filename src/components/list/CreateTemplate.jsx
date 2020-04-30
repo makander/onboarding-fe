@@ -50,13 +50,6 @@ const CreateTemplate = ({ history }) => {
       setDescription('');
       setSelect([]);
     });
-    /*     setTitle('');
-      setDescription('');
-      setSelect([]);
-   */
-    /*     if (templateList) {
-        navigate('/home');
-      } */
   };
 
   return (
@@ -83,12 +76,10 @@ const CreateTemplate = ({ history }) => {
                     fluid
                     label="Department"
                     multiple
-                    // search
                     selection
-                    value={select}
+                    value={select || []}
                     options={options}
                     onChange={handleSelect}
-                    // defaultValue={[]}
                     clearable
                   />
                 ) : null}

@@ -1,31 +1,37 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useForm, ErrorMessage, Controller } from 'react-hook-form';
 import {
   Grid,
   Header,
   Segment,
   Form,
-  Checkbox,
   Button,
   Message,
   Divider,
   Loader,
 } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
+import * as yup from 'yup';
 import UserService from '../../services/UserService';
 import { MessageContext } from '../../context/MessageContext';
 import { AuthContext } from '../../context/AuthContext';
 
+const ServiceSchema = yup.object().shape({
+  email: yup.string().email('Must be a valid email address'),
+  password: yup.string().min(6),
+});
+
 const User = ({ history }) => {
   const usersId = useParams();
   const [user, setUser] = useState([]);
-  const [firstName, setFirstName] = useState('');
+  /*   const [firstName, setFirstName] = useState('');
   const [lastName, setlastName] = useState('');
   const [password, setPassword] = useState('');
   const [admin, setAdmin] = useState();
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState(); */
   const { dispatchMessage } = useContext(MessageContext);
 
-  const { dispatch, authStatus } = useContext(AuthContext);
+  const { authStatus } = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -45,6 +51,25 @@ const User = ({ history }) => {
     fetchData();
   }, []);
 
+  const defaultValues = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    admin: user.admin,
+    email: user.email,
+  };
+  const { register, errors, handleSubmit, control, setValue } = useForm({
+    validationSchema: ServiceSchema,
+    defaultValues,
+  });
+
+  useEffect(() => {
+    register({ name: 'firstName' });
+    register({ name: 'lastName' });
+    register({ name: 'password' });
+    register({ name: 'email' });
+    register({ name: 'admin' });
+  }, []);
+
   const handleDelete = () => {
     UserService.destroy(usersId.id)
       .then(() => history.push('/users'))
@@ -56,16 +81,7 @@ const User = ({ history }) => {
       });
   };
 
-  const handleSubmit = () => {
-    const data = {
-      firstName: firstName !== user.firstName ? firstName : user.firstName,
-      lastName: lastName !== user.lastName ? lastName : user.lastName,
-      password: password !== user.password ? password : user.password,
-      admin: admin !== user.admin ? admin : user.admin,
-      email: email !== user.email ? email : user.email,
-    };
-    console.log(data);
-
+  const onHandleEdit = (data, e) => {
     UserService.edit(user.id, data)
       .then(() => history.push('/users'))
       .catch((error) => {
@@ -74,24 +90,27 @@ const User = ({ history }) => {
           payload: error.response.data,
         });
       });
+    e.target.reset();
   };
 
-  const handlePassword = () => {
-    const data = {
+  const handlePassword = async (data, e) => {
+    try {
+      await UserService.edit(user.id, data);
+      history.push('/users');
+    } catch (error) {
+      /*     const data = {
       firstName: user.firstName,
       lastName: user.lastName,
       admin: user.admin,
       email: user.email,
-    };
-
-    UserService.edit(user.id, data)
-      .then(() => history.push('/users'))
-      .catch((error) => {
-        dispatchMessage({
-          type: 'ERROR',
-          payload: error.response.data,
-        });
+    }; */
+      dispatchMessage({
+        type: 'ERROR',
+        payload: error.response.data,
       });
+
+      e.target.reset();
+    }
   };
 
   return (
@@ -118,39 +137,53 @@ const User = ({ history }) => {
           </Segment>
           <Divider hidden />
           <Segment>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit(onHandleEdit)}>
               <Form.Input
                 placeholder="Enter new first name"
                 label="First name"
                 type="text"
-                value={firstName}
                 fluid
-                onChange={(e) => setFirstName(e.target.value)}
+                name="firstName"
+                onChange={async (e, { name, value }) => {
+                  setValue(name, value);
+                }}
               />
               <Form.Input
                 placeholder=" Enter new last name"
                 label="Last name"
                 type="text"
-                value={lastName}
                 fluid
-                onChange={(e) => setlastName(e.target.value)}
+                name="lastName"
+                onChange={async (e, { name, value }) => {
+                  setValue(name, value);
+                }}
               />
 
               <Form.Input
                 placeholder="Enter new e-mail"
                 label="Email adress"
+                name="email"
                 type="text"
-                value={email}
                 fluid
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={async (e, { name, value }) => {
+                  setValue(name, value);
+                }}
               />
-
+              <ErrorMessage
+                as={Message}
+                negative
+                errors={errors}
+                name="email"
+              />
               {authStatus.user.admin ? (
-                <Form.Field
-                  control={Checkbox}
+                <Controller
+                  name="admin"
+                  control={control}
                   label="Admin"
-                  checked={user.admin}
-                  onChange={() => setAdmin(!admin)}
+                  defaultValue={user.admin}
+                  as={Form.Checkbox}
+                  valueName="checked"
+                  onChange={([_, data]) => data.checked}
                 />
               ) : (
                 ''
@@ -160,14 +193,22 @@ const User = ({ history }) => {
           </Segment>
 
           <Segment>
-            <Form onSubmit={handlePassword}>
+            <Form onSubmit={handleSubmit(handlePassword)}>
               <Form.Input
                 placeholder="Enter new password"
                 label="Change password"
                 type="password"
-                value={password}
+                name="password"
                 fluid
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={async (e, { name, value }) => {
+                  setValue(name, value);
+                }}
+              />
+              <ErrorMessage
+                as={Message}
+                negative
+                errors={errors}
+                name="password"
               />
               <Form.Button content="Save" />
             </Form>

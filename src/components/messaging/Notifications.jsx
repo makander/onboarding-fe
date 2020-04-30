@@ -17,14 +17,14 @@ import * as yup from 'yup';
 import { MessageContext } from '../../context/MessageContext';
 import NotificationServices from '../../services/NotificationServices';
 
-const SignupSchema = yup.object().shape({
+const ServiceSchema = yup.object().shape({
   email: yup.string().email('Must be a valid email address'),
   slackUri: yup.string().url('Must be a valid url'),
 });
 
 const Notfications = () => {
   const { register, errors, handleSubmit, setValue } = useForm({
-    validationSchema: SignupSchema,
+    validationSchema: ServiceSchema,
   });
 
   useEffect(() => {
