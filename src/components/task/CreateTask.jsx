@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Form, Segment, Header, Message } from 'semantic-ui-react';
 import * as yup from 'yup';
 import { useForm, ErrorMessage, Controller } from 'react-hook-form';
@@ -16,16 +16,11 @@ const defaultValues = {
 };
 
 const CreateTask = ({ setTask, listsId }) => {
-  const { register, errors, handleSubmit, control, reset } = useForm({
+  const { errors, handleSubmit, control, reset } = useForm({
     validationSchema: TaskSchema,
     defaultValues,
   });
   const { dispatchMessage } = useContext(MessageContext);
-
-  useEffect(() => {
-    register({ name: 'name' });
-    register({ name: 'description' });
-  }, []);
 
   const handleNewTask = async (data, e) => {
     try {
@@ -59,7 +54,6 @@ const CreateTask = ({ setTask, listsId }) => {
               name="name"
               control={control}
               label="Title"
-              type="text"
               placeholder="Enter title"
               fluid
               as={<Form.Input />}
@@ -70,7 +64,6 @@ const CreateTask = ({ setTask, listsId }) => {
               name="description"
               control={control}
               label="Description"
-              type="text"
               placeholder="Enter description"
               as={<Form.TextArea />}
             />

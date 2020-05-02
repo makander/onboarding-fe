@@ -12,12 +12,13 @@ import {
   Message,
   Divider,
 } from 'semantic-ui-react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import DepartmentService from '../../services/DepartmentService';
 import UserService from '../../services/UserService';
 import { MessageContext } from '../../context/MessageContext';
 
-const Department = ({ history }) => {
+const Department = () => {
+  const history = useHistory();
   const [departments, setDepartments] = useState([]);
   const [name, setName] = useState('');
   const [users, setUsers] = useState([]);
@@ -125,23 +126,24 @@ const Department = ({ history }) => {
               Change name on department: {departments.name}
             </Header>
             <Segment attached>
-              <Grid.Row>
-                <Form onSubmit={onSubmit}>
-                  <Form.Group>
-                    <Form.Input
-                      placeholder="New name"
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                    <br />
-                    <Form.Button content="Save" />
-                  </Form.Group>
-                </Form>
-                <Form onSubmit={handleDelete}>
-                  <Form.Button>Delete</Form.Button>
-                </Form>
-              </Grid.Row>
+              <Form onSubmit={onSubmit} inline>
+                <Form.Group>
+                  <Form.Input
+                    placeholder="New name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+
+                  <Form.Button content="Save" />
+                </Form.Group>
+              </Form>
+
+              {/*             <List.Content floated="left">
+                    <Form onSubmit={handleDelete} widths="equal">
+                      <Form.Button widths="equal">Delete</Form.Button>
+                    </Form>
+                  </List.Content> */}
             </Segment>
             <Grid.Row>
               <Divider hidden />
@@ -195,6 +197,16 @@ const Department = ({ history }) => {
                   </Form.Group>
                 </Form>
               </Grid.Row>
+            </Segment>
+
+            <Divider hidden />
+            <Header as="h3" attached="top">
+              Delete department
+            </Header>
+            <Segment attached>
+              <Button negative onClick={(e) => handleDelete(e)}>
+                Delete
+              </Button>
             </Segment>
           </Grid.Column>
         </Grid>

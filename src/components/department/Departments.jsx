@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm, ErrorMessage, Controller } from 'react-hook-form';
 
 import {
   Form,
@@ -10,20 +11,34 @@ import {
   Divider,
   Loader,
 } from 'semantic-ui-react';
+import * as yup from 'yup';
 import DepartmentService from '../../services/DepartmentService';
 import UserService from '../../services/UserService';
 import { AuthContext } from '../../context/AuthContext';
 import { MessageContext } from '../../context/MessageContext';
 
+const DepartmentSchema = yup.object().shape({
+  name: yup.string().required('You have to enter a title'),
+});
+
+const defaultValues = {
+  name: '',
+  description: '',
+  members: '',
+};
+
 const Department = () => {
   const [departments, setDepartments] = useState([]);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+
   const [users, setUsers] = useState([]);
-  const [select, setSelect] = useState([]);
+
   const { dispatchMessage } = useContext(MessageContext);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { errors, handleSubmit, control, reset } = useForm({
+    defaultValues,
+    validationSchema: DepartmentSchema,
+  });
   const {
     authStatus: { user },
   } = useContext(AuthContext);
@@ -48,19 +63,12 @@ const Department = () => {
     fetchData();
   }, []);
 
-  const onSubmit = () => {
-    const department = {
-      name,
-      description,
-      users: select,
-    };
-
-    DepartmentService.create(department).then((res) => {
+  const onSubmit = (data, e) => {
+    DepartmentService.create(data).then((res) => {
       setDepartments(departments.concat([res.data]));
     });
-    setSelect([]);
-    setName('');
-    setDescription();
+    e.target.reset();
+    reset(defaultValues);
   };
 
   // mapping out values to be used in dropdown
@@ -68,16 +76,6 @@ const Department = () => {
     value: id,
     text: `${firstName} ${lastName}`,
   }));
-
-  const handleSelect = (e, { value }) => {
-    setSelect(value);
-  };
-
-  /*   const handleClick = (id) => {
-    DepartmentService.destroy(id);
-    const filter = departments.filter((department) => department.id !== id);
-    setDepartments(filter);
-  }; */
 
   return (
     <>
@@ -126,15 +124,20 @@ const Department = () => {
                   </Header>
                   <Segment attached>
                     <Form.Group>
-                      <Form onSubmit={onSubmit}>
-                        <Form.Input
+                      <Form onSubmit={handleSubmit(onSubmit)}>
+                        <Controller
                           placeholder="Enter department name"
-                          label="Department name"
-                          type="text"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          label="Name"
+                          as={<Form.Input />}
+                          control={control}
+                          name="name"
                         />
-
+                        <ErrorMessage
+                          as={Message}
+                          negative
+                          errors={errors}
+                          name="name"
+                        />
                         {/*        <TextArea
                 placeholder="Description"
                 label="Description"
@@ -144,21 +147,22 @@ const Department = () => {
               />
  */}
 
-                        <Form.Select
-                          label="Add users"
-                          placeholder="Add user to department"
-                          options={options}
-                          onChange={handleSelect}
-                          value={select}
-                          multiple
+                        <Controller
+                          label="Template"
+                          as={<Form.Select options={options} multiple />}
+                          placeholder="Use template"
                           clearable
+                          control={control}
+                          name="members"
+                          onChange={(e) => e[1].value}
                         />
+
                         <Form.Button type="submit">Save</Form.Button>
                       </Form>
                     </Form.Group>
                   </Segment>
                 </Grid.Column>
-              ) : null}{' '}
+              ) : null}
             </Grid.Column>
           ) : (
             'Not authorized'

@@ -8,10 +8,12 @@ import {
   Dropdown,
 } from 'semantic-ui-react';
 
+import { useHistory } from 'react-router-dom';
 import ListService from '../../services/ListService';
 import DepartmentService from '../../services/DepartmentService';
 
-const CreateTemplate = ({ history }) => {
+const CreateTemplate = () => {
+  const history = useHistory();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [select, setSelect] = useState();

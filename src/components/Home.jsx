@@ -1,6 +1,5 @@
-/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   List,
   Segment,
@@ -14,7 +13,6 @@ import { AuthContext } from '../context/AuthContext';
 import { MessageContext } from '../context/MessageContext';
 
 const Home = () => {
-  const history = useHistory();
   const location = useLocation();
   const {
     authStatus: { user },
@@ -24,7 +22,6 @@ const Home = () => {
   const [profile, setProfile] = useState([]);
 
   useEffect(() => {
-    // console.log(history);
     UserService.findOne(user.id)
       .then((res) => setProfile(res))
       .catch((error) => {

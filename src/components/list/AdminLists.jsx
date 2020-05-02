@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import {
   Grid,
   Header,
@@ -12,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 import ListService from '../../services/ListService';
 
-const AdminLists = ({ template, header }) => {
+const AdminLists = () => {
   const [lists, setLists] = useState([]);
   const [viewAll, setViewAll] = useState(false);
   const [viewCompleted, setViewCompleted] = useState(false);
@@ -66,7 +67,7 @@ const AdminLists = ({ template, header }) => {
                 </List.Content>
                 <List.Content floated="left">
                   <p>
-                    {item.Tasks != null && item.Tasks.length != null ? (
+                    {item.Tasks != null && item.Tasks.length !== 0 ? (
                       <>
                         Completed tasks:{' '}
                         {item.Tasks.filter((task) => task.status).length}{' '}
@@ -99,12 +100,13 @@ const AdminLists = ({ template, header }) => {
                   <div>
                     {item.Tasks != null && item.Tasks.length != null ? (
                       <>
-                        {item.Tasks.length ===
-                        item.Tasks.filter((task) => task.status).length ? (
+                        {item.Tasks.length !== 0 &&
+                        item.Tasks.length ===
+                          item.Tasks.filter((task) => task.status).length ? (
                           'Completed'
                         ) : (
                           <>
-                            {!item.templateList ? (
+                            {!item.templateList && item.Tasks.length !== 0 ? (
                               <p>
                                 Completed tasks:{' '}
                                 {
@@ -130,7 +132,7 @@ const AdminLists = ({ template, header }) => {
           : ''}
       </List>
     ) : (
-      <p>{template ? 'No templates available' : 'No lists available'}</p>
+      <p>No lists available</p>
     );
   };
 

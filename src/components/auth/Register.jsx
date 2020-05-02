@@ -9,6 +9,7 @@ import {
 } from 'semantic-ui-react';
 import * as yup from 'yup';
 import { useForm, ErrorMessage } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import { MessageContext } from '../../context/MessageContext';
 import UserService from '../../services/UserService';
 
@@ -19,7 +20,8 @@ const SignupSchema = yup.object().shape({
   password: yup.string().min(6),
 });
 
-const Register = ({ history }) => {
+const Register = () => {
+  const history = useHistory();
   const { dispatchMessage } = useContext(MessageContext);
   const { register, errors, handleSubmit, setValue } = useForm({
     validationSchema: SignupSchema,

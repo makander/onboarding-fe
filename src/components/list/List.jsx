@@ -12,14 +12,15 @@ import {
   List,
   Divider,
 } from 'semantic-ui-react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useHistory } from 'react-router-dom';
 import ListService from '../../services/ListService';
 import CreateTask from '../task/CreateTask';
 import TaskService from '../../services/TaskService';
 import TaskDropDown from '../task/TaskDropDown';
 import { AuthContext } from '../../context/AuthContext';
 
-const Lists = ({ history }) => {
+const Lists = () => {
+  const history = useHistory();
   const [list, setList] = useState([]);
   const [options, setOptions] = useState([]);
 
@@ -39,8 +40,8 @@ const Lists = ({ history }) => {
 
   useEffect(() => {
     if (list.Departments != null) {
-      const format = list.Departments.flatMap((user) =>
-        user.Users.map(({ id, firstName, lastName }) => ({
+      const format = list.Departments.flatMap((u) =>
+        u.Users.map(({ id, firstName, lastName }) => ({
           value: id,
           text: `${firstName} ${lastName}`,
         }))
@@ -162,11 +163,20 @@ const Lists = ({ history }) => {
             Tasks
           </Header>
           <Segment attached>
-            <Grid relaxed="very" textAlign="left" style={{ marginTop: '1em' }}>
+            <Grid
+              relaxed="very"
+              stackable
+              textAlign="left"
+              style={{ marginTop: '1em' }}
+            >
               {list.Tasks != null && list.Tasks.length !== 0 ? (
                 list.Tasks.map((item) => (
                   <Grid.Row key={item.id} style={{ padding: '0' }}>
-                    <Grid.Column verticalAlign="middle" computer="3">
+                    <Grid.Column
+                      verticalAlign="middle"
+                      computer="3"
+                      mobile="16"
+                    >
                       {item.name}
                     </Grid.Column>
                     <>
@@ -176,6 +186,7 @@ const Lists = ({ history }) => {
                             verticalAlign="middle"
                             tablet="3"
                             computer="5"
+                            mobile="16"
                           >
                             {item.User != null && item.User != null ? (
                               <>
@@ -195,7 +206,11 @@ const Lists = ({ history }) => {
                               'No assigned user'
                             )}
                           </Grid.Column>
-                          <Grid.Column verticalAlign="middle" computer="5">
+                          <Grid.Column
+                            verticalAlign="middle"
+                            computer="5"
+                            mobile="16"
+                          >
                             <TaskDropDown
                               options={options}
                               TaskServiceUpdateTask={TaskService.updateTask}
@@ -204,7 +219,11 @@ const Lists = ({ history }) => {
                             />
                           </Grid.Column>
 
-                          <Grid.Column verticalAlign="middle" computer="2">
+                          <Grid.Column
+                            verticalAlign="middle"
+                            computer="2"
+                            mobile="16"
+                          >
                             <Form>
                               <Form.Checkbox
                                 inline

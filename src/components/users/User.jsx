@@ -10,7 +10,7 @@ import {
   Divider,
   Loader,
 } from 'semantic-ui-react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import UserService from '../../services/UserService';
 import { MessageContext } from '../../context/MessageContext';
@@ -21,14 +21,11 @@ const ServiceSchema = yup.object().shape({
   password: yup.string().min(6),
 });
 
-const User = ({ history }) => {
+const User = () => {
+  const history = useHistory();
   const usersId = useParams();
   const [user, setUser] = useState([]);
-  /*   const [firstName, setFirstName] = useState('');
-  const [lastName, setlastName] = useState('');
-  const [password, setPassword] = useState('');
-  const [admin, setAdmin] = useState();
-  const [email, setEmail] = useState(); */
+
   const { dispatchMessage } = useContext(MessageContext);
 
   const { authStatus } = useContext(AuthContext);
@@ -57,18 +54,10 @@ const User = ({ history }) => {
     admin: user.admin,
     email: user.email,
   };
-  const { register, errors, handleSubmit, control, setValue } = useForm({
+  const { errors, handleSubmit, control, reset } = useForm({
     validationSchema: ServiceSchema,
     defaultValues,
   });
-
-  useEffect(() => {
-    register({ name: 'firstName' });
-    register({ name: 'lastName' });
-    register({ name: 'password' });
-    register({ name: 'email' });
-    register({ name: 'admin' });
-  }, []);
 
   const handleDelete = () => {
     UserService.destroy(usersId.id)
@@ -91,6 +80,7 @@ const User = ({ history }) => {
         });
       });
     e.target.reset();
+    reset(defaultValues);
   };
 
   const handlePassword = async (data, e) => {
@@ -98,18 +88,13 @@ const User = ({ history }) => {
       await UserService.edit(user.id, data);
       history.push('/users');
     } catch (error) {
-      /*     const data = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      admin: user.admin,
-      email: user.email,
-    }; */
       dispatchMessage({
         type: 'ERROR',
         payload: error.response.data,
       });
 
       e.target.reset();
+      reset(defaultValues);
     }
   };
 
@@ -138,43 +123,40 @@ const User = ({ history }) => {
           <Divider hidden />
           <Segment>
             <Form onSubmit={handleSubmit(onHandleEdit)}>
-              <Form.Input
-                placeholder="Enter new first name"
-                label="First name"
-                type="text"
-                fluid
+              <Controller
                 name="firstName"
-                onChange={async (e, { name, value }) => {
-                  setValue(name, value);
-                }}
-              />
-              <Form.Input
-                placeholder=" Enter new last name"
-                label="Last name"
-                type="text"
+                control={control}
+                label="First name"
+                placeholder="enter first name"
                 fluid
-                name="lastName"
-                onChange={async (e, { name, value }) => {
-                  setValue(name, value);
-                }}
+                as={<Form.Input />}
               />
 
-              <Form.Input
-                placeholder="Enter new e-mail"
-                label="Email adress"
-                name="email"
-                type="text"
+              <Controller
+                name="lastName"
+                control={control}
+                label="Last name"
+                placeholder="Enter lastname"
                 fluid
-                onChange={async (e, { name, value }) => {
-                  setValue(name, value);
-                }}
+                as={<Form.Input />}
               />
+
+              <Controller
+                name="email"
+                control={control}
+                label="Email"
+                placeholder="Enter new e-mail"
+                fluid
+                as={<Form.Input />}
+              />
+
               <ErrorMessage
                 as={Message}
                 negative
                 errors={errors}
                 name="email"
               />
+
               {authStatus.user.admin ? (
                 <Controller
                   name="admin"
@@ -194,16 +176,16 @@ const User = ({ history }) => {
 
           <Segment>
             <Form onSubmit={handleSubmit(handlePassword)}>
-              <Form.Input
-                placeholder="Enter new password"
+              <Controller
+                name="password"
+                control={control}
                 label="Change password"
                 type="password"
-                name="password"
+                placeholder="Enter new password"
                 fluid
-                onChange={async (e, { name, value }) => {
-                  setValue(name, value);
-                }}
+                as={<Form.Input />}
               />
+
               <ErrorMessage
                 as={Message}
                 negative

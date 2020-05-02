@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { Button, Form, Segment, Header, Grid } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import UserService from '../../services/UserService';
 import { MessageContext } from '../../context/MessageContext';
 
-const Login = (props) => {
-  const { history } = props;
+const Login = () => {
+  const history = useHistory();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { dispatchMessage } = useContext(MessageContext);
@@ -24,7 +25,6 @@ const Login = (props) => {
         history.push('/home');
       })
       .catch((error) => {
-        console.log(error);
         dispatchMessage({
           type: 'ERROR',
           payload: error.response.data,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { useForm, ErrorMessage } from 'react-hook-form';
+import { useForm, ErrorMessage, Controller } from 'react-hook-form';
 import {
   Segment,
   Grid,
@@ -23,16 +23,9 @@ const ServiceSchema = yup.object().shape({
 });
 
 const Notfications = () => {
-  const { register, errors, handleSubmit, setValue } = useForm({
+  const { control, errors, handleSubmit } = useForm({
     validationSchema: ServiceSchema,
   });
-
-  useEffect(() => {
-    register({
-      name: 'email',
-    });
-    register({ name: 'slackUri' });
-  }, []);
 
   const { dispatchMessage } = useContext(MessageContext);
 
@@ -268,14 +261,12 @@ const Notfications = () => {
               </Header>
               <Segment attached>
                 <Form onSubmit={handleSubmit(onSubmitEmail)}>
-                  <Form.Input
-                    name="email"
-                    fluid
-                    label="Email"
+                  <Controller
                     placeholder="Enter email"
-                    onChange={async (e, { name, value }) => {
-                      setValue(name, value);
-                    }}
+                    label="Email"
+                    as={<Form.Input />}
+                    name="email"
+                    control={control}
                   />
                   <ErrorMessage
                     as={Message}
@@ -291,15 +282,14 @@ const Notfications = () => {
               </Header>
               <Segment attached>
                 <Form onSubmit={handleSubmit(onSubmitToken)}>
-                  <Form.Input
-                    name="slackUri"
-                    fluid
-                    label="Slack token"
+                  <Controller
                     placeholder="Enter token"
-                    onChange={async (e, { name, value }) => {
-                      setValue(name, value);
-                    }}
+                    label="Slack token"
+                    as={<Form.Input />}
+                    control={control}
+                    name="slackUri"
                   />
+
                   <ErrorMessage
                     as={Message}
                     negative

@@ -6,8 +6,6 @@ const getTasks = async () =>
 const getAtask = async (userId, listId) =>
   axios.get(`${process.env.REACT_APP_BASE_URL}/api/list/${listId}`);
 
-const deleteTask = async (id) => axios.delete();
-
 const updateTask = async (taskId, data) =>
   axios.put(`${process.env.REACT_APP_BASE_URL}/api/task/${taskId}`, data);
 
@@ -17,7 +15,7 @@ const createTask = async (data) =>
 export default {
   getTasks,
   getAtask,
-  deleteTask,
+
   updateTask,
   createTask,
 };
