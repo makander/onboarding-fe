@@ -11,6 +11,8 @@ import {
   Loader,
   List,
   Divider,
+  Container,
+  Card,
 } from 'semantic-ui-react';
 import { useParams, Link, useHistory } from 'react-router-dom';
 import ListService from '../../services/ListService';
@@ -163,91 +165,54 @@ const Lists = () => {
             Tasks
           </Header>
           <Segment attached>
-            <Grid
-              relaxed="very"
-              stackable
-              textAlign="left"
-              style={{ marginTop: '1em' }}
-            >
-              {list.Tasks != null && list.Tasks.length !== 0 ? (
-                list.Tasks.map((item) => (
-                  <Grid.Row key={item.id} style={{ padding: '0' }}>
-                    <Grid.Column
-                      verticalAlign="middle"
-                      computer="3"
-                      mobile="16"
-                    >
-                      {item.name}
-                    </Grid.Column>
-                    <>
-                      {!list.templateList ? (
-                        <>
-                          <Grid.Column
-                            verticalAlign="middle"
-                            tablet="3"
-                            computer="5"
-                            mobile="16"
+            {list.Tasks != null && list.Tasks.length !== 0 ? (
+              list.Tasks.map((item) => (
+                <Card fluid>
+                  <Card.Content header={item.name} />
+                  <Card.Content description>
+                    {item.User != null && item.User != null ? (
+                      <>
+                        <p>
+                          Assigned: {item.User.firstName} {item.User.lastName}
+                          <Button
+                            style={{ marginLeft: '4em' }}
+                            compact
+                            onClick={() => removeUser(item.id)}
                           >
-                            {item.User != null && item.User != null ? (
-                              <>
-                                <p>
-                                  Assigned: {item.User.firstName}{' '}
-                                  {item.User.lastName}
-                                  <Button
-                                    floated="right"
-                                    compact
-                                    onClick={() => removeUser(item.id)}
-                                  >
-                                    x
-                                  </Button>
-                                </p>
-                              </>
-                            ) : (
-                              'No assigned user'
-                            )}
-                          </Grid.Column>
-                          <Grid.Column
-                            verticalAlign="middle"
-                            computer="5"
-                            mobile="16"
-                          >
-                            <TaskDropDown
-                              options={options}
-                              TaskServiceUpdateTask={TaskService.updateTask}
-                              id={item.id}
-                              setTask={setTask}
-                            />
-                          </Grid.Column>
+                            x
+                          </Button>
+                        </p>
+                      </>
+                    ) : (
+                      'No assigned user'
+                    )}
 
-                          <Grid.Column
-                            verticalAlign="middle"
-                            computer="2"
-                            mobile="16"
-                          >
-                            <Form>
-                              <Form.Checkbox
-                                inline
-                                label="completed"
-                                checked={item.status}
-                                onChange={() =>
-                                  handleStatus(item.status, item.id)
-                                }
-                              />
-                            </Form>
-                          </Grid.Column>
-                        </>
-                      ) : (
-                        ''
-                      )}
-                    </>
-                  </Grid.Row>
-                ))
-              ) : (
-                <>
+                    <TaskDropDown
+                      options={options}
+                      TaskServiceUpdateTask={TaskService.updateTask}
+                      id={item.id}
+                      setTask={setTask}
+                    />
+                  </Card.Content>
+                  <Card.Content extra>
+                    <Form>
+                      <Form.Checkbox
+                        inline
+                        label="completed"
+                        checked={item.status}
+                        onChange={() => handleStatus(item.status, item.id)}
+                      />
+                    </Form>
+                  </Card.Content>
+                </Card>
+              ))
+            ) : (
+              <Card>
+                <Card.Content>
                   <p>No tasks available for this list.</p>
-                </>
-              )}
-            </Grid>
+                </Card.Content>
+              </Card>
+            )}
           </Segment>
 
           <CompleteSegment />
@@ -256,7 +221,7 @@ const Lists = () => {
             <CreateTask setTask={setTask} listsId={listsId.id} />
             <Divider hidden />
             {user.admin ? (
-              <>
+              <Container relaxed>
                 {list.templateList ? (
                   <Button positive onClick={() => history.push('/lists')}>
                     Save template
@@ -264,25 +229,29 @@ const Lists = () => {
                 ) : (
                   ''
                 )}
-                <Button.Group floated="right">
-                  <Button secondary>
-                    <Link
-                      style={{ color: 'White' }}
-                      to={`/lists/edit/${listsId.id}`}
-                    >
-                      Edit
-                    </Link>
-                  </Button>
+                <>
+                  <Button.Group>
+                    <Button secondary>
+                      <Link
+                        style={{ color: 'White' }}
+                        to={`/lists/edit/${listsId.id}`}
+                      >
+                        Edit
+                      </Link>
+                    </Button>
 
-                  <Button negative onClick={() => deleteList()}>
-                    Delete
-                  </Button>
-                </Button.Group>
-              </>
+                    <Button negative onClick={() => deleteList()}>
+                      Delete
+                    </Button>
+                  </Button.Group>
+                  <Divider hidden />
+                </>
+              </Container>
             ) : (
               ''
             )}
           </>
+          <Divider hidden />
         </>
       ) : (
         <Segment style={{ margin: '2em 0' }}>

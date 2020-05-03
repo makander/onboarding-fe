@@ -23,30 +23,24 @@ const Sidebar = () => {
   };
 
   return (
-    <Menu
-      vertical
-      color="grey"
-      style={{ minHeight: '100vh', paddingLeft: '-1rem' }}
-      inverted
-      fixed="left"
-    >
-      <Menu.Item as={Link} name="Home" to="/home" />
-      <Menu.Item as={Link} name="Lists" to="/lists" />
-      <Menu.Item as={Link} name="Profile" to={`/users/${user.id}`} />
-      {user != null && user.admin ? (
-        <>
-          <Menu.Item as={Link} name="Department" to="/departments" />
-          <Menu.Item as={Link} name="Users" to="/users" />
-          <Menu.Item as={Link} name="Notifications" to="/notifications" />
-        </>
-      ) : (
-        ''
-      )}
-      <Menu.Item>
-        <Menu.Menu>
-          <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
-        </Menu.Menu>
-      </Menu.Item>
+    <Menu color="grey" inverted stackable size="large">
+      <Menu.Menu position="left">
+        <Menu.Item as={Link} name="Home" to="/home" />
+        <Menu.Item as={Link} name="Lists" to="/lists" />
+        <Menu.Item as={Link} name="Profile" to={`/users/${user.id}`} />
+        {user != null && user.admin ? (
+          <>
+            <Menu.Item as={Link} name="Department" to="/departments" />
+            <Menu.Item as={Link} name="Users" to="/users" />
+            <Menu.Item as={Link} name="Notifications" to="/notifications" />
+          </>
+        ) : (
+          ''
+        )}
+      </Menu.Menu>
+      <Menu.Menu position="right">
+        <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
+      </Menu.Menu>
     </Menu>
   );
 };

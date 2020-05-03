@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-boolean-value */
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Container } from 'semantic-ui-react';
 import { AuthContext } from '../context/AuthContext';
 import Sidebar from '../components/navigation/Sidebar';
-import Navbar from '../components/navigation/Navbar';
-
+/* import Navbar from '../components/navigation/Navbar';
+ */
 const ProtectedRoute = ({ component: Component, ...props }) => {
   const { authStatus } = useContext(AuthContext);
 
@@ -15,18 +15,10 @@ const ProtectedRoute = ({ component: Component, ...props }) => {
       render={(props) =>
         authStatus.userIsAuthenticated ? (
           <>
-            <Grid stackable columns={16}>
-              <Navbar />
-              <Grid.Row>
-                <Grid.Column only="computer" width={3}>
-                  <Sidebar />
-                </Grid.Column>
-
-                <Grid.Column tablet={14} computer={12}>
-                  <Component {...props} />
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+            <Sidebar />
+            <Container>
+              <Component {...props} />
+            </Container>
           </>
         ) : (
           <Redirect to={props.redirectTo ? props.redirectTo : '/'} />
