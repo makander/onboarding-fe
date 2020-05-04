@@ -24,7 +24,10 @@ const Navbar = () => {
 
   return (
     <Menu
-      style={{ textShadow: 'textshadow 0  1px rgba(0,0,0,.3)' }}
+      style={{
+        textShadow: 'text-shadow: 0px 0px 2px',
+        backgroundColor: 'rgb(70, 68, 68)',
+      }}
       stackable
       color="grey"
       inverted
