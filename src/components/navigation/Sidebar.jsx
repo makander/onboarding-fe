@@ -23,7 +23,13 @@ const Sidebar = () => {
   };
 
   return (
-    <Menu color="grey" inverted stackable size="large">
+    <Menu
+      style={{ textShadow: 'textshadow 0  1px rgba(0,0,0,.3)' }}
+      stackable
+      color="grey"
+      inverted
+      size="large"
+    >
       <Menu.Menu position="left">
         <Menu.Item as={Link} name="Home" to="/home" />
         <Menu.Item as={Link} name="Lists" to="/lists" />

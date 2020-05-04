@@ -148,9 +148,9 @@ const Department = () => {
  */}
 
                         <Controller
-                          label="Template"
+                          label="Users"
                           as={<Form.Select options={options} multiple />}
-                          placeholder="Use template"
+                          placeholder="Add users"
                           clearable
                           control={control}
                           name="members"

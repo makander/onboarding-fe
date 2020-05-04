@@ -104,9 +104,12 @@ const Lists = () => {
       <>
         {list.Tasks.filter((item) => item.status).length ===
         list.Tasks.length ? (
-          <Button positive fluid onClick={() => handleComplete()}>
-            Complete list
-          </Button>
+          <>
+            <Divider hidden />
+            <Button positive fluid onClick={() => handleComplete()}>
+              Complete list
+            </Button>
+          </>
         ) : (
           ''
         )}
