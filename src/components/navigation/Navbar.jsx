@@ -1,11 +1,12 @@
-/* eslint-disable react/jsx-boolean-value */
 import React, { useContext } from 'react';
-import { Menu, Grid } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import UserService from '../../services/UserService';
 
 const Navbar = () => {
+  const history = useHistory();
+
   const {
     dispatch,
     authStatus: { user },
@@ -17,29 +18,36 @@ const Navbar = () => {
         type: 'LOGOUT',
       });
 
-      // history.push('/');
+      history.push('/');
     });
   };
 
   return (
     <Menu
-      top={1}
-      only="mobile tablet"
-      inverted
+      style={{ textShadow: 'textshadow 0  1px rgba(0,0,0,.3)' }}
       stackable
-      style={{ width: '100%', paddingTop: '1em' }}
+      color="grey"
+      inverted
+      size="large"
+      attached
     >
-      <Menu.Item as={Link} name="Home" to="/home" />
-
-      <Menu.Item as={Link} name="Lists" to="/lists" />
-
-      {user != null && user.admin ? (
-        <>
-          <Menu.Item as={Link} name="Department" to="/departments" />
-          <Menu.Item as={Link} name="Users" to="/users" />
-        </>
-      ) : null}
-      <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
+      <Menu.Menu position="left">
+        <Menu.Item as={Link} name="Home" to="/home" />
+        <Menu.Item as={Link} name="Lists" to="/lists" />
+        <Menu.Item as={Link} name="Profile" to={`/users/${user.id}`} />
+        {user != null && user.admin ? (
+          <>
+            <Menu.Item as={Link} name="Department" to="/departments" />
+            <Menu.Item as={Link} name="Users" to="/users" />
+            <Menu.Item as={Link} name="Notifications" to="/notifications" />
+          </>
+        ) : (
+          ''
+        )}
+      </Menu.Menu>
+      <Menu.Menu position="right">
+        <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
+      </Menu.Menu>
     </Menu>
   );
 };

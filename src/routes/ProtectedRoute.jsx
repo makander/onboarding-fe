@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Grid, Container } from 'semantic-ui-react';
 import { AuthContext } from '../context/AuthContext';
-import Sidebar from '../components/navigation/Sidebar';
+import Navbar from '../components/navigation/Navbar';
 /* import Navbar from '../components/navigation/Navbar';
  */
 const ProtectedRoute = ({ component: Component, ...props }) => {
@@ -15,7 +15,7 @@ const ProtectedRoute = ({ component: Component, ...props }) => {
       render={(props) =>
         authStatus.userIsAuthenticated ? (
           <>
-            <Sidebar />
+            <Navbar />
             <Container>
               <Component {...props} />
             </Container>
