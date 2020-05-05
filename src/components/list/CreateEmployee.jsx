@@ -192,11 +192,11 @@ const CreateEmployee = () => {
                         name="office"
                       />
 
-                      <h5 style={dateLabel}>Start date</h5>
+                      <h5 style={dateLabel}>Start date / End date</h5>
                       <Controller
                         as={<DatePicker label="Start date" />}
                         control={control}
-                        valueName="selected" // DateSelect value's name is selected
+                        valueName="selected"
                         onChange={([selected]) => selected}
                         name="date"
                         className="input"
