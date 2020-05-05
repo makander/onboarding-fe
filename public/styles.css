@@ -1,3 +1,10 @@
 button.ui.button {
   color: rgb(68, 68, 68) !important;
 }
+
+react-datepicker-wrapper.wrapper {
+  display: inline-block;
+  padding: 0;
+  border: 0;
+  padding-bottom: 1em !important;
+}

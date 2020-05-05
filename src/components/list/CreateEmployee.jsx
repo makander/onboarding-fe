@@ -9,11 +9,13 @@ import {
   Header,
   Message,
   Loader,
+  Divider,
 } from 'semantic-ui-react';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { MessageContext } from '../../context/MessageContext';
-
 import EmployeeService from '../../services/EmployeeService';
 import ListService from '../../services/ListService';
 
@@ -25,6 +27,15 @@ const EmployeeSchema = yup.object().shape({
   phoneNumber: yup.string().min(6).required('You have to enter a phone number'),
   office: yup.string().required('You enter an office name'),
 });
+
+const dateLabel = {
+  display: 'block',
+  margin: '0em 0em 0.28571429rem 0em',
+  color: 'rgba(0, 0, 0, 0.87)',
+  fontSize: '0.92857143em',
+  fontWeight: 'bold',
+  textTransform: 'none',
+};
 
 const defaultValues = {
   firstName: '',
@@ -73,6 +84,7 @@ const CreateEmployee = () => {
 
   const handleNewList = async (data) => {
     try {
+      console.log(data);
       await EmployeeService.create(data);
       history.push('/lists');
     } catch (error) {
@@ -180,16 +192,31 @@ const CreateEmployee = () => {
                         name="office"
                       />
 
+                      <h5 style={dateLabel}>Start date</h5>
+                      <Controller
+                        as={<DatePicker label="Start date" />}
+                        control={control}
+                        valueName="selected" // DateSelect value's name is selected
+                        onChange={([selected]) => selected}
+                        name="date"
+                        className="input"
+                        dateFormat="yyyy/MM/dd"
+                        placeholderText="Select date"
+                        style={{ marginTop: '1em' }}
+                      />
+
                       {templateOptions.length ? (
-                        <Controller
-                          label="Template"
-                          as={<Form.Select options={templateOptions} />}
-                          placeholder="Use template"
-                          clearable
-                          control={control}
-                          name="listId"
-                          onChange={(e) => e[1].value}
-                        />
+                        <div style={{ marginTop: '1em', paddingBottom: '1em' }}>
+                          <Controller
+                            label="Template"
+                            as={<Form.Select options={templateOptions} />}
+                            placeholder="Use template"
+                            clearable
+                            control={control}
+                            name="listId"
+                            onChange={(e) => e[1].value}
+                          />
+                        </div>
                       ) : (
                         <Message>
                           <p>
