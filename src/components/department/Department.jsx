@@ -126,7 +126,7 @@ const Department = () => {
               Change name on department: {departments.name}
             </Header>
             <Segment attached>
-              <Form onSubmit={onSubmit} inline>
+              <Form onSubmit={onSubmit}>
                 <Form.Group>
                   <Form.Input
                     placeholder="New name"

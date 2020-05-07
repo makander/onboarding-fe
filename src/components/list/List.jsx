@@ -128,9 +128,7 @@ const Lists = () => {
           <div style={{ margin: '2em 0' }}>
             <Message size="huge">
               <Header as="h2" textAlign="left">
-                {list.templateList
-                  ? `Task for template:  ${list.name}`
-                  : `Tasks for:  ${list.name}`}
+                {list.templateList ? `Template:  ${list.name}` : `${list.name}`}
               </Header>
             </Message>
           </div>
@@ -224,7 +222,7 @@ const Lists = () => {
             <CreateTask setTask={setTask} listsId={listsId.id} />
             <Divider hidden />
             {user.admin ? (
-              <Container relaxed>
+              <Container relaxed={1}>
                 {list.templateList ? (
                   <Button positive onClick={() => history.push('/lists')}>
                     Save template

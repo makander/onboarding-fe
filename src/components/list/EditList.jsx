@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { useForm, Controller } from 'react-hook-form';
+
 import {
   Form,
   Segment,
@@ -8,29 +10,40 @@ import {
   Header,
   List,
   Message,
+  Loader,
 } from 'semantic-ui-react';
+
 import { v4 as uuidv4 } from 'uuid';
 import ListService from '../../services/ListService';
 import DepartmentService from '../../services/DepartmentService';
+import { MessageContext } from '../../context/MessageContext';
 
 const EditList = () => {
   const [list, setList] = useState([]);
   const listsId = useParams();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [select, setSelect] = useState();
-  const [listName, setListName] = useState();
+
   const [departments, setDepartments] = useState([]);
   const [options, setOptions] = useState([]);
-  const [templateList, setTemplateList] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { dispatchMessage } = useContext(MessageContext);
 
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const getList = await ListService.get(listsId.id);
+      setList(getList);
+
+      const getDeps = await DepartmentService.all();
+      setDepartments(getDeps);
+    } catch (error) {
+      dispatchMessage({
+        type: 'ERROR',
+        payload: error.response.data,
+      });
+    }
+  };
   useEffect(() => {
-    ListService.get(listsId.id).then((res) => {
-      setList(res);
-    });
-    DepartmentService.all().then((res) => {
-      setDepartments(res);
-    });
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -43,137 +56,125 @@ const EditList = () => {
     }));
 
     setOptions(filterOptions);
-  }, [departments, list.Departments]);
 
-  const handleSelect = (e, { value }) => {
-    setSelect(value);
+    setIsLoading(false);
+  }, [departments, list]);
+
+  const defaultValues = {
+    name: list.name,
+    template: list.template,
+    addedDepartment: list.departments,
   };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    if (select !== undefined) {
-      const data = {
-        name: listName !== list.name ? listName : list.name,
-        description:
-          description !== list.description ? description : list.description,
-        addedDepartment: select,
-        status: false,
-        templateList: templateList !== list.templateList ? templateList : title,
-      };
+  const { handleSubmit, control, reset } = useForm({
+    defaultValues,
+  });
 
-      ListService.update(listsId.id, data).then((res) => {
-        setTitle('');
-        setDescription('');
-        setSelect([]);
-        setTemplateList('');
-        setList(res);
-      });
-    }
+  const handleUpdate = async (data, e) => {
+    await ListService.update(listsId.id, data);
+    fetchData();
+    e.target.reset();
+    reset(defaultValues);
   };
 
-  const deleteDepartment = (id) => {
-    /*     const filter = list.Departments.filter(
-      (department) => department.id !== id
-    ); */
-
+  const deleteDepartment = async (id) => {
     const data = {
       departmentId: id,
     };
 
-    ListService.update(listsId.id, data).then((res) => {
-      setList(res);
-    });
+    await ListService.update(listsId.id, data);
+    fetchData();
   };
 
   return (
-    <Grid.Column width="13">
-      <div style={{ margin: '2em 0' }}>
-        <Message size="huge">
-          <Header textAlign="left" as="h2">
-            Edit list: {list.name}
-          </Header>
-        </Message>
-      </div>
-      {list.name !== undefined && departments !== undefined ? (
-        <Grid.Row>
-          <Grid.Column>
-            <Header as="h4" attached="top">
-              Summary:
-            </Header>
-            <Segment attached>
-              {list.description ? <p>Decription: {list.description}</p> : ''}
+    <>
+      {!isLoading ? (
+        <Grid.Column width="13">
+          <div style={{ margin: '2em 0' }}>
+            <Message size="huge">
+              <Header textAlign="left" as="h2">
+                Edit list: {list.name}
+              </Header>
+            </Message>
+          </div>
 
-              <h5>Template:</h5>
-              {list.templateList ? <p>Yes</p> : <p>No</p>}
+          <Grid.Row>
+            <Grid.Column>
+              <Header as="h4" attached="top">
+                Summary:
+              </Header>
+              <Segment attached>
+                {list.description ? <p>Decription: {list.description}</p> : ''}
+                <h5>Template:</h5>
+                {list.templateList ? <p>Yes</p> : <p>No</p>}
+                <Header as="h5">Departments:</Header>
+                {list.Departments != null
+                  ? list.Departments.map((item) => (
+                      <List celled key={uuidv4()}>
+                        <List.Item>
+                          <List.Content verticalAlign="bottom" floated="left">
+                            {item.name}
+                          </List.Content>
+                          <List.Content floated="right">
+                            <Button
+                              compact
+                              onClick={() => deleteDepartment(item.id)}
+                            >
+                              X
+                            </Button>
+                          </List.Content>
+                        </List.Item>
+                      </List>
+                    ))
+                  : 'Please add a department to the list'}
+              </Segment>
 
-              <Header as="h5">Departments:</Header>
-              {list.Departments !== undefined
-                ? list.Departments.map((item) => (
-                    <List celled key={uuidv4()}>
-                      <List.Item>
-                        <List.Content verticalAlign="bottom" floated="left">
-                          {item.name}
-                        </List.Content>
-                        <List.Content floated="right">
-                          <Button
-                            compact
-                            onClick={() => deleteDepartment(item.id)}
-                          >
-                            X
-                          </Button>
-                        </List.Content>
-                      </List.Item>
-                    </List>
-                  ))
-                : ''}
-              <Button floated="right">Delete</Button>
-              <br />
-              <br />
-            </Segment>
+              <Segment>
+                <Form.Group>
+                  <Form onSubmit={handleSubmit(handleUpdate)}>
+                    <Controller
+                      as={<Form.Input />}
+                      control={control}
+                      name="listName"
+                      placeholder="Enter name"
+                      label="New name"
+                    />
 
-            <Segment>
-              <Form.Group>
-                <Form onSubmit={handleUpdate}>
-                  <Form.Input
-                    placeholder="enter new name"
-                    label="New name"
-                    type="text"
-                    value={listName}
-                    onChange={(e) => setListName(e.target.value)}
-                  />
+                    <Controller
+                      label="Add department"
+                      as={<Form.Select options={options} />}
+                      placeholder="Add department"
+                      clearable
+                      control={control}
+                      name="addedDepartment"
+                      onChange={(e) => e[1].value}
+                    />
 
-                  <Form.TextArea
-                    placeholder="Enter description"
-                    label="New description"
-                    type="text"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
+                    <Controller
+                      name="template"
+                      control={control}
+                      label="Template"
+                      defaultValue={list.templateList}
+                      as={Form.Checkbox}
+                      valueName="checked"
+                      onChange={([_, data]) => data.checked}
+                    />
 
-                  <Form.Select
-                    placeholder="Add department"
-                    options={options}
-                    onChange={handleSelect}
-                    value={select}
-                    clearable
-                  />
-
-                  <Form.Checkbox
-                    inline
-                    label="Template"
-                    checked={list.templateList}
-                  />
-
-                  <Button type="submit">Save</Button>
-                </Form>
-              </Form.Group>
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
+                    <Button type="submit">Save</Button>
+                  </Form>
+                </Form.Group>
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid.Column>
       ) : (
-        ''
+        <Segment style={{ margin: '2em 0' }}>
+          <Loader active inline="centered" size="huge">
+            Loading
+          </Loader>
+        </Segment>
       )}
-    </Grid.Column>
+    </>
   );
 };
 

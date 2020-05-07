@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   Grid,
   Header,
@@ -11,18 +11,33 @@ import {
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
+import { MessageContext } from '../../context/MessageContext';
+
 import DepartmentService from '../../services/DepartmentService';
 
-const EmployeeLists = ({ history }) => {
+const EmployeeLists = () => {
   const [lists, setLists] = useState([]);
   const [viewAll, setViewAll] = useState(false);
   const [viewCompleted, setViewCompleted] = useState(false);
   const [viewIncomplete, setViewIncomplete] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const { dispatchMessage } = useContext(MessageContext);
 
   useEffect(() => {
-    DepartmentService.allLists().then((res) => {
-      setLists(res);
-    });
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const getLists = await DepartmentService.allLists();
+        setLists(getLists);
+      } catch (error) {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      }
+      setIsLoading(false);
+    };
+    fetchData();
   }, []);
 
   const handleIncomplete = () => {
@@ -119,7 +134,9 @@ const EmployeeLists = ({ history }) => {
           : ''}
       </List>
     ) : (
-      <p> No lists available</p>
+      <p>
+        You are not assigned to a department, please contact your administator
+      </p>
     );
   };
 
@@ -134,7 +151,7 @@ const EmployeeLists = ({ history }) => {
       </div>
       <Grid.Row>
         <Grid.Column>
-          {lists != null && lists.length !== 0 ? (
+          {!isLoading && lists.length !== 0 ? (
             <>
               <Button.Group>
                 <Button onClick={() => handleIncomplete()}>Incomplete</Button>
@@ -148,6 +165,10 @@ const EmployeeLists = ({ history }) => {
                 <Button>New employee list</Button>
               </Link>
             </>
+          ) : lists.length === 0 ? (
+            <Message>
+              No lists available, please contact your administrator
+            </Message>
           ) : (
             <Segment style={{ margin: '2em 0' }}>
               <Loader active inline="centered" size="huge">

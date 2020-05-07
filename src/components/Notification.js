@@ -17,15 +17,15 @@ const Notification = () => {
   }, 5000);
 
   if (status === 'positive') {
-    return <Message positive>{message}</Message>;
+    return <Message positive>{message.error || message}</Message>;
   }
 
   if (status === 'negative') {
-    return <Message negative>{message}</Message>;
+    return <Message negative>{message.error || message}</Message>;
   }
 
   if (status === 'info') {
-    return <Message info>{message}</Message>;
+    return <Message info>{message.error || message}</Message>;
   }
 };
 

@@ -60,13 +60,13 @@ const CreateTask = ({ setTask, listsId }) => {
             />
             <ErrorMessage as={Message} negative errors={errors} name="name" />
 
-            <Controller
+            {/*             <Controller
               name="description"
               control={control}
               label="Description"
               placeholder="Enter description"
               as={<Form.TextArea />}
-            />
+            /> */}
             <Form.Button type="submit">Save</Form.Button>
           </Form>
         </Form.Group>

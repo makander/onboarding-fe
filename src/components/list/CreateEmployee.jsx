@@ -9,7 +9,6 @@ import {
   Header,
   Message,
   Loader,
-  Divider,
 } from 'semantic-ui-react';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
@@ -84,7 +83,6 @@ const CreateEmployee = () => {
 
   const handleNewList = async (data) => {
     try {
-      console.log(data);
       await EmployeeService.create(data);
       history.push('/lists');
     } catch (error) {
@@ -100,8 +98,13 @@ const CreateEmployee = () => {
         <>
           <Grid.Column width="13">
             <div style={{ margin: '2em 0' }}>
-              <Header textAlign="left">Create new list</Header>
+              <Message size="huge">
+                <Header as="h2" textAlign="left">
+                  Create new employee
+                </Header>
+              </Message>
             </div>
+
             <Grid.Row>
               <Grid.Column>
                 <Segment>

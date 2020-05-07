@@ -93,8 +93,8 @@ const Home = () => {
                         </List.Item>
                         <List.Item>
                           If you want to notify users by email or slack. Go into
-                          notifications under the notifications setting. Add
-                          either an e-mail address or a slack hook uri.
+                          notifications. Add either an e-mail address or a slack
+                          hook uri.
                         </List.Item>
                       </List>
                     ) : (

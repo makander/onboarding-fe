@@ -1,99 +1,148 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useState, useEffect, useContext } from 'react';
+import { useForm, ErrorMessage, Controller } from 'react-hook-form';
 import {
   Form,
   Segment,
   Grid,
   Button,
   Header,
-  Dropdown,
+  Loader,
+  Message,
 } from 'semantic-ui-react';
-
+import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
+import { MessageContext } from '../../context/MessageContext';
 import ListService from '../../services/ListService';
 import DepartmentService from '../../services/DepartmentService';
 
+const TemplateSchema = yup.object().shape({
+  name: yup.string().required('You have to enter a title'),
+  departments: yup.array().required('You have to add a department'),
+});
+
+const defaultValues = {
+  name: '',
+  departments: [],
+};
+
 const CreateTemplate = () => {
   const history = useHistory();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [select, setSelect] = useState();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [department, setDepartment] = useState([]);
-
+  const [options, setOptions] = useState([]);
+  const { dispatchMessage } = useContext(MessageContext);
+  const { errors, handleSubmit, control, reset } = useForm({
+    validationSchema: TemplateSchema,
+    defaultValues,
+  });
   useEffect(() => {
-    DepartmentService.all().then((res) => setDepartment(res));
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const deps = await DepartmentService.all();
+        setDepartment(deps);
+      } catch (error) {
+        dispatchMessage({
+          type: 'ERROR',
+          payload: error.response.data,
+        });
+      }
+    };
+    fetchData();
   }, []);
 
-  const options = department.map(({ id, name }) => ({
-    value: id,
-    text: `${name}`,
-  }));
+  useEffect(() => {
+    const opts = department.map(({ id, name }) => ({
+      value: id,
+      text: `${name}`,
+    }));
+    setOptions(opts);
+    setIsLoading(false);
+  }, [department]);
 
-  const handleSelect = (e, { value }) => {
-    setSelect(value);
-  };
+  const handleNewList = async (data, e) => {
+    const finalData = { ...data, ...{ templateList: true } };
 
-  const handleNewList = (e) => {
-    e.preventDefault();
+    const newTemplate = await ListService.create(finalData);
 
-    const data = {
-      name: title,
-      description,
-      departments: select,
-      status: false,
-      templateList: true,
-    };
-
-    ListService.create(data).then((res) => {
-      if (res.templateList) {
-        history.push(`/lists/${res.id}`);
-      }
-      setTitle('');
-      setDescription('');
-      setSelect([]);
-    });
+    if (newTemplate.templateList) {
+      history.push(`/lists/${newTemplate.id}`);
+    }
+    e.target.reset();
+    reset(defaultValues);
   };
 
   return (
-    <Grid.Column width="10">
-      <div style={{ margin: '2em 0' }}>
-        <Header textAlign="left">Create new template</Header>
-      </div>
-      <Grid.Row>
-        <Grid.Column>
-          <Segment>
-            <Form.Group>
-              <Form onSubmit={handleNewList}>
-                <Form.Input
-                  placeholder="Title"
-                  label="Title"
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
+    <>
+      {!isLoading && department.length !== 0 ? (
+        <Grid.Column width="10">
+          <div style={{ margin: '2em 0' }}>
+            <Message size="huge">
+              <Header as="h2" textAlign="left">
+                Create new template
+              </Header>
+            </Message>
+          </div>
 
-                {options ? (
-                  <Dropdown
-                    placeholder="Select departments"
-                    fluid
-                    label="Department"
-                    multiple
-                    selection
-                    value={select || []}
-                    options={options}
-                    onChange={handleSelect}
-                    clearable
-                  />
-                ) : null}
-                <div style={{ marginTop: '1em' }}>
-                  <Button type="submit">Save</Button>
-                </div>
-              </Form>
-            </Form.Group>
-          </Segment>
+          <Grid.Row>
+            <Grid.Column>
+              <Segment>
+                <Form.Group>
+                  <Form onSubmit={handleSubmit(handleNewList)}>
+                    <Controller
+                      as={<Form.Input />}
+                      control={control}
+                      name="name"
+                      placeholder="Enter title"
+                      label="Title"
+                    />
+
+                    <ErrorMessage
+                      as={Message}
+                      negative
+                      errors={errors}
+                      name="name"
+                    />
+
+                    <Controller
+                      label="Template"
+                      as={<Form.Select options={options} />}
+                      placeholder="Use template"
+                      clearable
+                      control={control}
+                      name="departments"
+                      onChange={(e) => e[1].value}
+                      multiple
+                    />
+                    <ErrorMessage
+                      as={Message}
+                      negative
+                      errors={errors}
+                      name="departments"
+                    />
+
+                    <div style={{ marginTop: '1em' }}>
+                      <Button type="submit">Save</Button>
+                    </div>
+                  </Form>
+                </Form.Group>
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>
         </Grid.Column>
-      </Grid.Row>
-    </Grid.Column>
+      ) : !isLoading ? (
+        <Message style={{ margin: '2em 0' }}>
+          Please create a department first
+        </Message>
+      ) : (
+        <Segment style={{ margin: '2em 0' }}>
+          <Loader active inline="centered" size="huge">
+            Loading
+          </Loader>
+        </Segment>
+      )}
+    </>
   );
 };
 
