@@ -24,7 +24,7 @@ const DepartmentSchema = yup.object().shape({
 const defaultValues = {
   name: '',
   description: '',
-  members: '',
+  members: [],
 };
 
 const Department = () => {

@@ -8,3 +8,7 @@ react-datepicker-wrapper.wrapper {
   border: 0;
   padding-bottom: 1em !important;
 }
+
+ui.segment {
+  overflow: auto !important;
+}

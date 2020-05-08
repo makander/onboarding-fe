@@ -161,7 +161,7 @@ const Notfications = () => {
                     {mail.map((service) => (
                       <List.Item>
                         <List.Content floated="left">
-                          {service.email}
+                          <p>{service.email}</p>
                         </List.Content>
                         <List.Content>
                           {service.status ? 'active' : 'inactive'}
@@ -210,7 +210,7 @@ const Notfications = () => {
                     {slack.map((service) => (
                       <List.Item>
                         <List.Content floated="left">
-                          {service.slackUri}
+                          <p>{service.slackUri}</p>
                         </List.Content>
                         <List.Content>
                           {service.status ? 'active' : 'inactive'}

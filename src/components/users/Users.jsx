@@ -8,6 +8,7 @@ import {
   Loader,
   Message,
   Divider,
+  Table,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import UserService from '../../services/UserService';
@@ -47,24 +48,40 @@ const Users = () => {
                 </Header>
               </Message>
             </div>
-            <Segment>
-              <List>
+            <Table simple>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Name</Table.HeaderCell>
+                  <Table.HeaderCell>Email</Table.HeaderCell>
+                  <Table.HeaderCell>Departments</Table.HeaderCell>
+                  <Table.HeaderCell width="1" />
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
                 {users.map((user) => (
-                  <List.Item key={user.id}>
-                    <List.Content>
-                      <p style={{ display: 'inline-block' }}>
-                        {user.firstName} {user.lastName}
-                      </p>
+                  <Table.Row>
+                    <Table.Cell>
+                      {user.firstName} {user.lastName}
+                    </Table.Cell>
+                    <Table.Cell>{user.email}</Table.Cell>
+                    {user.Departments.length ? (
+                      user.Departments.map((dep) => (
+                        <Table.Cell>{dep.name}</Table.Cell>
+                      ))
+                    ) : (
+                      <Table.Cell>Not assgined to a department</Table.Cell>
+                    )}
+                    <Table.Cell>
                       <Link to={`/users/${user.id}`}>
                         <Button floated="right" compact>
                           Edit
                         </Button>
                       </Link>
-                    </List.Content>
-                  </List.Item>
+                    </Table.Cell>
+                  </Table.Row>
                 ))}
-              </List>
-            </Segment>
+              </Table.Body>
+            </Table>
             <Divider hidden />
             <Segment>
               <RegisterForm setUsers={setUsers} findAll={UserService.findAll} />
