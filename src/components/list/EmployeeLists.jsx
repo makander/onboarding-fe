@@ -64,79 +64,79 @@ const EmployeeLists = () => {
 
     return lists[0].Lists.length !== 0 ? (
       <List divided relaxed>
-        {viewIncomplete
-          ? incompleted.map((item) => (
-              <List.Item key={item.id}>
-                <List.Content floated="left">
-                  <Link to={`/lists/${item.id}`}>{item.name}</Link>
-                </List.Content>
+        {viewIncomplete && incompleted.length !== 0 ? (
+          incompleted.map((item) => (
+            <List.Item key={item.id}>
+              <List.Content floated="left">
+                <Link to={`/lists/${item.id}`}>{item.name}</Link>
+              </List.Content>
 
-                <List.Content floated="left">
-                  <p>
-                    {item.Tasks != null && item.Tasks.length !== 0 ? (
-                      <>
-                        Completed tasks:{' '}
-                        {item.Tasks.filter((task) => task.status).length}{' '}
-                        {' / '}
-                        {item.Tasks.length}
-                      </>
-                    ) : (
-                      ''
-                    )}
-                  </p>
-                </List.Content>
-              </List.Item>
-            ))
-          : viewCompleted
-          ? completedLists.map((item) => (
-              <List.Item key={item.id}>
-                <List.Content floated="left">
-                  <Link to={`/lists/${item.id}`}>{item.name}</Link>
-                </List.Content>
-                <List.Content floated="left">
-                  <p>
-                    {item.Tasks != null && item.Tasks.length !== 0 ? (
-                      <>
-                        Completed tasks:{' '}
-                        {item.Tasks.filter((task) => task.status).length}{' '}
-                        {' / '}
-                        {item.Tasks.length}
-                      </>
-                    ) : (
-                      ''
-                    )}
-                  </p>
-                </List.Content>
-              </List.Item>
-            ))
-          : viewAll
-          ? listContent.map((item) => (
-              <List.Item key={item.id}>
-                <List.Content floated="left">
-                  <Link to={`/lists/${item.id}`}>{item.name}</Link>
-                </List.Content>
-                <List.Content floated="left">
-                  <p>
-                    {item.Tasks != null && item.Tasks.length !== 0 ? (
-                      <>
-                        Completed tasks:{' '}
-                        {item.Tasks.filter((task) => task.status).length}{' '}
-                        {' / '}
-                        {item.Tasks.length}
-                      </>
-                    ) : (
-                      ''
-                    )}
-                  </p>
-                </List.Content>
-              </List.Item>
-            ))
-          : ''}
+              <List.Content floated="left">
+                <p>
+                  {item.Tasks != null && item.Tasks.length !== 0 ? (
+                    <>
+                      Completed tasks:{' '}
+                      {item.Tasks.filter((task) => task.status).length} {' / '}
+                      {item.Tasks.length}
+                    </>
+                  ) : (
+                    <p>
+                      There are no incompleted lists. Please create a new
+                      employee list
+                    </p>
+                  )}
+                </p>
+              </List.Content>
+            </List.Item>
+          ))
+        ) : viewCompleted && completedLists.length !== 0 ? (
+          completedLists.map((item) => (
+            <List.Item key={item.id}>
+              <List.Content floated="left">
+                <Link to={`/lists/${item.id}`}>{item.name}</Link>
+              </List.Content>
+              <List.Content floated="left">
+                <p>
+                  {item.Tasks != null && item.Tasks.length !== 0 ? (
+                    <>
+                      Completed tasks:{' '}
+                      {item.Tasks.filter((task) => task.status).length} {' / '}
+                      {item.Tasks.length}
+                    </>
+                  ) : (
+                    <p>There are no completed lists.</p>
+                  )}
+                </p>
+              </List.Content>
+            </List.Item>
+          ))
+        ) : viewAll && listContent.length !== 0 ? (
+          listContent.map((item) => (
+            <List.Item key={item.id}>
+              <List.Content floated="left">
+                <Link to={`/lists/${item.id}`}>{item.name}</Link>
+              </List.Content>
+              <List.Content floated="left">
+                <p>
+                  {item.Tasks != null && item.Tasks.length !== 0 ? (
+                    <>
+                      Completed tasks:{' '}
+                      {item.Tasks.filter((task) => task.status).length} {' / '}
+                      {item.Tasks.length}
+                    </>
+                  ) : (
+                    <p>There are no lists. Please create a new employee list</p>
+                  )}
+                </p>
+              </List.Content>
+            </List.Item>
+          ))
+        ) : (
+          <p>There are no lists. Please create a new employee list</p>
+        )}
       </List>
     ) : (
-      <p>
-        You are not assigned to a department, please contact your administator
-      </p>
+      <p>There are no lists. Please create a new employee list</p>
     );
   };
 

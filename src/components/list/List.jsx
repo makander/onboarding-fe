@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState, useContext } from 'react';
-
+import { v4 as uuidv4 } from 'uuid';
 import {
   Form,
   Grid,
@@ -21,7 +21,7 @@ import TaskService from '../../services/TaskService';
 import TaskDropDown from '../task/TaskDropDown';
 import { AuthContext } from '../../context/AuthContext';
 
-const Lists = () => {
+const Lists = ({ listId, wizard }) => {
   const history = useHistory();
   const [list, setList] = useState([]);
   const [options, setOptions] = useState([]);
@@ -35,9 +35,15 @@ const Lists = () => {
   } = useContext(AuthContext);
 
   useEffect(() => {
-    ListService.get(listsId.id).then((res) => {
-      setList(res);
-    });
+    if (listId) {
+      ListService.get(listId).then((res) => {
+        setList(res);
+      });
+    } else {
+      ListService.get(listsId.id).then((res) => {
+        setList(res);
+      });
+    }
   }, [task, listsId.id]);
 
   useEffect(() => {
@@ -162,15 +168,25 @@ const Lists = () => {
           ) : (
             ''
           )}
+          {wizard ? (
+            <>
+              <Message positive>
+                Add all reoccuring tasks and press next
+              </Message>
+              <Divider hidden />
+            </>
+          ) : (
+            ''
+          )}
           <Header as="h3" attached="top">
             Tasks
           </Header>
           <Segment attached>
             {list.Tasks != null && list.Tasks.length !== 0 ? (
               list.Tasks.map((item) => (
-                <Card fluid>
+                <Card fluid key={uuidv4()}>
                   <Card.Content header={item.name} />
-                  <Card.Content description>
+                  <Card.Content>
                     {item.User != null && item.User != null ? (
                       <>
                         <p>
@@ -219,9 +235,9 @@ const Lists = () => {
           <CompleteSegment />
           <Divider hidden />
           <>
-            <CreateTask setTask={setTask} listsId={listsId.id} />
+            <CreateTask setTask={setTask} listsId={list.id} />
             <Divider hidden />
-            {user.admin ? (
+            {user.admin && !wizard ? (
               <Container relaxed={1}>
                 {list.templateList ? (
                   <Button positive onClick={() => history.push('/lists')}>

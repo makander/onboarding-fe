@@ -27,7 +27,7 @@ const defaultValues = {
   members: [],
 };
 
-const Department = () => {
+const Department = ({ wizard }) => {
   const [departments, setDepartments] = useState([]);
 
   const [users, setUsers] = useState([]);
@@ -89,6 +89,13 @@ const Department = () => {
                     Departments
                   </Header>
                 </Message>
+                {wizard && departments !== null ? (
+                  <Message positive>
+                    <p>Either create a new department or go to the next step</p>
+                  </Message>
+                ) : (
+                  ''
+                )}
               </div>
               <Segment attached>
                 {departments !== null && departments.length !== 0 ? (

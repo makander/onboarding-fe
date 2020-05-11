@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-
+import { v4 as uuidv4 } from 'uuid';
 import {
   Form,
   Segment,
@@ -13,7 +13,7 @@ import {
   Loader,
 } from 'semantic-ui-react';
 
-import { v4 as uuidv4 } from 'uuid';
+
 import ListService from '../../services/ListService';
 import DepartmentService from '../../services/DepartmentService';
 import { MessageContext } from '../../context/MessageContext';

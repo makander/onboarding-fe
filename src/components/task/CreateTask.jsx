@@ -67,7 +67,7 @@ const CreateTask = ({ setTask, listsId }) => {
               placeholder="Enter description"
               as={<Form.TextArea />}
             /> */}
-            <Form.Button type="submit">Save</Form.Button>
+            <Form.Button type="submit">Add task</Form.Button>
           </Form>
         </Form.Group>
       </Segment>

@@ -26,10 +26,11 @@ const defaultValues = {
   departments: [],
 };
 
-const CreateTemplate = () => {
+const CreateTemplate = ({ setListId, setStep }) => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const [department, setDepartment] = useState([]);
+  const [list, setList] = useState([]);
   const [options, setOptions] = useState([]);
   const { dispatchMessage } = useContext(MessageContext);
   const { errors, handleSubmit, control, reset } = useForm({
@@ -41,7 +42,10 @@ const CreateTemplate = () => {
       setIsLoading(true);
       try {
         const deps = await DepartmentService.all();
+        const lists = await ListService.all();
+        const filtered = lists.filter((item) => item.templateList);
         setDepartment(deps);
+        setList(filtered);
       } catch (error) {
         dispatchMessage({
           type: 'ERROR',
@@ -66,8 +70,11 @@ const CreateTemplate = () => {
 
     const newTemplate = await ListService.create(finalData);
 
-    if (newTemplate.templateList) {
+    if (newTemplate.templateList && !setStep) {
       history.push(`/lists/${newTemplate.id}`);
+    } else {
+      setListId(newTemplate.id);
+      setStep((prevStep) => prevStep + 1);
     }
     e.target.reset();
     reset(defaultValues);
@@ -106,9 +113,9 @@ const CreateTemplate = () => {
                     />
 
                     <Controller
-                      label="Template"
+                      label="Departments"
                       as={<Form.Select options={options} />}
-                      placeholder="Use template"
+                      placeholder="Add departments"
                       clearable
                       control={control}
                       name="departments"

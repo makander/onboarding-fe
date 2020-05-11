@@ -94,7 +94,7 @@ const CreateEmployee = () => {
   };
   return (
     <>
-      {!isLoading ? (
+      {!isLoading && templateOptions.length ? (
         <>
           <Grid.Column width="13">
             <div style={{ margin: '2em 0' }}>
@@ -208,26 +208,17 @@ const CreateEmployee = () => {
                         style={{ marginTop: '1em' }}
                       />
 
-                      {templateOptions.length ? (
-                        <div style={{ marginTop: '1em', paddingBottom: '1em' }}>
-                          <Controller
-                            label="Template"
-                            as={<Form.Select options={templateOptions} />}
-                            placeholder="Use template"
-                            clearable
-                            control={control}
-                            name="listId"
-                            onChange={(e) => e[1].value}
-                          />
-                        </div>
-                      ) : (
-                        <Message>
-                          <p>
-                            No templates available. To use templates, contact
-                            your administator
-                          </p>
-                        </Message>
-                      )}
+                      <div style={{ marginTop: '1em', paddingBottom: '1em' }}>
+                        <Controller
+                          label="Template"
+                          as={<Form.Select options={templateOptions} />}
+                          placeholder="Use template"
+                          clearable
+                          control={control}
+                          name="listId"
+                          onChange={(e) => e[1].value}
+                        />
+                      </div>
 
                       <Button type="submit">Save</Button>
                     </Form>
@@ -237,6 +228,13 @@ const CreateEmployee = () => {
             </Grid.Row>
           </Grid.Column>
         </>
+      ) : !templateList.options ? (
+        <Message>
+          The department you are assigned to does not have any templates. Please
+          contact your administrator and ask them to either add you to a
+          different department or create a new template containing the
+          department your in.
+        </Message>
       ) : (
         <Segment style={{ margin: '2em 0' }}>
           <Loader active inline="centered" size="huge">

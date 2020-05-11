@@ -12,9 +12,11 @@ import UserService from '../services/UserService';
 import { AuthContext } from '../context/AuthContext';
 import { MessageContext } from '../context/MessageContext';
 import DepartmentService from '../services/DepartmentService';
+import AdminWizard from './wizard/AdminWizard';
 
 const Home = () => {
   const location = useLocation();
+
   const {
     authStatus: { user },
   } = useContext(AuthContext);
@@ -66,37 +68,14 @@ const Home = () => {
               <>
                 <Message positive>
                   <>
-                    <p>
-                      To get started using the application you have to complete
-                      a couple of steps.
-                    </p>
                     {profile.admin ? (
-                      <List bulleted>
-                        <List.Item>
-                          Go to departments and create a new department.
-                        </List.Item>
-                        <List.Item> Add users to the department</List.Item>
-                        <List.Item>
-                          Create a template list. For instance one called
-                          onboarding. Add the departments that are involved with
-                          the onboarding process.
-                        </List.Item>
-                        <List.Item>
-                          In the newly created list, add tasks that are
-                          associated with the normal onboarding proceedures.
-                          Like the purchase of a computer. Then save the
-                          template.
-                        </List.Item>
-                        <List.Item>
-                          Create a new employee list and select a template from
-                          the dropdown.
-                        </List.Item>
-                        <List.Item>
-                          If you want to notify users by email or slack. Go into
-                          notifications. Add either an e-mail address or a slack
-                          hook uri.
-                        </List.Item>
-                      </List>
+                      <>
+                        <p>
+                          Follow the steps in the wizard to create the base
+                          configurations needed to create employee lists
+                        </p>
+                        <AdminWizard />
+                      </>
                     ) : (
                       <List bulleted>
                         <List.Item>
