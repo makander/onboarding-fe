@@ -20,8 +20,18 @@ const Notification = () => {
     return <Message positive>{message.error || message}</Message>;
   }
 
+  if (status === 'negative' && message.name) {
+    console.log(message);
+    return <Message negative>{message.errors[0].message}</Message>;
+  }
   if (status === 'negative') {
-    return <Message negative>{message.error || message}</Message>;
+    console.log(message);
+    return (
+      <Message negative>
+        <div dangerouslySetInnerHTML={{ __html: message }} />
+        {message}
+      </Message>
+    );
   }
 
   if (status === 'info') {

@@ -15,6 +15,7 @@ import UserService from '../../services/UserService';
 import { MessageContext } from '../../context/MessageContext';
 import RegisterForm from './CreateUser';
 import { AuthContext } from '../../context/AuthContext';
+import Notification from '../Notification';
 
 const Users = ({ wizard }) => {
   const [users, setUsers] = useState([]);
@@ -60,6 +61,7 @@ const Users = ({ wizard }) => {
       )}
       {!isLoading ? (
         <>
+          {wizard ? <Notification /> : ''}
           <Grid.Column width="13">
             <div style={{ margin: '2em 0' }} />
             <Table simple={1}>

@@ -15,6 +15,7 @@ import { useHistory } from 'react-router-dom';
 import { MessageContext } from '../../context/MessageContext';
 import ListService from '../../services/ListService';
 import DepartmentService from '../../services/DepartmentService';
+import Notification from '../Notification';
 
 const TemplateSchema = yup.object().shape({
   name: yup.string().required('You have to enter a title'),
@@ -66,15 +67,22 @@ const CreateTemplate = ({ setListId, setStep }) => {
   }, [department]);
 
   const handleNewList = async (data, e) => {
-    const finalData = { ...data, ...{ templateList: true } };
+    try {
+      const finalData = { ...data, ...{ templateList: true } };
 
-    const newTemplate = await ListService.create(finalData);
+      const newTemplate = await ListService.create(finalData);
 
-    if (newTemplate.templateList && !setStep) {
-      history.push(`/lists/${newTemplate.id}`);
-    } else {
-      setListId(newTemplate.id);
-      setStep((prevStep) => prevStep + 1);
+      if (newTemplate.templateList && !setStep) {
+        history.push(`/lists/${newTemplate.id}`);
+      } else {
+        setListId(newTemplate.id);
+        setStep((prevStep) => prevStep + 1);
+      }
+    } catch (error) {
+      dispatchMessage({
+        type: 'ERROR',
+        payload: error.response.data,
+      });
     }
     e.target.reset();
     reset(defaultValues);
@@ -91,7 +99,7 @@ const CreateTemplate = ({ setListId, setStep }) => {
               </Header>
             </Message>
           </div>
-
+          {setStep ? <Notification /> : ''}
           <Grid.Row>
             <Grid.Column>
               <Segment>

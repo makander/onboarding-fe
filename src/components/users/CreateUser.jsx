@@ -1,29 +1,30 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Button, Form, Message } from 'semantic-ui-react';
 import * as yup from 'yup';
-import { useForm, ErrorMessage } from 'react-hook-form';
+import { useForm, ErrorMessage, Controller } from 'react-hook-form';
 import { MessageContext } from '../../context/MessageContext';
 import UserService from '../../services/UserService';
 
 const SignupSchema = yup.object().shape({
-  firstName: yup.string().min(1, 'First name is required'),
-  lastName: yup.string().min(1),
+  firstName: yup.string().required('You must enter a name'),
+  lastName: yup.string().required('You must enter a last name'),
   email: yup.string().email('Must be a valid email address'),
-  password: yup.string().min(6),
+  password: yup.string().min(6, 'Must be atleast 6 chars long'),
 });
+
+const defaultValues = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+};
 
 const RegisterForm = ({ setUsers, findAll, history }) => {
   const { dispatchMessage } = useContext(MessageContext);
-  const { register, errors, handleSubmit, setValue } = useForm({
+  const { errors, handleSubmit, control, reset } = useForm({
     validationSchema: SignupSchema,
+    defaultValues,
   });
-
-  useEffect(() => {
-    register({ name: 'firstName' });
-    register({ name: 'lastName' });
-    register({ name: 'email' });
-    register({ name: 'password' });
-  }, []);
 
   const handleRegistration = async (data, e) => {
     try {
@@ -44,51 +45,45 @@ const RegisterForm = ({ setUsers, findAll, history }) => {
         payload: error.response.data,
       });
     }
+    e.target.reset();
+    reset(defaultValues);
   };
 
   return (
     <Form onSubmit={handleSubmit(handleRegistration)}>
-      <Form.Input
-        label="First name"
-        placeholder="Enter firstname"
-        required
+      <Controller
+        as={<Form.Input />}
+        control={control}
         name="firstName"
-        onChange={async (e, { name, value }) => {
-          setValue(name, value);
-        }}
+        placeholder="Enter fist name"
+        label="Firstname"
       />
 
       <ErrorMessage as={Message} negative errors={errors} name="firstName" />
-      <Form.Input
-        label="Last name"
-        placeholder="Enter last name"
-        required
+      <Controller
+        as={<Form.Input />}
+        control={control}
         name="lastName"
-        onChange={async (e, { name, value }) => {
-          setValue(name, value);
-        }}
+        placeholder="Enter last name"
+        label="Lastname"
       />
       <ErrorMessage as={Message} negative errors={errors} name="lastName" />
-      <Form.Input
-        label="Email"
-        placeholder="Enter email"
-        required
+      <Controller
+        as={<Form.Input />}
+        control={control}
         name="email"
-        onChange={async (e, { name, value }) => {
-          setValue(name, value);
-        }}
+        placeholder="Enter email"
+        label="Email"
       />
 
       <ErrorMessage as={Message} negative errors={errors} name="email" />
-      <Form.Input
-        label="Password"
-        placeholder="Enter password"
-        required
-        type="password"
+      <Controller
+        as={<Form.Input />}
+        control={control}
         name="password"
-        onChange={async (e, { name, value }) => {
-          setValue(name, value);
-        }}
+        placeholder="Enter password"
+        label="Password"
+        type="password"
       />
 
       <ErrorMessage as={Message} negative errors={errors} name="password" />

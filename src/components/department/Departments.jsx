@@ -16,6 +16,7 @@ import DepartmentService from '../../services/DepartmentService';
 import UserService from '../../services/UserService';
 import { AuthContext } from '../../context/AuthContext';
 import { MessageContext } from '../../context/MessageContext';
+import Notification from '../Notification';
 
 const DepartmentSchema = yup.object().shape({
   name: yup.string().required('You have to enter a title'),
@@ -43,30 +44,37 @@ const Department = ({ wizard }) => {
     authStatus: { user },
   } = useContext(AuthContext);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const getUsers = await UserService.findAll();
-        const getDeps = await DepartmentService.all();
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const getUsers = await UserService.findAll();
+      const getDeps = await DepartmentService.all();
 
-        setDepartments(getDeps);
-        setUsers(getUsers);
-      } catch (error) {
-        dispatchMessage({
-          type: 'ERROR',
-          payload: error.response.data,
-        });
-      }
-      setIsLoading(false);
-    };
+      setDepartments(getDeps);
+      setUsers(getUsers);
+    } catch (error) {
+      dispatchMessage({
+        type: 'ERROR',
+        payload: error.response.data,
+      });
+    }
+    setIsLoading(false);
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 
-  const onSubmit = (data, e) => {
-    DepartmentService.create(data).then((res) => {
-      setDepartments(departments.concat([res.data]));
-    });
+  const onSubmit = async (data, e) => {
+    try {
+      await DepartmentService.create(data);
+
+      fetchData();
+    } catch (error) {
+      dispatchMessage({
+        type: 'ERROR',
+        payload: error.response.data,
+      });
+    }
     e.target.reset();
     reset(defaultValues);
   };
@@ -97,6 +105,9 @@ const Department = ({ wizard }) => {
                   ''
                 )}
               </div>
+
+              {wizard ? <Notification /> : ''}
+
               <Segment attached>
                 {departments !== null && departments.length !== 0 ? (
                   <Grid stackable columns={13} textAlign="left">
