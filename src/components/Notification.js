@@ -26,12 +26,7 @@ const Notification = () => {
   }
   if (status === 'negative') {
     console.log(message);
-    return (
-      <Message negative>
-        <div dangerouslySetInnerHTML={{ __html: message }} />
-        {message}
-      </Message>
-    );
+    return <Message negative>{message}</Message>;
   }
 
   if (status === 'info') {

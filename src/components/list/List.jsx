@@ -20,12 +20,14 @@ import CreateTask from '../task/CreateTask';
 import TaskService from '../../services/TaskService';
 import TaskDropDown from '../task/TaskDropDown';
 import { AuthContext } from '../../context/AuthContext';
+import { MessageContext } from '../../context/MessageContext';
 
 const Lists = ({ listId, wizard }) => {
   const history = useHistory();
   const [list, setList] = useState([]);
   const [options, setOptions] = useState([]);
-
+  const { dispatchMessage } = useContext(MessageContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [task, setTask] = useState([]);
 
   const listsId = useParams();
@@ -34,17 +36,28 @@ const Lists = ({ listId, wizard }) => {
     authStatus: { user },
   } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (listId) {
-      ListService.get(listId).then((res) => {
-        setList(res);
-      });
-    } else {
-      ListService.get(listsId.id).then((res) => {
-        setList(res);
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      if (listId) {
+        const li = await ListService.get(listId);
+        setList(li);
+      }
+
+      if (listsId) {
+        const li = await ListService.get(listsId.id);
+        setList(li);
+      }
+    } catch (error) {
+      dispatchMessage({
+        type: 'ERROR',
+        payload: error.response.data,
       });
     }
-  }, [task, listsId.id]);
+  };
+  useEffect(() => {
+    fetchData();
+  }, [task]);
 
   useEffect(() => {
     if (list.Departments != null) {
@@ -61,42 +74,63 @@ const Lists = ({ listId, wizard }) => {
 
       setOptions(opts);
     }
+    setIsLoading(false);
   }, [list]);
 
-  const handleStatus = (taskStatus, taskId) => {
-    const taskData = {
-      status: !taskStatus,
-    };
+  const handleStatus = async (taskStatus, taskId) => {
+    try {
+      const taskData = {
+        status: !taskStatus,
+      };
 
-    TaskService.updateTask(taskId, taskData).then((res) => {
-      setTask([res]);
-    });
+      const updatedTask = await TaskService.updateTask(taskId, taskData);
+      setTask([updatedTask]);
+    } catch (error) {
+      dispatchMessage({
+        type: 'ERROR',
+        payload: error.response.data,
+      });
+    }
   };
 
-  const removeUser = (id) => {
-    const taskData = {
-      UserId: null,
-    };
-
-    TaskService.updateTask(id, taskData).then((res) => {
-      setTask([res]);
-    });
+  const removeUser = async (id) => {
+    try {
+      const removed = await TaskService.updateTask(id, { UserId: null });
+      setTask([removed]);
+    } catch (error) {
+      dispatchMessage({
+        type: 'ERROR',
+        payload: error.response.data,
+      });
+    }
   };
 
-  const handleComplete = () => {
-    const data = {
-      name: list.name,
-      description: list.description,
-      status: true,
-      templateList: list.templateList,
-    };
+  const handleComplete = async () => {
+    try {
+      const data = {
+        name: list.name,
+        description: list.description,
+        status: true,
+        templateList: list.templateList,
+      };
 
-    ListService.update(list.id, data).then(() => {
-      list.Tasks.forEach((t) => {
-        removeUser(t.id);
+      const updated = await ListService.update(list.id, data);
+
+      updated.Tasks.forEach(async (t) => {
+        await TaskService.updateTask(t.id);
       });
       history.push('/lists');
-    });
+    } catch (error) {
+      dispatchMessage({
+        type: 'ERROR',
+        payload: error.response.data,
+      });
+    }
+  };
+
+  const handleDeleteTask = async (id) => {
+    await TaskService.deleteTask(id);
+    fetchData();
   };
 
   const deleteList = () => {
@@ -104,9 +138,7 @@ const Lists = ({ listId, wizard }) => {
   };
 
   const CompleteSegment = () => {
-    return list.Tasks != null &&
-      list.Tasks.length !== 0 &&
-      list.status !== true ? (
+    return list.Tasks != null && list.Tasks.length !== 0 && !list.status ? (
       <>
         {list.Tasks.filter((item) => item.status).length ===
         list.Tasks.length ? (
@@ -120,16 +152,14 @@ const Lists = ({ listId, wizard }) => {
           ''
         )}
       </>
-    ) : list.status === true ? (
-      <Message positive>This list has been completed</Message>
     ) : (
-      <Loader />
+      ''
     );
   };
 
   return (
     <Grid.Column centered={1} tablet={14} computer={12}>
-      {list != null && list.length !== 0 ? (
+      {!isLoading ? (
         <>
           <div style={{ margin: '2em 0' }}>
             <Message size="huge">
@@ -137,9 +167,16 @@ const Lists = ({ listId, wizard }) => {
                 {list.templateList ? `Template:  ${list.name}` : `${list.name}`}
               </Header>
             </Message>
+            {list.status === true ? (
+              <Message size="large" positive>
+                This list has been completed
+              </Message>
+            ) : (
+              ''
+            )}
           </div>
 
-          {list.Tasks != null && list.Employee ? (
+          {list.Employee ? (
             <Grid.Row>
               <Grid.Column verticalAlign="middle">
                 <Header as="h3" attached="top">
@@ -178,64 +215,98 @@ const Lists = ({ listId, wizard }) => {
           ) : (
             ''
           )}
-          <Header as="h3" attached="top">
-            Tasks
-          </Header>
-          <Segment attached>
-            {list.Tasks != null && list.Tasks.length !== 0 ? (
-              list.Tasks.map((item) => (
-                <Card fluid key={uuidv4()}>
-                  <Card.Content header={item.name} />
-                  <Card.Content>
-                    {item.User != null && item.User != null ? (
-                      <>
-                        <p>
-                          Assigned: {item.User.firstName} {item.User.lastName}
-                          <Button
-                            style={{ marginLeft: '4em' }}
-                            compact
-                            onClick={() => removeUser(item.id)}
-                          >
-                            x
-                          </Button>
-                        </p>
-                      </>
-                    ) : (
-                      'No assigned user'
-                    )}
 
-                    <TaskDropDown
-                      options={options}
-                      TaskServiceUpdateTask={TaskService.updateTask}
-                      id={item.id}
-                      setTask={setTask}
-                    />
-                  </Card.Content>
-                  <Card.Content extra>
-                    <Form>
-                      <Form.Checkbox
-                        inline
-                        label="completed"
-                        checked={item.status}
-                        onChange={() => handleStatus(item.status, item.id)}
-                      />
-                    </Form>
-                  </Card.Content>
-                </Card>
-              ))
-            ) : (
-              <Card>
-                <Card.Content>
-                  <p>No tasks available for this list.</p>
-                </Card.Content>
-              </Card>
-            )}
-          </Segment>
+          {!list.status ? (
+            <>
+              <Header as="h3" attached="top">
+                Tasks
+              </Header>
+              <Segment attached>
+                {list.Tasks != null && list.Tasks.length !== 0 ? (
+                  list.Tasks.map((item) => (
+                    <Card fluid key={uuidv4()}>
+                      <Card.Content style={{ marginBottom: '-0.8em' }}>
+                        <Header as="h2" style={{ display: 'inline-block' }}>
+                          {item.name}
+                        </Header>
+                        <Button
+                          width="2"
+                          compact
+                          floated="right"
+                          onClick={() => handleDeleteTask(item.id)}
+                        >
+                          X
+                        </Button>
+                      </Card.Content>
+
+                      <Card.Content>
+                        {item.User != null && item.User != null ? (
+                          <>
+                            <p>
+                              Assigned: {item.User.firstName}{' '}
+                              {item.User.lastName}
+                              <Button
+                                style={{ marginLeft: '4em' }}
+                                compact
+                                onClick={() => removeUser(item.id)}
+                              >
+                                x
+                              </Button>
+                            </p>
+                          </>
+                        ) : (
+                          'No assigned user'
+                        )}
+
+                        <TaskDropDown
+                          options={options}
+                          TaskServiceUpdateTask={TaskService.updateTask}
+                          id={item.id}
+                          setTask={setTask}
+                        />
+                      </Card.Content>
+                      <Card.Content extra>
+                        <Form>
+                          <Form.Checkbox
+                            label="completed"
+                            inline
+                            checked={item.status}
+                            onChange={() => handleStatus(item.status, item.id)}
+                          />
+                        </Form>
+                      </Card.Content>
+                    </Card>
+                  ))
+                ) : (
+                  <Card>
+                    <Card.Content>
+                      <p>No tasks available for this list.</p>
+                    </Card.Content>
+                  </Card>
+                )}
+              </Segment>
+            </>
+          ) : (
+            <Segment>
+              <Header>Completed tasks</Header>
+              {list.Tasks.map((item) => (
+                <List divided key={uuidv4()}>
+                  <List.Item>{item.name}</List.Item>
+                </List>
+              ))}
+            </Segment>
+          )}
 
           <CompleteSegment />
           <Divider hidden />
           <>
-            <CreateTask setTask={setTask} listsId={list.id} />
+            {!list.status ? (
+              <>
+                <CreateTask setTask={setTask} listsId={list.id} />
+              </>
+            ) : (
+              ''
+            )}
             <Divider hidden />
             {user.admin && !wizard ? (
               <Container relaxed={1}>

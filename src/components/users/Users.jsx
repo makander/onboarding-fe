@@ -36,7 +36,7 @@ const Users = ({ wizard }) => {
     } catch (error) {
       dispatchMessage({
         type: 'ERROR',
-        payload: error.data,
+        payload: error.response.data,
       });
     }
     setIsLoading(false);
@@ -47,11 +47,13 @@ const Users = ({ wizard }) => {
 
   return (
     <>
-      <Message size="huge">
-        <Header as="h2" textAlign="left">
-          Users
-        </Header>
-      </Message>
+      <div style={{ margin: '2em 0' }}>
+        <Message size="huge">
+          <Header as="h2" textAlign="left">
+            Users
+          </Header>
+        </Message>
+      </div>
       {wizard ? (
         <Message positive>
           <p>Please add users and then continue to next step</p>
