@@ -30,7 +30,9 @@ const Lists = ({ listId, wizard }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [task, setTask] = useState([]);
 
+  console.log(listId);
   const listsId = useParams();
+  console.log(listsId)
 
   const {
     authStatus: { user },
@@ -44,7 +46,7 @@ const Lists = ({ listId, wizard }) => {
         setList(li);
       }
 
-      if (listsId) {
+      if (listsId.id) {
         const li = await ListService.get(listsId.id);
         setList(li);
       }
@@ -60,7 +62,7 @@ const Lists = ({ listId, wizard }) => {
   }, [task]);
 
   useEffect(() => {
-    if (list.Departments != null) {
+    if (list != null && list.Departments != null) {
       const format = list.Departments.flatMap((u) =>
         u.Users.map(({ id, firstName, lastName }) => ({
           value: id,
@@ -159,7 +161,7 @@ const Lists = ({ listId, wizard }) => {
 
   return (
     <Grid.Column centered={1} tablet={14} computer={12}>
-      {!isLoading ? (
+      {!isLoading && list != null ? (
         <>
           <div style={{ margin: '2em 0' }}>
             <Message size="huge">

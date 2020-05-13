@@ -72,6 +72,7 @@ const CreateTemplate = ({ setListId, setStep }) => {
 
       const newTemplate = await ListService.create(finalData);
 
+      console.log(newTemplate);
       if (newTemplate.templateList && !setStep) {
         history.push(`/lists/${newTemplate.id}`);
       } else {

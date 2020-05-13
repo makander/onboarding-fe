@@ -22,9 +22,15 @@ const ServiceSchema = yup.object().shape({
   slackUri: yup.string().url('Must be a valid url'),
 });
 
+const defaultValues = {
+  email: '',
+  slackUri: '',
+};
+
 const Notfications = () => {
-  const { control, errors, handleSubmit } = useForm({
+  const { control, errors, handleSubmit, reset } = useForm({
     validationSchema: ServiceSchema,
+    defaultValues,
   });
 
   const { dispatchMessage } = useContext(MessageContext);
@@ -119,6 +125,8 @@ const Notfications = () => {
         payload: error.response.data,
       });
     }
+    e.target.reset();
+    reset(defaultValues);
   };
 
   const onSubmitToken = async (data, e) => {
@@ -134,6 +142,8 @@ const Notfications = () => {
         payload: error.response.data,
       });
     }
+    e.target.reset();
+    reset(defaultValues);
   };
 
   return (
