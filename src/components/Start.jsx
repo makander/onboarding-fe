@@ -10,14 +10,16 @@ const Start = () => {
   const { dispatch } = useContext(AuthContext);
   const history = useHistory();
   useEffect(() => {
-    UserService.refresh().then((res) => {
-      dispatch({
-        type: 'LOGIN',
-        payload: res.data.usr,
-      }).catch(() => {});
+    UserService.refresh()
+      .then((res) => {
+        dispatch({
+          type: 'LOGIN',
+          payload: res.data.usr,
+        });
 
-      history.push('/home');
-    });
+        history.push('/home');
+      })
+      .catch(() => {});
   });
 
   return (
