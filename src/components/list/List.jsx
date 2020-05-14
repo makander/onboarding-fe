@@ -116,10 +116,10 @@ const Lists = ({ listId, wizard }) => {
         templateList: list.templateList,
       };
 
-      const updated = await ListService.update(list.id, data);
+      await ListService.update(list.id, data);
 
-      updated.Tasks.forEach(async (t) => {
-        await TaskService.updateTask(t.id);
+      await list.Tasks.forEach((t) => {
+        TaskService.updateTask(t.id, { UserId: null });
       });
       history.push('/lists');
     } catch (error) {
