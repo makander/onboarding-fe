@@ -14,7 +14,7 @@ const Start = () => {
       .then((res) => {
         dispatch({
           type: 'LOGIN',
-          payload: res.data.user,
+          payload: res.data.usr,
         });
 
         history.push('/home');
