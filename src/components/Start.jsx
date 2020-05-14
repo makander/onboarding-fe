@@ -14,7 +14,7 @@ const Start = () => {
       dispatch({
         type: 'LOGIN',
         payload: res.data.usr,
-      });
+      }).catch(() => {});
 
       history.push('/home');
     });
