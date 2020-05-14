@@ -25,16 +25,6 @@ const Start = () => {
     refresh();
   }, []);
 
-  /*     UserService.refresh()
-        .then((res) => {
-          dispatch({
-            type: 'LOGIN',
-            payload: res.data.usr,
-          });
-  
-          history.push('/home');
-        })
-        .catch(() => {} */
   return (
     <div>
       {!authStatus.isUserAuthenticated ? (

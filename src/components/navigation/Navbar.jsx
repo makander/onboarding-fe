@@ -12,14 +12,14 @@ const Navbar = () => {
     authStatus: { user },
   } = useContext(AuthContext);
 
-  const handleLogout = () => {
-    UserService.logoutUser().then(() => {
+  const handleLogout = async () => {
+    try {
+      await UserService.logoutUser();
       dispatch({
         type: 'LOGOUT',
       });
-
       history.push('/');
-    });
+    } catch (e) {}
   };
 
   return (
