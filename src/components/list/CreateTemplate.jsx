@@ -99,6 +99,18 @@ const CreateTemplate = ({ setListId, setStep }) => {
                 Create new template
               </Header>
             </Message>
+            <Message positive>
+              <p>
+                A template is the boilerplate that will be used for all employee
+                lists. Add all reoccuring tasks for it. You could for instance
+                create a template for:{' '}
+              </p>
+              <ul>
+                <li>Onboarding</li>
+                <li>Offboarding</li>
+                <li>Onboading by role, like: Onboarding Designer</li>
+              </ul>
+            </Message>
           </div>
           {setStep ? <Notification /> : ''}
           <Grid.Row>

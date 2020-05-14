@@ -55,8 +55,8 @@ const RegisterForm = ({ setUsers, findAll, history }) => {
         as={<Form.Input />}
         control={control}
         name="firstName"
-        placeholder="Enter fist name"
-        label="Firstname"
+        placeholder="Enter first name"
+        label="First name"
       />
 
       <ErrorMessage as={Message} negative errors={errors} name="firstName" />
@@ -65,7 +65,7 @@ const RegisterForm = ({ setUsers, findAll, history }) => {
         control={control}
         name="lastName"
         placeholder="Enter last name"
-        label="Lastname"
+        label="Last name"
       />
       <ErrorMessage as={Message} negative errors={errors} name="lastName" />
       <Controller

@@ -195,9 +195,9 @@ const CreateEmployee = () => {
                         name="office"
                       />
 
-                      <h5 style={dateLabel}>Start date / End date</h5>
+                      <h5 style={dateLabel}>Completed by</h5>
                       <Controller
-                        as={<DatePicker label="Start date" />}
+                        as={<DatePicker label="Complete date" />}
                         control={control}
                         valueName="selected"
                         onChange={([selected]) => selected}

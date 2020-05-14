@@ -246,8 +246,8 @@ const Lists = ({ listId, wizard }) => {
                           {item.User != null && item.User != null ? (
                             <>
                               <p>
-                                Assigned: {item.User.firstName}{' '}
-                                {item.User.lastName}
+                                User responsible for this task:{' '}
+                                {item.User.firstName} {item.User.lastName}
                                 <Button
                                   style={{ marginLeft: '4em' }}
                                   compact
@@ -258,7 +258,9 @@ const Lists = ({ listId, wizard }) => {
                               </p>
                             </>
                           ) : (
-                            <p>No assigned user</p>
+                            <p>
+                              Assign a user to be responsible for this task.{' '}
+                            </p>
                           )}
                           <TaskDropDown
                             options={options}
