@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useContext, useEffect } from 'react';
 import {
   Grid,
@@ -166,7 +167,7 @@ const AdminLists = () => {
       </div>
       <Grid.Row>
         <Grid.Column>
-          {!isLoading && departments.length !== 0 ? (
+          {!isLoading && lists.length !== 0 ? (
             <>
               <Button.Group>
                 <Button onClick={() => handleIncomplete()}>Templates</Button>
@@ -188,7 +189,9 @@ const AdminLists = () => {
               </Link>
             </>
           ) : !isLoading && departments.length === 0 ? (
-            <Segment>Please create a department first</Segment>
+            <>
+              <Segment>Please create a department first</Segment>
+            </>
           ) : (
             <Segment style={{ margin: '2em 0' }}>
               <Loader active inline="centered" size="huge">
@@ -203,49 +206,3 @@ const AdminLists = () => {
 };
 
 export default AdminLists;
-
-/* 
-  return (
-    <>
-      <div style={{ margin: '2em 0' }}>
-        <Message size="huge">
-          <Header float="left" textAlign="left">
-            Employee Lists
-          </Header>
-        </Message>
-      </div>
-      <Grid.Row>
-        <Grid.Column>
-          {!isLoading && lists.length !== 0 ? (
-            <>
-              <Button.Group>
-                <Button onClick={() => handleIncomplete()}>Incomplete</Button>
-                <Button onClick={() => handleCompleted()}>Completed</Button>
-                <Button onClick={() => handleAll()}>All</Button>
-              </Button.Group>
-              <Segment>
-                <DisplayList />
-              </Segment>
-              <Link to="/lists/create">
-                <Button>New employee list</Button>
-              </Link>
-            </>
-          ) : lists.length === 0 ? (
-            <Message>
-              No lists available, please contact your administrator
-            </Message>
-          ) : (
-            <Segment style={{ margin: '2em 0' }}>
-              <Loader active inline="centered" size="huge">
-                Loading
-              </Loader>
-            </Segment>
-          )}
-        </Grid.Column>
-      </Grid.Row>
-    </>
-  );
-};
-
-export default EmployeeLists;
- */

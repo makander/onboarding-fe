@@ -12,7 +12,7 @@ const ProtectedRoute = ({ component: Component, ...props }) => {
   return (
     <Route
       {...props}
-      render={(props) =>
+      render={() =>
         authStatus.userIsAuthenticated ? (
           <>
             <Navbar />
@@ -21,7 +21,7 @@ const ProtectedRoute = ({ component: Component, ...props }) => {
             </Container>
           </>
         ) : (
-          <Redirect to={props.redirectTo ? props.redirectTo : '/'} />
+          <Redirect to="/" />
         )
       }
     />

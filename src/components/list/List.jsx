@@ -30,9 +30,7 @@ const Lists = ({ listId, wizard }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [task, setTask] = useState([]);
 
-  console.log(listId);
   const listsId = useParams();
-  console.log(listsId)
 
   const {
     authStatus: { user },
@@ -57,12 +55,13 @@ const Lists = ({ listId, wizard }) => {
       });
     }
   };
-  useEffect(() => {
-    fetchData();
-  }, [task]);
 
   useEffect(() => {
-    if (list != null && list.Departments != null) {
+    fetchData();
+  }, [task, listsId.id, listId]);
+
+  useEffect(() => {
+    if (list.Departments != null && list.Departments[0] != null) {
       const format = list.Departments.flatMap((u) =>
         u.Users.map(({ id, firstName, lastName }) => ({
           value: id,
@@ -76,6 +75,7 @@ const Lists = ({ listId, wizard }) => {
 
       setOptions(opts);
     }
+
     setIsLoading(false);
   }, [list]);
 
@@ -241,32 +241,40 @@ const Lists = ({ listId, wizard }) => {
                         </Button>
                       </Card.Content>
 
-                      <Card.Content>
-                        {item.User != null && item.User != null ? (
-                          <>
-                            <p>
-                              Assigned: {item.User.firstName}{' '}
-                              {item.User.lastName}
-                              <Button
-                                style={{ marginLeft: '4em' }}
-                                compact
-                                onClick={() => removeUser(item.id)}
-                              >
-                                x
-                              </Button>
-                            </p>
-                          </>
-                        ) : (
-                          'No assigned user'
-                        )}
-
-                        <TaskDropDown
-                          options={options}
-                          TaskServiceUpdateTask={TaskService.updateTask}
-                          id={item.id}
-                          setTask={setTask}
-                        />
-                      </Card.Content>
+                      {options.length !== 0 ? (
+                        <Card.Content>
+                          {item.User != null && item.User != null ? (
+                            <>
+                              <p>
+                                Assigned: {item.User.firstName}{' '}
+                                {item.User.lastName}
+                                <Button
+                                  style={{ marginLeft: '4em' }}
+                                  compact
+                                  onClick={() => removeUser(item.id)}
+                                >
+                                  x
+                                </Button>
+                              </p>
+                            </>
+                          ) : (
+                            <p>No assigned user</p>
+                          )}
+                          <TaskDropDown
+                            options={options}
+                            TaskServiceUpdateTask={TaskService.updateTask}
+                            id={item.id}
+                            setTask={setTask}
+                          />
+                        </Card.Content>
+                      ) : (
+                        <Card.Content>
+                          <Message negative>
+                            This list is either missing a department or the
+                            departments that are is assigned to it is empty.
+                          </Message>
+                        </Card.Content>
+                      )}
                       <Card.Content extra>
                         <Form>
                           <Form.Checkbox

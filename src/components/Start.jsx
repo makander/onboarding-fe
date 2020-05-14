@@ -10,18 +10,14 @@ const Start = () => {
   const { dispatch } = useContext(AuthContext);
   const history = useHistory();
   useEffect(() => {
-    UserService.refresh()
-      .then((res) => {
-        dispatch({
-          type: 'LOGIN',
-          payload: res.data.usr,
-        });
-
-        history.push('/home');
-      })
-      .catch(() => {
-        console.log('user session has expired');
+    UserService.refresh().then((res) => {
+      dispatch({
+        type: 'LOGIN',
+        payload: res.data.usr,
       });
+
+      history.push('/home');
+    });
   });
 
   return (

@@ -13,7 +13,6 @@ import {
   Loader,
 } from 'semantic-ui-react';
 
-
 import ListService from '../../services/ListService';
 import DepartmentService from '../../services/DepartmentService';
 import { MessageContext } from '../../context/MessageContext';
@@ -47,16 +46,24 @@ const EditList = () => {
   }, []);
 
   useEffect(() => {
+    /* if (departments.length !== 0) { */
     const opts = departments.filter((o1) =>
       list.Departments.some((o2) => o1.id !== o2.id)
     );
-    const filterOptions = opts.map(({ id, name }) => ({
-      value: id,
-      text: name,
-    }));
 
-    setOptions(filterOptions);
-
+    if (opts.length !== 0) {
+      const filterOptions = opts.map(({ id, name }) => ({
+        value: id,
+        text: name,
+      }));
+      setOptions(filterOptions);
+    } else {
+      const deps = departments.map(({ id, name }) => ({
+        value: id,
+        text: `${name}`,
+      }));
+      setOptions(deps);
+    }
     setIsLoading(false);
   }, [departments, list]);
 
@@ -140,15 +147,19 @@ const EditList = () => {
                       label="New name"
                     />
 
-                    <Controller
-                      label="Add department"
-                      as={<Form.Select options={options} />}
-                      placeholder="Add department"
-                      clearable
-                      control={control}
-                      name="addedDepartment"
-                      onChange={(e) => e[1].value}
-                    />
+                    {options ? (
+                      <Controller
+                        label="Add department"
+                        as={<Form.Select options={options} />}
+                        placeholder="Add department"
+                        clearable
+                        control={control}
+                        name="addedDepartment"
+                        onChange={(e) => e[1].value}
+                      />
+                    ) : (
+                      ''
+                    )}
 
                     <Controller
                       name="template"
