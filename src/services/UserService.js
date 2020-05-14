@@ -25,9 +25,11 @@ const findOne = async (id) =>
     .get(`${process.env.REACT_APP_BASE_URL}/api/user/${id}`)
     .then((res) => res.data);
 
-const refresh = async () =>
-  axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/refresh`);
-
+const refresh = async () => {
+  try {
+    return axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/refresh`);
+  } catch (e) {}
+};
 export default {
   loginUser,
   logoutUser,
