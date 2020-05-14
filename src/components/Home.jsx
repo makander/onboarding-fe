@@ -132,7 +132,7 @@ const Home = () => {
                     <>
                       <Header>Departments</Header>
 
-                      <p>You a member of the following departments:</p>
+                      <p>You are a member of the following department:</p>
                       <List>
                         {profile.Departments.map((department) => (
                           <List.Item key={department.id}>
