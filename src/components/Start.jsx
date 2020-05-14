@@ -9,19 +9,32 @@ const Start = () => {
 
   const { dispatch } = useContext(AuthContext);
   const history = useHistory();
+
+  const refresh = async () => {
+    try {
+      const user = await UserService.refresh();
+      dispatch({
+        type: 'LOGIN',
+        payload: user.data.usr,
+      });
+      history.push('/home');
+    } catch (e) {}
+  };
+
   useEffect(() => {
-    UserService.refresh()
-      .then((res) => {
-        dispatch({
-          type: 'LOGIN',
-          payload: res.data.usr,
-        });
+    refresh();
+  }, []);
 
-        history.push('/home');
-      })
-      .catch(() => {});
-  });
-
+  /*     UserService.refresh()
+        .then((res) => {
+          dispatch({
+            type: 'LOGIN',
+            payload: res.data.usr,
+          });
+  
+          history.push('/home');
+        })
+        .catch(() => {} */
   return (
     <div>
       {!authStatus.isUserAuthenticated ? (
